@@ -18,7 +18,6 @@
 ・更新日：2026/9/19　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a><br>
 ・更新日：2026/9/19　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
-
-    </body>
+</body>
 </html>
 
