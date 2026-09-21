@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ニューロンと認知</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center>Neurons and Cognition<br><span style="color:blue;">ニューロンと認知</span></center></h1>
+
+更新日：2026/9/19
+
+<!--
+
+<p>
+<a href="">
+</a>
+</p>
+
+-->
+
+<p>
+<a href="https://arxiv.org/abs/2609.21272">
+ゲインと非多様体変位による神経状態変化の識別</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.22064">
+BrainWideBench：多領域神経記録における大規模な事前学習と動物間転移のベンチマーク</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.20437">
+動機づけられた感情的心の数学モデル - 認知身体化システム</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.20297">
+表面筋電図ジェスチャーデコーディングにおける健常者から切断者への転移：トレーニングソースとキャリブレーション予算</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.18033">
+ニューラルノイズは、稀な事象の正確な内部シミュレーションを可能にする。</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.16430">
+予測モデルの構築により、マルチモーダル神経コントラストを逆転させることができる</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.16217">
+神経細胞とアストロサイトのアーキテクチャは、証拠蓄積のためのハイブリッドオートマトンを実装する。</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.17042">
+アダプターバンクを用いた構成的運動制御のための学習オプション</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.15747">
+教師が笑顔になるとき、あるいはしかめっ面になるとき：達成感情に関するプロファイルに基づく分析</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.14251">
+二次シナプスモチーフを持つランダムニューラルネットワークの非線形ダイナミクス</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.13899">
+URCHIN：データ制約付き事前学習のための水平スパイク型言語モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.13858">
+4細胞中心パターン発生器モデルにおけるネットワークバーストの階層的出現</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.13219">
+動的緩和としての計画：海馬再帰ネットワークが最適な目標指向型ナビゲーションを実現する</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.15918">
+高速・低速ダイナミクスから得られる意思決定関連の認知シグネチャ：低次元観測演算子フレームワーク</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.13507">
+サンプル効率の高いニューラルインターフェースのための事前学習</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2006.16243">
+結合した二重量子ドットにおける相互情報量：潜在的な人工意識のための単純な解析モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.11989">
+適応の計算プリミティブ</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.13074">
+介在ニューロンのサブタイプを持つ神経場における突起の安定性と変動</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.11530">
+pyAvalanches: ニューロンアバランシェにおける時空間伝播を解析するためのPythonパッケージ</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.11325">
+感覚運動階層に沿った退化：冗長性よりも大きな枠組み内での運動制御</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.10947">
+プラトン的脳橋仮説：全方位モデルのアーキテクチャ的事前情報としてのヒト脳ネットワーク</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.10870">
+皮質情報伝達は、人間の利き手に関係なく保存された半球ネットワークダイナミクスを明らかにする</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.10566">
+神経疾患患者における引っ張り錯覚</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.10890">
+スケーラブルなコネクトーム制約付き動的モデルによる神経変性進行のサブタイプの発見</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.09228">
+嘘つきパラドックスのアーツ・ブローカート・スメッツ量子モデルの再考</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.10518">
+BrainTaskonomy: fMRI基盤モデルにおける事前学習方法と転移学習の手法</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.10183">
+バッタにヒントを得た衝突認識のための生物学的に妥当な視覚ニューラルネットワーク</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.09728">
+EEGBind：脳波中心のマルチモーダル結合による、発作間欠期てんかん様放電の発生源レベルの検出</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.09438">
+実際のニューロンのモデルにおける臨界性の出現</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.09388">
+XAI-Refine：脳年齢予測のための自動説明・知識ループ</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.09226">
+汎用人工知能における適応型絡み合いゲームモジュール</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.08776">
+成体ショウジョウバエ脳凍結切片におけるクロマチン構造のHi-Mイメージング</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.08500">
+脳波マイクロステート解析のためのエビデンス重視型フレームワーク：アルツハイマー病と加齢に対する感度の向上</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.07696">
+フィッシャー・ラオ距離による認知負荷下での運動学的プロファイルの変化の検出</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.07624">
+神経系における臨界状態への近さをモデルフリーで測定するフィッシャー情報量</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.07508">
+隠れマルコフモデル制御による恒常性の再検討と再定式化</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.07355">
+コネクトームリザーバーコンピューティングにおけるハイパーパラメータのロバスト性の決定要因</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.08615">
+共有注意ベクトルが失敗する理由：結果指標チューニングの必要性</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.08070">
+神経マイクロ回路におけるフィードバック学習問題に対する、勾配ベースでありながらスパイクタイミングに依存する解法</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.06826">
+ニューロモルフィックシステムにおける構造アトラクターの形成</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.04461">
+MEG財団モデルのロードマップ</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2609.04195">
+軸索遅延分散は、ニューロンがイベントを検出するかシーケンスを検出するかを決定し、皮質柱の直径を予測する。</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.03987">
+脳内および脳外における高次三項機能的結合</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.04134">
+予測的符号化は深層連続時間リカレントネットワークの学習を改善する</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.03883">
+人工エージェントにおける情動意識の推論：事例研究</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.03302">
+テンソルベースの脳表面モデリングと解析</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02739">
+知覚用に訓練されたRNNにおいて予測が出現する</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02345">
+真菌の記憶と最小限の認知</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02243">
+Mus siliconus：神経ダイナミクス、生体力学、触覚センシングを統合したマウスの神経筋骨格デジタルツイン</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02183">
+神経論理、不変性、そして網膜――マカロックとピッツ</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01767">
+低速・高速脳コンピュータインターフェース：AIを介したニューラルインターフェースにおける神経適応過学習の防止</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02887">
+音声脳コンピュータインターフェースにおけるコミュニケーションの共通尺度</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.02195">
+エネルギー景観としての記憶――ホップフィールド</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01856">
+神経バイオマーカー識別システムの敵対的脆弱性</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01832">
+大規模言語モデルにおけるうつ病の解釈可能な症状ベクトル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01639">
+人間関係における社会的相互作用の逆計画</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01624">
+一般有向ハイパーグラフ上の高次リッチクラブと構成モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.01055">
+アクティブビジュアルセマンティクス：視覚知能の実践を理解するための大規模なMEGおよびアイトラッキングデータセット</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.00520">
+皮質形状の固有モードを持つ不確定神経系におけるソースイメージング推定の時間的制約</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.00520">
+皮質視床系における睡眠関連リズムの分散遅延ウィルソン・コーワンモデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2609.00383">
+カッコーの巣の上での忠実な一回の通過</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.30231">
+神経回路における「多ければ多いほど良い」：生物学的神経ネットワークの典型的な反復モチーフにおける有効理論の代数的出現</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.30008">
+ランダムリカレントネットワークにおける局所的な接続性のバランスが個体群動態を形成する</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.29189">
+レート符号化バンドルメモリ：脳における記号計算のためのメモリと制御の統一モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.29104">
+統合失調症における40Hz聴覚定常応答異常のフロントエンドおよびバックエンド計算モデリング</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.28892">
+コカイン使用障害における構造的知見に基づく接続障害</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.28768">
+動的な視覚イベント処理を研究するための、短い自然なビデオに対する人間の脳波反応の大規模データセット</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.28431">
+深層ニューラルネットワークにおける適応型自己組織化臨界性</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.27670">
+有限サイズのターゲット間の知覚と意思決定の加重モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.27877">
+関係知識蒸留により、DNN表現が人間の表現に十分近づき、教師なしで整合が可能になる</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.27719">
+脳波に基づくアルツハイマー病診断のための基礎モデルの活用</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2608.27003">
+ALSにおけるベータ波振動の変化：2施設国際共同再現研究</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.26291">
+人間と大規模言語モデルにおけるメンタライゼーションの評価</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.25909">
+集団協調のための脊髄回路</a>
+</p>
+
+
+<p>
+<a href="https://arxiv.org/abs/2608.24928">
+外因的手法は内在的構造を明らかにできるか？IITをQStrで補完する</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.25088">
+ニューラルデコーディングのためのフォン・ノイマン状態空間トランスフォーマー</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2608.25030">
+方向性のあるウォークは、非相反系におけるエントロピー生成速度の普遍的な平方根法則を形成する。</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.26179">
+認知の収束：大規模言語モデルと人間の認知における深い類似性</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.26297">
+痛みの位置特定における3つの失敗：症状の局在化の診断上の有用性が一様ではない理由</a>
+
+
+<p>
+<a href="https://arxiv.org/abs/2607.24807">
+認知の経路積分モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.24503">
+シナプスクラスター形成は学習から生じ、共分散弁別をサポートする</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2510.19229">
+脳に着想を得た構成概念の考察：教師なし類似性学習と初期認知</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.15693">
+視覚皮質における推論のメカニズム的理解と拡散モデルに向けて</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.14833">
+潜在的原因としての思考の種：集中瞑想の二重過程計算現象学</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.13560">
+生物体における現実世界モデルと未来の具現化されたAI</a>
+</p>
+
+<p>
+ <a href="https://arxiv.org/abs/2607.14078">
+人間の知覚、認知、意思決定のダイナミクスをモジュール式に表現した状態空間モデル</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.11958">
+構築された現実、争われる事前知識：自由エネルギー原理に基づく認知再発の分離と構造</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.10439">
+ポートハミルトン系としての脳のダイナミクスを学ぶ</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.10430">
+人工ニューラルネットワークにおける表現学習による創発的汎化</a>
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/2607.09032">
+文脈の論理としての量子論理</a>
+</p>
+
+<p><a href="https://arxiv.org/abs/2601.10034">
+最小限の意思決定ダイナミクスと文脈的確率：量子綱引きモデル</a>
+</p>
+
+    </body>
+</html>
