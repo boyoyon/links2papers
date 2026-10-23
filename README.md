@@ -18,6 +18,10 @@
 ・更新日：2026/10/23　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a><br>
 ・更新日：2026/10/23　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
+<p>
+参考文献リスト<br>
+<a href="https://boyoyon.github.io/links2papers/references/2026_NeuroAI_and_Beyond.html">2026 NeuroAIとその先へのReference</a><br>    
+</p>
 </body>
 </html>
 
