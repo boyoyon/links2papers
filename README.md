@@ -20,7 +20,7 @@
 </p>
 <p>
 参考文献リスト(リンクではない･･･)<br>
-<a href="https://boyoyon.github.io/links2papers/references/2026_NeuroAI_and_Beyond.html">2026 NeuroAIとその先へのReference</a><br>
+<a href="https://boyoyon.github.io/links2papers/references/2026_NeuroAI_and_Beyond.html">2026 NeuroAIとその先へ</a><br>
 <a href="https://boyoyon.github.io/links2papers/references/2026_the_recipe_for_intelligence.html">2026 自然システムおよび人工システムにおける知能のレシピ</a><br>
 </p>
 </body>
