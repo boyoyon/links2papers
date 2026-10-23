@@ -23,7 +23,7 @@
 <a href="https://boyoyon.github.io/links2papers/references/2026_NeuroAI_and_Beyond.html">2026 NeuroAIとその先へ</a><br>
 <a href="https://boyoyon.github.io/links2papers/references/2026_the_recipe_for_intelligence.html">2026 自然システムおよび人工システムにおける知能のレシピ</a><br>
 <a href="https://boyoyon.github.io/links2papers/references/2026_the_bomb_the_hubris_and_the_spectre.html">2026 爆弾、傲慢、そして亡霊</a><br>
-<a href="https://boyoyon.github.io/links2papers/references/2024_qualia_structure_paradigm.html">2024 クオリア構造パラダイム</a><br>
+<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2024_qualia_structure_paradigm/2024_qualia_structure_paradigm.html#Ref">2024 クオリア構造パラダイム</a><br>
 </p>
 </body>
 </html>
