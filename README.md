@@ -22,8 +22,11 @@
 参考文献リスト(論文へのリンクにはなっていない･･･)<br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_NeuroAI_and_Beyond/2026_NeuroAI_and_Beyond.html#Ref">2026 NeuroAIとその先へ</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_recipe_for_intelligence/2026_the_recipe_for_intelligence.html#Ref">2026 自然システムおよび人工システムにおける知能のレシピ</a><br>
+<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_theory%20of%20synchronization/2026_Half_a_century_of_the_theory_of_synchronization.html#Ref">2026 同期理論の半世紀</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_bomb_the_hubris_and_the_spectre.html#Ref">2026 爆弾、傲慢、そして亡霊</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2024_qualia_structure_paradigm/2024_qualia_structure_paradigm.html#Ref">2024 クオリア構造パラダイム</a><br>
+<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2020_Backpropagation_and_the_brain/2020_Backpropagation_and_the_brain.html#Ref">2020 逆伝播と脳</a><br>
+
 </p>
 </body>
 </html>
