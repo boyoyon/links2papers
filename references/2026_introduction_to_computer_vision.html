@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Introduction to Computer Vision</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center>Introduction to Computer Vision</center></h1>
+
+<h2>References</h2>
+
+
+<p>
+Entries marked ⋆ are highly cited, landmark papers.
+<div class="styleRef">
+<ul><li>
+⋆ Otsu, N. (1979). A threshold selection method from gray-level histograms. IEEE Transactions
+on Systems, Man, and Cybernetics, 9(1), 62–66.
+
+<br><span style="color:blue;">『グレースケールヒストグラムからの閾値選択法』 (1979)</span></li><br><li>
+
+⋆ Canny, J. (1986). A computational approach to edge detection. IEEE Transactions on Pattern
+Analysis and Machine Intelligence, 8(6), 679–698.
+
+<br><span style="color:blue;">『エッジ検出への計算論的アプローチ』 (1986)</span></li><br><li>
+
+Hough, P. V. C. (1962). Method and means for recognizing complex patterns. U.S. Patent
+3,069,654.
+
+<br><span style="color:blue;">『複雑なパターンを認識する方法および手段』 (1962)</span></li><br><li>
+
+Duda, R. O., & Hart, P. E. (1972). Use of the Hough transformation to detect lines and curves
+in pictures. Communications of the ACM, 15(1), 11–15.
+
+<br><span style="color:blue;">『画像中の直線と曲線の検出におけるハフ変換の利用』 (1972)</span></li><br><li>
+
+Marr, D., & Hildreth, E. (1980). Theory of edge detection. Proceedings of the Royal Society of
+London B, 207(1167), 187–217.
+
+<br><span style="color:blue;">『エッジ検出の理論』 (1980)</span></li><br><li>
+
+Daubechies, I. (1988). Orthonormal bases of compactly supported wavelets. Communications
+on Pure and Applied Mathematics, 41(7), 909–996.
+
+<br><span style="color:blue;">『コンパクトサポートウェーブレットの直交基底』 (1988)</span></li><br><li>
+
+Hubel, D. H., & Wiesel, T. N. (1959). Receptive fields of single neurones in the cat’s striate
+cortex. Journal of Physiology, 148(3), 574–591.
+
+<br><span style="color:blue;">『ネコの線条皮質における単一ニューロンの受容野』 (1959)</span></li><br><li>
+
+Marcelja, S. (1980). Mathematical description of the responses of simple cortical 
+cells. Journal
+of the Optical Society of America, 70(11), 1297–1300.
+
+<br><span style="color:blue;">『大脳皮質の単純型細胞の応答に関する数学的記述』 (1980)</span></li><br><li>
+
+Daugman, J. G. (1985). Uncertainty relation for resolution in space, spatial frequency, and
+orientation optimized by two-dimensional visual cortical filters. Journal of the Optical Society of
+America A, 2(7), 1160–1169.
+
+<br><span style="color:blue;">『2次元視覚皮質フィルタによって最適化された、空間分解能、空間周波数、および方位に関する不確定性関係』 (1985)</span></li><br><li>
+
+⋆ Arthur, D., & Vassilvitskii, S. (2007). k-means++: The advantages of careful seeding.
+Proceedings of the ACM-SIAM Symposium on Discrete Algorithms (SODA).
+
+<br><span style="color:blue;">『慎重な初期値選択の利点』 (2007)</span></li><br><li>
+
+⋆ Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum likelihood from
+incomplete data via the EM algorithm. Journal of the Royal Statistical Society, Series B, 39(1),
+1–38.
+
+<br><span style="color:blue;">『EMアルゴリズムを用いた不完全データからの最尤推定』 (1977)</span></li><br><li>
+
+⋆ Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). A density-based algorithm for
+discovering clusters in large spatial databases with noise. Proceedings of KDD.
+
+<br><span style="color:blue;">『ノイズを含む大規模空間データベースにおいてクラスタを発見するための密度ベースのアルゴリズム』 (1996)</span></li><br><li>
+
+Harris, C., & Stephens, M. (1988). A combined corner and edge detector. Proceedings of the
+Alvey Vision Conference.
+
+<br><span style="color:blue;">『コーナーおよびエッジ検出器の組み合わせ』 (1988)</span></li><br><li>
+
+Shi, J., & Tomasi, C. (1994). Good features to track. Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『追跡に適した特徴』 (1994)</span></li><br><li>
+
+⋆ Lowe, D. G. (2004). Distinctive image features from scale-invariant keypoints. International
+Journal of Computer Vision, 60(2), 91–110.
+
+<br><span style="color:blue;">『スケール不変なキーポイントから得られる特徴的な画像特徴』 (2004)</span></li><br><li>
+
+Lucas, B. D., & Kanade, T. (1981). An iterative image registration technique with an application to stereo vision. Proceedings of IJCAI.
+
+<br><span style="color:blue;">『ステレオビジョンへの応用を伴う反復的な画像位置合わせ手法』 (1981)</span></li><br><li>
+
+Horn, B. K. P., & Schunck, B. G. (1981). Determining optical flow. Artificial Intelligence,
+17(1–3), 185–203.
+
+<br><span style="color:blue;">『オプティカルフローの決定』 (1981)</span></li><br><li>
+
+Farnebäck, G. (2003). Two-frame motion estimation based on polynomial expansion. Proceedings
+of the Scandinavian Conference on Image Analysis (SCIA).
+
+<br><span style="color:blue;">『多項式展開に基づく2フレーム間の動き推定』 (2003)</span></li><br><li>
+
+⋆ Fischler, M. A., & Bolles, R. C. (1981). Random sample consensus: A paradigm for model
+fitting with applications to image analysis and automated cartography. Communications of the
+ACM, 24(6), 381–395.
+
+<br><span style="color:blue;">『RANSAC：画像解析および自動地図作成への応用を伴うモデルフィッティングのパラダイム』 (1981)</span></li><br><li>
+
+Bayer, B. E. (1976). Color imaging array. U.S. Patent 3,971,065.
+
+<br><span style="color:blue;">『カラー撮像アレイ』 (1976)</span></li><br><li>
+
+Zhang, Z. (2000). A flexible new technique for camera calibration. IEEE Transactions on Pattern
+Analysis and Machine Intelligence, 22(11), 1330–1334.
+
+<br><span style="color:blue;">『カメラキャリブレーションのための柔軟な新技術』 (2000)</span></li><br><li>
+
+Hartley, R. (1997). In defense of the eight-point algorithm. IEEE Transactions on 
+Pattern
+Analysis and Machine Intelligence, 19(6), 580–593.
+
+<br><span style="color:blue;">『8点アルゴリズムの擁護』 (1997)</span></li><br><li>
+
+Yao, Y., Luo, Z., Li, S., Zhang, J., Ren, Y., Zhou, L., Fang, T., & Quan, L. (2020).
+BlendedMVS: A large-scale dataset for generalized multi-view stereo networks. Proceedings of IEEE
+CVPR.
+
+<br><span style="color:blue;">『BlendedMVS：汎用マルチビューステレオネットワークのための大規模データセット』 (2020)</span></li><br><li>
+
+⋆ Kingma, D. P., & Ba, J. (2015). Adam: A method for stochastic optimization. Proceedings
+of ICLR.
+
+<br><span style="color:blue;">『Adam：確率的最適化手法』 (2015)</span></li><br><li>
+
+Glorot, X., & Bengio, Y. (2010). Understanding the difficulty of training deep feedforward
+neural networks. Proceedings of AISTATS.
+
+<br><span style="color:blue;">『深層フィードフォワードニューラルネットワークの学習の難しさを理解する』 (2010)</span></li><br><li>
+
+He, K., Zhang, X., Ren, S., & Sun, J. (2015). Delving deep into rectifiers: Surpassing
+human-level performance on ImageNet classification. Proceedings of IEEE ICCV.
+
+<br><span style="color:blue;">『整流器の深層分析：ImageNet分類における人間レベルの性能を超える』 (2015)</span></li><br><li>
+
+⋆ Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., & Salakhutdinov, R. (2014).
+Dropout: A simple way to prevent neural networks from overfitting. Journal of Machine Learning
+Research, 15(56), 1929–1958.
+
+<br><span style="color:blue;">『ドロップアウト：ニューラルネットワークの過学習を防ぐシンプルな方法』 (2014)</span></li><br><li>
+
+Krizhevsky, A. (2009). Learning multiple layers of features from tiny images. Technical Report,
+University of Toronto.
+
+<br><span style="color:blue;">『微小画像から複数の特徴層を学習する』 (2009)</span></li><br><li>
+
+⋆ Deng, J., Dong, W., Socher, R., Li, L.-J., Li, K., & Fei-Fei, L. (2009). ImageNet: A
+large-scale hierarchical image database. Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『ImageNet: 大規模階層型画像データベース』 (2009)</span></li><br><li>
+
+⋆ Russakovsky, O., Deng, J., Su, H., Krause, J., Satheesh, S., Ma, S., Huang, Z.,
+Karpathy, A., Khosla, A., Bernstein, M., Berg, A. C., & Fei-Fei, L. (2015). ImageNet
+large scale visual recognition challenge. International Journal of Computer Vision, 115(3), 211–252.
+
+<br><span style="color:blue;">『ImageNet 大規模画像認識チャレンジ』 (2015)</span></li><br><li>
+
+⋆ LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-based learning applied
+to document recognition. Proceedings of the IEEE, 86(11), 2278–2324.
+
+<br><span style="color:blue;">『文書認識への勾配に基づく学習の応用』 (1998)</span></li><br><li>
+
+⋆ Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet classification with deep
+convolutional neural networks. Proceedings of NeurIPS.
+
+<br><span style="color:blue;">『深層畳み込みニューラルネットワークを用いたImageNet分類』 (2012)</span></li><br><li>
+
+⋆ Simonyan, K., & Zisserman, A. (2015). Very deep convolutional networks for large-scale
+image recognition. Proceedings of ICLR.
+
+<br><span style="color:blue;">『大規模画像認識のための非常に深い畳み込みネットワーク』 (2015)</span></li><br><li>
+
+⋆ Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., Erhan, D.,
+Vanhoucke, V., & Rabinovich, A. (2015). Going deeper with convolutions. Proceedings of
+IEEE CVPR.
+
+<br><span style="color:blue;">『畳み込みによるさらなる深層化』 (2015)</span></li><br><li>
+
+⋆ He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition.
+Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『画像認識のための深層残差学習』 (2016)</span></li><br><li>
+
+⋆ Hu, J., Shen, L., & Sun, G. (2018). Squeeze-and-excitation networks. Proceedings of IEEE
+CVPR.
+
+<br><span style="color:blue;">『Squeeze-and-Excitationネットワーク』 (2018)</span></li><br><li>
+
+⋆ Ioffe, S., & Szegedy, C. (2015). Batch normalization: Accelerating deep network training by
+reducing internal covariate shift. Proceedings of ICML.
+
+<br><span style="color:blue;">『バッチ正規化：内部共変量シフトの低減による深層ネットワーク学習の高速化』 (2015)</span></li><br><li>
+
+Simonyan, K., Vedaldi, A., & Zisserman, A. (2014). Deep inside convolutional networks:
+Visualising image classification models and saliency maps. ICLR Workshop.
+
+<br><span style="color:blue;">『畳み込みネットワークの深層内部：画像分類モデルと顕著性マップの可視化』 (2014)</span></li><br><li>
+
+⋆ Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., & Batra, D.
+(2017). Grad-CAM: Visual explanations from deep networks via gradient-based localization. Proceedings of IEEE ICCV.
+
+<br><span style="color:blue;">『Grad-CAM: 勾配ベースの局所化による深層ネットワークからの視覚的説明』 (2017)</span></li><br><li>
+
+⋆ van der Maaten, L., & Hinton, G. (2008). Visualizing data using t-SNE. Journal of Machine
+Learning Research, 9, 2579–2605.
+
+<br><span style="color:blue;">『t-SNEを用いたデータ可視化』 (2008)</span></li><br><li>
+
+Rowley, H. A., Baluja, S., & Kanade, T. (1996). Neural network-based face detection.
+Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『ニューラルネットワークに基づく顔検出』 (1996)</span></li><br><li>
+
+⋆ Viola, P., & Jones, M. (2001). Rapid object detection using a boosted cascade of simple
+features. Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『単純な特徴のブーストカスケードを用いた高速物体検出』 (2001)</span></li><br><li>
+
+⋆ Ren, S., He, K., Girshick, R., & Sun, J. (2015). Faster R-CNN: Towards real-time object
+detection with region proposal networks. Proceedings of NeurIPS.
+
+<br><span style="color:blue;">『領域提案ネットワーク）を用いたリアルタイム物体検出に向けて』 (2015)</span></li><br><li>
+
+⋆ Redmon, J., Divvala, S., Girshick, R., & Farhadi, A. (2016). You only look once: Unified,
+real-time object detection. Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『You Only Look Once: 統合されたリアルタイム物体検出』 (2016)</span></li><br><li>
+
+⋆ Liu, W., Anguelov, D., Erhan, D., Szegedy, C., Reed, S., Fu, C.-Y., & Berg, A. C.
+(2016). SSD: Single shot multibox detector. Proceedings of ECCV.
+
+<br><span style="color:blue;">『SSD: Single Shot MultiBox Detector』 (2016)</span></li><br><li>
+
+Wu, W., Peng, H., & Yu, S. (2023). YuNet: A tiny millisecond-level face detector. Machine
+Intelligence Research, 20(5), 656–665.
+
+<br><span style="color:blue;">『YuNet: ミリ秒単位で動作する超軽量な顔検出器』 (2023)</span></li><br><li>
+
+⋆ Lin, T.-Y., Maire, M., Belongie, S., Hays, J., Perona, P., Ramanan, D., Dollár, P.,
+& Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. Proceedings of ECCV.
+
+<br><span style="color:blue;">『Microsoft COCO: Common Objects in Context（文脈の中の一般的な物体）』 (2014)</span></li><br><li>
+
+⋆ Long, J., Shelhamer, E., & Darrell, T. (2015). Fully convolutional networks for semantic
+segmentation. Proceedings of IEEE CVPR.
+
+<br><span style="color:blue;">『セマンティックセグメンテーションのための完全畳み込みネットワーク』 (2015)</span></li><br><li>
+
+⋆ Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional networks for
+biomedical image segmentation. Proceedings of MICCAI.
+
+<br><span style="color:blue;">『U-Net: 生体医用画像セグメンテーションのための畳み込みネットワーク』 (2015)</span></li><br><li>
+
+⋆ He, K., Gkioxari, G., Dollár, P., & Girshick, R. (2017). Mask R-CNN. Proceedings of
+IEEE ICCV.
+
+<br><span style="color:blue;">『Mask R-CNN』 (2017)</span></li><br><li>
+
+Micikevicius, P., Narang, S., Alben, J., Diamos, G., Elsen, E., García, D., Ginsburg,
+B., Houston, M., Kuchaiev, O., Venkatesh, G., & Wu, H. (2018). Mixed precision training.
+Proceedings of ICLR.
+
+<br><span style="color:blue;">『混合精度トレーニング』 (2018)</span></li><br><li>
+
+Goyal, P., Dollár, P., Girshick, R., Noordhuis, P., Wesolowski, L., Kyrola, A., Tulloch,
+A., Jia, Y., & He, K. (2017). Accurate, large minibatch SGD: Training ImageNet in 1 hour.
+arXiv:1706.02677.
+
+<br><span style="color:blue;">『高精度大規模ミニバッチSGD：ImageNetを1時間で学習』 (2017)</span></li><br><li>
+
+Shoeybi, M., Patwary, M., Puri, R., LeGresley, P., Casper, J., & Catanzaro, B.
+(2019). Megatron-LM: Training multi-billion parameter language models using model parallelism.
+arXiv:1909.08053.
+
+<br><span style="color:blue;">『Megatron-LM：モデル並列処理を用いた数十億パラメータの言語モデルの学習』 (2019)</span></li><br><li>
+
+Schönberger, J. L., & Frahm, J.-M. (2016). Structure-from-motion revisited. Proceedings of
+IEEE CVPR.
+
+<br><span style="color:blue;">『Structure-from-motionの再考』 (2016)</span>
+</li></ul></div>
+</p>
+    </body>
+</html>
