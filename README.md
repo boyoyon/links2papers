@@ -19,7 +19,7 @@
 ・更新日：2026/10/23　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
 <p>
-参考文献リスト(リンクではない･･･)<br>
+参考文献リスト(論文へのリンクにはなっていない･･･)<br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_NeuroAI_and_Beyond/2026_NeuroAI_and_Beyond.html#Ref">2026 NeuroAIとその先へ</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_recipe_for_intelligence/2026_the_recipe_for_intelligence.html#Ref">2026 自然システムおよび人工システムにおける知能のレシピ</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_bomb_the_hubris_and_the_spectre.html#Ref">2026 爆弾、傲慢、そして亡霊</a><br>
