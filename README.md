@@ -29,7 +29,7 @@
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_ON_THE_DEPTH_OF_WILES_PROOF_OF_FERMATS_LAST_THEOREM.html#Ref">2026 証明の深さについて</a><br>    
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2024_qualia_structure_paradigm/2024_qualia_structure_paradigm.html#Ref">2024 クオリア構造パラダイム</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2020_Backpropagation_and_the_brain/2020_Backpropagation_and_the_brain.html#Ref">2020 逆伝播と脳</a><br>
-<a href="https://github.com/boyoyon/StudyNote_GroupTheory/blob/main/data/Bibliography.html">2015 Physics from Symmetry の Bibliography</a><br>
+<a href="https://boyoyon.github.io/StudyNote_GroupTheory/data/Bibliography.html">2015 Physics from Symmetry の Bibliography</a><br>
 </p>
 </body>
 </html>
