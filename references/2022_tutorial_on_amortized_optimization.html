@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Tutorial on amortized optimization Learning to optimize over continuous spaces</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+    </head>
+    <body>
+        <h1><center>Tutorial on amortized optimization <br>Learning to optimize over continuous spaces<br><span style="color:blue;">償却最適化のチュートリアル <br>連続空間での最適化の学習</span></center></h1>
+
+<center>Brandon Amos, Meta AI</center>
+
+<h2>Bibliography <span style="color:blue;">参考文献</span></h2>
+<p>
+<div class="styleRef">
+<ul><li>
+Martín Abadi, Paul Barham, Jianmin Chen, Zhifeng Chen, Andy Davis, Jeffrey Dean, Matthieu Devin,  Sanjay  Ghemawat,  Geoffrey  Irving,  Michael  Isard,  et  al.   Tensorflow:   A  system  for large-scale machine learning.   In 12th  USENIX  symposium  on  operating  systems  design  and implementation (OSDI 16), pages 265–283, 2016.  (Cited on page 60.)
+<br><span style="color:blue;">『Tensorflow：大規模機械学習のためのシステム』 (2016)</span></li><br><li>
+
+P-A Absil, Robert Mahony, and Rodolphe Sepulchre.  Optimization algorithms on matrix manifolds. Princeton University Press, 2009.  (Cited on page 28.)
+<br><span style="color:blue;">『行列多様体上の最適化アルゴリズム』 (2009)</span></li><br><li>
+
+Ryan Prescott Adams and Richard S Zemel.  Ranking via sinkhorn propagation.  arXiv preprint arXiv:1106.1925, 2011.  (Cited on page 27.)
+<br><span style="color:blue;">『シンクホーン伝播によるランキング』 (2011)</span></li><br><li>
+
+Jonas Adler, Axel Ringh, Ozan Öktem, and Johan Karlsson.  Learning to solve inverse problems using wasserstein loss.  ArXiv preprint, abs/1710.10898, 2017.  (Cited on page 15.)
+<br><span style="color:blue;">『Wasserstein損失を用いた逆問題の解法学習』 (2017)</span></li><br><li>
+
+Akshay Agrawal, Brandon Amos, Shane T. Barratt, Stephen P. Boyd, Steven Diamond, and J. Zico Kolter.  Differentiable convex optimization layers.  In NeurIPS, pages 9558–9570, 2019a.  (Cited on pages 13, 30, 67, and 73.)
+<br><span style="color:blue;">『微分可能な凸最適化層』 (2019)</span></li><br><li>
+
+Akshay Agrawal, Akshay Naresh Modi, Alexandre Passos, Allen Lavoie, Ashish Agarwal, Asim Shankar, Igor Ganichev, Josh Levenberg, Mingsheng Hong, Rajat Monga, and Shanqing Cai. Tensorflow eager:  A multi-stage, python-embedded DSL for machine learning.  In MLSys, 2019b. (Cited  on  page  60.)
+<br><span style="color:blue;">『機械学習のための多段階Python埋め込みDSL』 (2019)</span></li><br><li>
+
+Alfred V Aho, Ravi Sethi, and Jeffrey D Ullman.  Compilers, principles, techniques.  Addison wesley, 7(8):9, 1986.  (Cited on page 18.)
+<br><span style="color:blue;">『コンパイラ、原理、テクニック』 (1986)</span></li><br><li>
+
+Rami Al-Rfou, Guillaume Alain, Amjad Almahairi, Christof Angermueller, Dzmitry Bahdanau, Nicolas Ballas, Frédéric Bastien, Justin Bayer, Anatoly Belikov, Alexander Belopolsky, et al. Theano:  A python framework for fast computation of mathematical expressions.  arXiv e-prints, pages arXiv–1605, 2016.  (Cited on page 60.)
+<br><span style="color:blue;">『数式を高速に計算するためのPythonフレームワーク』 (2016)</span></li><br><li>
+
+Daniel Alabi, Adam Tauman Kalai, Katrina Ligett, Cameron Musco, Christos Tzamos, and Ellen Vitercik.  Learning to prune:  Speeding up repeated computations.  In COLT, volume 99, pages 30–33, 2019. (Cited on page 76.)
+<br><span style="color:blue;">『剪定を学ぶ：繰り返し計算の高速化』 (2019)</span></li><br><li>
+
+Alnur Ali, Eric Wong, and J. Zico Kolter.  A semismooth newton method for fast, generic convex programming.  In ICML, volume 70, pages 70–79, 2017.  (Cited on pages 26 and 27.)
+<br><span style="color:blue;">『高速で汎用的な凸計画法のための半平滑ニュートン法』 (2017)</span></li><br><li>
+
+Eugene L Allgower and Kurt Georg.  Numerical continuation methods:  an introduction, volume 13. Springer Science & Business Media, 2012.  (Cited on page 76.)
+<br><span style="color:blue;">『数値継続法入門、第13巻』 (2012)</span></li><br><li>
+
+Brandon Amos.  Differentiable Optimization-Based Modeling for Machine Learning.  PhD thesis, Carnegie Mellon University, 2019.  (Cited on pages 13, 25, 30, and 73.)
+<br><span style="color:blue;">『機械学習のための微分可能最適化に基づくモデリング.』(カーネギーメロン大学博士論文) (2019)</span></li><br><li>
+
+Brandon Amos. On amortizing convex conjugates for optimal transport. In The ICLR, 2023. (Cited on page 48.)
+<br><span style="color:blue;">『最適輸送のための凸共役の償却について』 (2023)</span></li><br><li>
+
+Brandon Amos and J. Zico Kolter. Optnet: Differentiable optimization as a layer in neural networks. In ICML, volume 70, pages 136–145, 2017.  (Cited on pages 13, 30, and 73.)
+<br><span style="color:blue;">『Optnet：ニューラルネットワークにおける層としての微分可能最適化』 (2017)</span></li><br><li>
+
+Brandon Amos and Denis Yarats.  The differentiable cross-entropy method.  In ICML, volume 119, pages 291–302, 2020.  (Cited on pages 10, 56, 59, and 74.)
+<br><span style="color:blue;">『微分可能クロスエントロピー法』 (2020)</span></li><br><li>
+
+Brandon Amos, Lei Xu, and J. Zico Kolter.  Input convex neural networks.  In ICML, volume 70, pages 146–155, 2017.  (Cited on pages 10 and 47.)
+<br><span style="color:blue;">『入力凸ニューラルネットワーク』 (2017)</span></li><br><li>
+
+Brandon Amos, Ivan Dario Jimenez Rodriguez, Jacob Sacks, Byron Boots, and J. Zico Kolter. Differentiable MPC for end-to-end planning and control.  In NeurIPS, pages 8299–8310, 2018. (Cited  on  page  56.)
+<br><span style="color:blue;">『エンドツーエンドの計画と制御のための微分可能MPC』 (2018)</span></li><br><li>
+
+Brandon Amos, Vladlen Koltun, and J Zico Kolter.  The limited multi-label projection layer.  ArXiv preprint, abs/1906.08707, 2019.  (Cited on pages 27 and 56.)
+<br><span style="color:blue;">『限定されたマルチラベル投影層』 (2019)</span></li><br><li>
+
+Brandon Amos, Samuel Stanton, Denis Yarats, and Andrew Gordon Wilson.  On the model-based stochastic value gradient for continuous reinforcement learning.   In L4DC, pages 6–20, 2021. (Cited  on  pages  4,  22,  53,  54,  and  64.)
+<br><span style="color:blue;">『連続強化学習のためのモデルベースの確率的価値勾配について』 (2021)</span></li><br><li>
+
+Brandon Amos, Samuel Cohen, Giulia Luise, and Ievgen Redko.  Meta optimal transport.  ArXiv preprint, abs/2206.05262, 2022.  (Cited on page 46.)
+<br><span style="color:blue;">『メタ最適輸送』 (2022)</span></li><br><li>
+
+Donald G Anderson.  Iterative procedures for nonlinear integral equations.  Journal of the ACM (JACM), 12(4):547–560, 1965.  (Cited on page 41.)
+<br><span style="color:blue;">『非線形積分方程式の反復法』 (1965)</span></li><br><li>
+
+Marcin Andrychowicz, Misha Denil, Sergio Gomez Colmenarejo, Matthew W. Hoffman, David Pfau, Tom Schaul, and Nando de Freitas. Learning to learn by gradient descent by gradient descent. In NeurIPS, pages 3981–3989, 2016.  (Cited on pages 9, 10, and 38.)
+<br><span style="color:blue;">『勾配降下法による学習方法の学習』 (2016)</span></li><br><li>
+
+Antreas Antoniou, Harrison Edwards, and Amos J. Storkey.  How to train your MAML.  In ICLR, 2019.  (Cited on page 12.)
+<br><span style="color:blue;">『MAMLのトレーニング方法』 (2019)</span></li><br><li>
+
+Michael Arbel and Julien Mairal. Amortized implicit differentiation for stochastic bilevel optimization. In ICLR, 2022.  (Cited on page 11.)
+<br><span style="color:blue;">『確率的二水準最適化のための償却暗黙微分法』 (2022)</span></li><br><li>
+
+Martín Arjovsky, Soumith Chintala, and Léon Bottou.  Wasserstein generative adversarial networks. In ICML, volume 70, pages 214–223, 2017.  (Cited on page 46.)
+<br><span style="color:blue;">『Wasserstein生成的敵対ネットワーク』 (2017)</span></li><br><li>
+
+Sébastien MR Arnold, Praateek Mahajan, Debajyoti Datta, Ian Bunner, and Konstantinos Saitas Zarkias.  learn2learn:  A library for meta-learning research.  ArXiv preprint, abs/2008.12284, 2020. (Cited  on  page  68.)
+<br><span style="color:blue;">『メタ学習研究のためのライブラリ』 (2008)</span></li><br><li>
+
+Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton.  Layer normalization.  arXiv e-prints, 2016.  (Cited on page 70.)
+<br><span style="color:blue;">『レイヤー正規化』 (2016)</span></li><br><li>
+
+Juhan Bae, Paul Vicol, Jeff Z HaoChen, and Roger Grosse. Amortized proximal optimization. ArXiv preprint, abs/2203.00089, 2022.  (Cited on page 48.)
+<br><span style="color:blue;">『償却近似最適化』 (2022)</span></li><br><li>
+
+Shaojie Bai, J. Zico Kolter, and Vladlen Koltun.  Deep equilibrium models.  In NeurIPS, pages 688–699, 2019.  (Cited on pages 9, 20, 30, 43, 44, and 73.)
+<br><span style="color:blue;">『深い平衡モデル』 (2019)</span></li><br><li>
+
+Shaojie Bai, Vladlen Koltun, and J. Zico Kolter.  Multiscale deep equilibrium models.  In NeurIPS, 2020.  (Cited on pages 9, 30, 43, 44, and 73.)
+<br><span style="color:blue;">『マルチスケールの深い平衡モデル』 (2020)</span></li><br><li>
+
+Shaojie Bai, Vladlen Koltun, and J. Zico Kolter.  Neural deep equilibrium solvers.  In ICLR, 2022. (Cited on pages 9, 43, 44, 71, and 73.)
+<br><span style="color:blue;">『ニューラルの深層平衡ソルバー』 (2022)</span></li><br><li>
+
+Leemon Baird.   Residual algorithms:  Reinforcement learning with function approximation.   In Machine Learning Proceedings 1995, pages 30–37. Elsevier, 1995.  (Cited on page 58.)
+<br><span style="color:blue;">『残差アルゴリズム：関数近似を用いた強化学習』 (1995)</span></li><br><li>
+
+Kyri Baker. Learning warm-start points for ac optimal power flow. In 2019 IEEE 29th International Workshop on Machine Learning for Signal Processing (MLSP), pages 1–6. IEEE, 2019.  (Cited on
+pages 11 and 24.)
+<br><span style="color:blue;">『AC最適電力フローのためのウォームスタートポイントの学習』 (2019)</span></li><br><li>
+
+Maria-Florina Balcan.  Data-driven algorithm design.  ArXiv preprint, abs/2011.07177, 2020.  (Cited on page 76.)
+<br><span style="color:blue;">『データ駆動型アルゴリズム設計』 (2011)</span></li><br><li>
+
+Ashis Gopal Banerjee and Nicholas Roy. Eficiently solving repeated integer linear programming problems by learning solutions of similar linear programming problems using boosting trees. MIT, 2015.  (Cited on page 76.)
+<br><span style="color:blue;">『ブースティング木を用いて類似の線形計画問題の解を学習することにより、繰り返し発生する整数線形計画問題を効率的に解く』 (2015)</span></li><br><li>
+
+Sebastian  Banert,  Axel  Ringh,  Jonas  Adler,  Johan  Karlsson,  and  Ozan  Oktem.   Data-driven nonsmooth  optimization.   SIAM  Journal  on  Optimization,  30(1):102–131,  2020.   (Cited  on page 75.)
+<br><span style="color:blue;">『データ駆動型非平滑最適化』 (2020)</span></li><br><li>
+
+Sebastian  Banert,  Jevgenija  Rudzusika,  Ozan  Öktem,  and  Jonas  Adler.   Accelerated  forward-backward optimization using deep learning.  ArXiv preprint, abs/2105.05210, 2021.  (Cited on page 70.)
+<br><span style="color:blue;">『ディープラーニングを用いた高速フォワード・バックワード最適化』 (2021)</span></li><br><li>
+
+Bernd Bank, Jürgen Guddat, Diethard Klatte, Bernd Kummer, and Klaus Tammer.  Non-linear parametric optimization.  Springer, 1982.  (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『非線形パラメトリック最適化』 (1982)</span></li><br><li>
+
+Shane Barratt.  On the differentiability of the solution to convex optimization problems.  ArXiv preprint, abs/1804.05098, 2018.  (Cited on page 30.)
+<br><span style="color:blue;">『凸最適化問題の解の微分可能性について』 (2018)</span></li><br><li>
+
+Jonathan Baxter.   Theoretical models of learning to learn.   In Learning  to  learn,  pages 71–94. Springer, 1998.  (Cited on page 36.)
+<br><span style="color:blue;">『学習の理論モデル』 (1998)</span></li><br><li>
+
+Amir Beck and Marc Teboulle.  A fast iterative shrinkage-thresholding algorithm for linear inverse problems.  SIAM journal on imaging sciences, 2(1):183–202, 2009.  (Cited on pages 9 and 35.)
+<br><span style="color:blue;">『線形逆問題のための高速反復収縮閾値アルゴリズム』 (2009)</span></li><br><li>
+
+David Belanger.  Deep energy-based models for structured prediction.  PhD thesis, University of Massachusetts Amherst, 2017.  (Cited on page 18.)
+<br><span style="color:blue;">『構造予測のための深層エネルギーベースモデル.』(博士論文) (2017)</span></li><br><li>
+
+David Belanger and Andrew McCallum. Structured prediction energy networks. In ICML, volume 48, pages 983–992, 2016.  (Cited on page 18.)
+<br><span style="color:blue;">『構造化予測エネルギーネットワーク』 (2016)</span></li><br><li>
+
+David Belanger, Bishan Yang, and Andrew McCallum. End-to-end learning for structured prediction energy networks.  In ICML, volume 70, pages 429–439, 2017.  (Cited on pages 9, 12, and 18.)
+<br><span style="color:blue;">『構造化予測エネルギーネットワークのためのエンドツーエンド学習』 (2017)</span></li><br><li>
+
+Richard Bellman.  Dynamic programming.  Science, 153(3731):34–37, 1966.  (Cited on page 58.)
+<br><span style="color:blue;">『動的計画法』 (1966)</span></li><br><li>
+
+Irwan  Bello,  Barret  Zoph,  Vijay  Vasudevan,  and  Quoc  V.  Le.   Neural  optimizer  search  with reinforcement learning.  In ICML, volume 70, pages 459–468, 2017.  (Cited on page 28.)
+<br><span style="color:blue;">『強化学習を用いたニューラル・オプティマイザー探索』 (2017)</span></li><br><li>
+
+Samy Bengio, Yoshua Bengio, and Jocelyn Cloutier. Use of genetic programming for the search of a new learning rule for neural networks. In First IEEE Conference on Evolutionary Computation. IEEE  World  Congress  on  Computational  Intelligence,  pages 324–327. IEEE, 1994.  (Cited on page 28.)
+<br><span style="color:blue;">『ニューラルネットワークの新たな学習規則の探索における遺伝的プログラミングの利用』 (1994)</span></li><br><li>
+
+Yoshua Bengio, Andrea Lodi, and Antoine Prouvost. Machine learning for combinatorial optimization: a methodological tour d’horizon.  European Journal of Operational Research, 290(2):405–421, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『組み合わせ最適化のための機械学習：方法論的展望』 (2021)</span></li><br><li>
+
+Luca Bertinetto, João F. Henriques, Philip H. S. Torr, and Andrea Vedaldi.  Meta-learning with differentiable closed-form solvers.  In ICLR, 2019.  (Cited on page 39.)
+<br><span style="color:blue;">『微分可能閉形式ソルバーを用いたメタ学習』 (2019)</span></li><br><li>
+
+Federico Berto, Stefano Massaroli, Michael Poli, and Jinkyoo Park.  Neural solvers for fast and accurate numerical optimal control.  In ICLR, 2022.  (Cited on page 76.)
+<br><span style="color:blue;">『高速かつ高精度な数値最適制御のためのニューラルソルバー』 (2022)</span></li><br><li>
+
+Dimitri Bertsekas.  Convex optimization algorithms.  Athena Scientific, 2015.  (Cited on page 3.)
+<br><span style="color:blue;">『凸最適化アルゴリズム』 (2015)</span></li><br><li>
+
+Dimitri P Bertsekas.  Control of uncertain systems with a set-membership description of the uncer-tainty.  PhD thesis, Massachusetts Institute of Technology, 1971.  (Cited on page 30.)
+<br><span style="color:blue;">『不確実性の集合メンバーシップ記述による不確実システムの制御』(博士論文) (1971)</span></li><br><li>
+
+Dimitri P. Bertsekas.  Dynamic Programming and Optimal Control.  Athena Scientific, 2nd edition, 2000.  ISBN 1886529094.  (Cited on page 50.)
+<br><span style="color:blue;">『動的計画法と最適制御』 (2000)</span></li><br><li>
+
+Dimitris Bertsimas and Bartolomeo Stellato.  Online mixed-integer optimization in milliseconds. ArXiv preprint, abs/1907.02206, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『ミリ秒単位のオンライン混合整数最適化』 (2019)</span></li><br><li>
+
+Dimitris Bertsimas and Bartolomeo Stellato.  The voice of optimization.  Machine Learning, 110(2): 249–277, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『最適化の声』 (2021)</span></li><br><li>
+
+Jeff Bezanson, Alan Edelman, Stefan Karpinski, and Viral B Shah.  Julia:  A fresh approach to numerical computing.  SIAM review, 59(1):65–98, 2017.  (Cited on page 60.)
+<br><span style="color:blue;">『数値計算への新たなアプローチ』 (2017)</span></li><br><li>
+
+Mohak Bhardwaj, Byron Boots, and Mustafa Mukadam.  Differentiable gaussian process motion planning.  In IEEE International Conference on Robotics and Automation (ICRA), pages 10598– 10604. IEEE, 2020.  (Cited on page 18.)
+<br><span style="color:blue;">『微分可能ガウス過程動作計画』 (2020)</span></li><br><li>
+
+Jan Blechschmidt and Oliver G Ernst. Three ways to solve partial differential equations with neural networks—a review.  GAMM-Mitteilungen, page e202100006, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『ニューラルネットワークを用いた偏微分方程式の3つの解法—レビュー』 (2021)</span></li><br><li>
+
+David M Blei, Alp Kucukelbir, and Jon D McAuliffe. Variational inference: A review for statisticians. Journal of the American statistical Association, 112(518):859–877, 2017.  (Cited on page 32.)
+<br><span style="color:blue;">『変分推論：統計学者のためのレビュー』 (2017)</span></li><br><li>
+
+Mathieu Blondel.  Structured prediction with projection oracles.  In NeurIPS, pages 12145–12156, 2019.  (Cited on page 27.)
+<br><span style="color:blue;">『投影オラクルを用いた構造化予測』 (2019)</span></li><br><li>
+
+Mathieu Blondel, André FT Martins, and Vlad Niculae.  Learning with fenchel-young losses.  J. Mach. Learn. Res., 21(35):1–69, 2020.  (Cited on page 27.)
+<br><span style="color:blue;">『フェンチェル・ヤング損失を用いた学習』 (2020)</span></li><br><li>
+
+Mathieu Blondel, Quentin Berthet, Marco Cuturi, Roy Frostig, Stephan Hoyer, Felipe Llinares-López, Fabian Pedregosa, and Jean-Philippe Vert.  Efficient and modular implicit differentiation.  ArXiv preprint, abs/2105.15183, 2021.  (Cited on page 68.)
+<br><span style="color:blue;">『効率的かつモジュール式の暗黙的な微分』 (2021)</span></li><br><li>
+
+J Frédéric Bonnans and Alexander Shapiro. Perturbation analysis of optimization problems. Springer Science & Business Media, 2013.  (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『最適化問題の摂動解析』 (2013)</span></li><br><li>
+
+Stephen Boyd,  Stephen P Boyd,  and Lieven Vandenberghe.   Convex  optimization.   Cambridge university press, 2004.  (Cited on page 3.)
+<br><span style="color:blue;">『凸最適化』 (2004)</span></li><br><li>
+
+Stephen Boyd, Neal Parikh, and Eric Chu.  Distributed optimization and statistical learning via the alternating direction method of multipliers.  Now Publishers Inc, 2011.  (Cited on page 43.)
+<br><span style="color:blue;">『交互方向乗算法による分散最適化と統計学習』 (2011)</span></li><br><li>
+
+James  Bradbury,  Roy  Frostig,  Peter  Hawkins,  Matthew  James  Johnson,  Chris  Leary,  Dougal Maclaurin, and Skye Wanderman-Milne.  Jax:  composable transformations of python+ numpy programs, 2018.  4:16, 2020.  (Cited on pages 12 and 60.)
+<br><span style="color:blue;">『Jax: Python+NumPyプログラムの合成可能な変換』 (2020)</span></li><br><li>
+
+Greg Brockman, Vicki Cheung, Ludwig Pettersson, Jonas Schneider, John Schulman, Jie Tang, and Wojciech Zaremba.  Openai gym.  ArXiv preprint, abs/1606.01540, 2016.  (Cited on page 63.)
+<br><span style="color:blue;">『OpenAIジム』 (2016)</span></li><br><li>
+
+Charles G Broyden.  A class of methods for solving nonlinear simultaneous equations.  Mathematics of computation, 19(92):577–593, 1965.  (Cited on page 41.)
+<br><span style="color:blue;">『非線形連立方程式を解くための一連の方法』 (1965)</span></li><br><li>
+
+Sébastien Bubeck et al. Convex optimization: Algorithms and complexity. Foundations and Trends® in Machine Learning, 8(3-4):231–357, 2015.  (Cited on page 3.)
+<br><span style="color:blue;">『凸最適化：アルゴリズムと複雑性』 (2015)</span></li><br><li>
+
+Charlotte Bunne, Andreas Krause, and Marco Cuturi.  Supervised training of conditional monge maps.  ArXiv preprint, abs/2206.14262, 2022.  (Cited on page 47.)
+<br><span style="color:blue;">『条件付きモンジュ写像の教師あり学習』 (2022)</span></li><br><li>
+
+Christopher P Burgess, Irina Higgins, Arka Pal, Loic Matthey, Nick Watters, Guillaume Desjardins, and Alexander Lerchner.  Understanding disentangling in β-vae.  ArXiv preprint, abs/1804.03599, 2018.  (Cited on page 62.)
+<br><span style="color:blue;">『β-vaeにおける分離の理解』 (2018)</span></li><br><li>
+
+Enzo Busseti, Walaa M Moursi, and Stephen Boyd.  Solution refinement at regular points of conic problems. Computational Optimization and Applications, 74(3):627–643, 2019. (Cited on page 26.)
+<br><span style="color:blue;">『円錐問題の正則点における解の改良』 (2019)</span></li><br><li>
+
+Arunkumar  Byravan,  Jost  Tobias  Springenberg,  Abbas  Abdolmaleki,  Roland  Hafner,  Michael Neunert, Thomas Lampe, Noah Siegel, Nicolas Heess, and Martin Riedmiller.  Imagined value gradients:  Model-based policy optimization with transferable latent dynamics models.  ArXiv preprint, abs/1910.04142, 2019.  (Cited on pages 53 and 54.)
+<br><span style="color:blue;">『想像上の価値勾配：転移可能な潜在ダイナミクスモデルを用いたモデルベース政策最適化』 (2019)</span></li><br><li>
+
+Arunkumar Byravan, Leonard Hasenclever, Piotr Trochim, Mehdi Mirza, Alessandro Davide Ialongo, Yuval Tassa, Jost Tobias Springenberg, Abbas Abdolmaleki, Nicolas Heess, Josh Merel, and Martin A. Riedmiller. Evaluating model-based planning and planner amortization for continuous control. In ICLR, 2022. (Cited on pages 53 and 54.)
+<br><span style="color:blue;">『連続制御のためのモデルベースプランニングとプランナー償却の評価』 (2022)</span></li><br><li>
+
+Eduardo F Camacho and Carlos Bordons Alba. Model predictive control. Springer science & business media, 2013.  (Cited on page 50.)
+<br><span style="color:blue;">『モデル予測制御』 (2013)</span></li><br><li>
+
+Quentin  Cappart,  Didier  Chételat,  Elias  Khalil,  Andrea  Lodi,  Christopher  Morris,  and  Petar Veličković. Combinatorial optimization and reasoning with graph neural networks. ArXiv preprint, abs/2102.09544, 2021. (Cited on page 76.)
+<br><span style="color:blue;">『グラフニューラルネットワークを用いた組合せ最適化と推論』 (2021)</span></li><br><li>
+
+Michael Carter.  Foundations of mathematical economics.  MIT press, 2001.  (Cited on page 30.)
+<br><span style="color:blue;">『数理経済学の基礎』 (2001)</span></li><br><li>
+
+Rich Caruana.  Multitask learning.  Machine learning, 28(1):41–75, 1997.  (Cited on page 36.)
+<br><span style="color:blue;">『マルチタスク学習』 (1997)</span></li><br><li>
+
+Abhishek Cauligi, Preston Culbertson, Bartolomeo Stellato, Dimitris Bertsimas, Mac Schwager, and Marco Pavone.  Learning mixed-integer convex optimization strategies for robot planning and control.  In IEEE Conference on Decision and Control (CDC), pages 1698–1705. IEEE, 2020. (Cited  on  page  76.)
+<br><span style="color:blue;">『ロボットの計画と制御のための混合整数凸最適化戦略の学習』 (2020)</span></li><br><li>
+
+Abhishek Cauligi, Preston Culbertson, Edward Schmerling, Mac Schwager, Bartolomeo Stellato, and Marco Pavone. Coco:  Online mixed-integer control via supervised learning. IEEE Robotics and Automation Letters, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『教師あり学習によるオンライン混合整数制御』 (2021)</span></li><br><li>
+
+Yash Chandak, Georgios Theocharous, James Kostas, Scott M. Jordan, and Philip S. Thomas. Learning action representations for reinforcement learning.  In ICML, volume 97, pages 941–950, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『強化学習のための行動表現の学習』 (2019)</span></li><br><li>
+
+Jen-Hao Rick Chang, Chun-Liang Li, Barnabás Póczos, and B. V. K. Vijaya Kumar.  One network to solve them all - solving linear inverse problems using deep projection models.  In ICCV, 2017. (Cited  on  page  74.)
+<br><span style="color:blue;">『一つのネットワークで全てを解決 ― 深層投影モデルを用いた線形逆問題の解法』 (2017)</span></li><br><li>
+
+François Charton.  Linear algebra with transformers.  ArXiv preprint, abs/2112.01898, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『線形代数とトランスフォーマー』 (2021)</span></li><br><li>
+
+François Charton, Amaury Hayat, Sean T McQuade, Nathaniel J Merrill, and Benedetto Piccoli.  A deep language model to predict metabolic network equilibria.  ArXiv preprint, abs/2112.03588, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『代謝ネットワークの平衡を予測するための深層言語モデル』 (2021)</span></li><br><li>
+
+Justin Y. Chen, Sandeep Silwal, Ali Vakilian, and Fred Zhang. Faster fundamental graph algorithms via learned predictions.  In ICML, volume 162, pages 3583–3602, 2022a.  (Cited on page 76.)
+<br><span style="color:blue;">『学習予測による基本グラフアルゴリズムの高速化』 (2022)</span></li><br><li>
+
+Scott Shaobing Chen, David L Donoho, and Michael A Saunders. Atomic decomposition by basis pursuit.  SIAM review, 43(1):129–159, 2001.  (Cited on page 35.)
+<br><span style="color:blue;">『基底追求による原子分解』 (2001)</span></li><br><li>
+
+Steven W Chen, Tianyu Wang, Nikolay Atanasov, Vijay Kumar, and Manfred Morari.  Large scale model predictive control with neural networks and primal active sets.  Automatica, 135:109947, 2022b.  (Cited on page 11.)
+<br><span style="color:blue;">『ニューラルネットワークとプライマルアクティブセットを用いた大規模モデル予測制御』 (2022)</span></li><br><li>
+
+Tianlong Chen, Xiaohan Chen, Wuyang Chen, Howard Heaton, Jialin Liu, Zhangyang Wang, and Wotao Yin.  Learning to optimize:  A primer and a benchmark.  ArXiv preprint, abs/2103.12828, 2021a. (Cited on pages 35, 69, and 74.)
+<br><span style="color:blue;">『最適化の学習: 入門書とベンチマーク』 (2021)</span></li><br><li>
+
+Tianqi Chen, Bing Xu, Chiyuan Zhang, and Carlos Guestrin.  Training deep nets with sublinear memory cost.  ArXiv preprint, abs/1604.06174, 2016.  (Cited on page 12.)
+<br><span style="color:blue;">『サブ線形メモリコストを用いたディープネットの学習』 (2016)</span></li><br><li>
+
+Yifan Chen, Bamdad Hosseini, Houman Owhadi, and Andrew M Stuart.  Solving and learning nonlinear pdes with gaussian processes.   ArXiv  preprint,  abs/2103.12959,  2021b.   (Cited on page 76.)
+<br><span style="color:blue;">『ガウス過程を用いた非線形偏微分方程式の解法と学習』 (2021)</span></li><br><li>
+
+Yutian Chen, Matthew W. Hoffman, Sergio Gomez Colmenarejo, Misha Denil, Timothy P. Lillicrap, Matthew Botvinick, and Nando de Freitas. Learning to learn without gradient descent by gradient descent.  In ICML, volume 70, pages 748–756, 2017.  (Cited on pages 29 and 38.)
+<br><span style="color:blue;">『勾配降下法を用いずに勾配降下法で学習する方法の学習』 (2017)</span></li><br><li>
+
+Yutian  Chen,  Abram  L.  Friesen,  Feryal  Behbahani,  Arnaud  Doucet,  David  Budden,  Matthew Hoffman, and Nando de Freitas. Modular meta-learning with shrinkage. In NeurIPS, 2020. (Cited on pages 20 and 73.)
+<br><span style="color:blue;">『収縮を伴うモジュール型メタ学習』 (2020)</span></li><br><li>
+
+Kyunghyun Cho, Bart van Merriënboer, Caglar Gulcehre, Dzmitry Bahdanau, Fethi Bougares, Holger Schwenk, and Yoshua Bengio. Learning phrase representations using RNN encoder–decoder for statistical machine translation.  In EMNLP, Doha, Qatar, 2014.  (Cited on page 10.)
+<br><span style="color:blue;">『統計的機械翻訳におけるRNNエンコーダー・デコーダーを用いたフレーズ表現の学習』 (2014)</span></li><br><li>
+
+Junyoung Chung, Kyle Kastner, Laurent Dinh, Kratarth Goel, Aaron C. Courville, and Yoshua Bengio.  A recurrent latent variable model for sequential data.  In NeurIPS, pages 2980–2988, 2015.  (Cited on page 34.)
+<br><span style="color:blue;">『シーケンシャルデータのための再帰型潜在変数モデル』 (2015)</span></li><br><li>
+
+Samuel Cohen, Brandon Amos, and Yaron Lipman.  Riemannian convex potential maps.  In ICML, volume 139, pages 2028–2038, 2021.  (Cited on page 66.)
+<br><span style="color:blue;">『リーマン凸ポテンシャル写像』 (2021)</span></li><br><li>
+
+Thomas M Cover and Joy A Thomas.  Elements of information theory (wiley series in telecommuni-cations and signal processing), 2006.  (Cited on page 23.)
+<br><span style="color:blue;">『情報理論の要素』 (2006)</span></li><br><li>
+
+Chris Cremer, Xuechen Li, and David Duvenaud. Inference suboptimality in variational autoencoders. In ICML, volume 80, pages 1086–1094, 2018.  (Cited on pages 7, 34, 61, and 73.)
+<br><span style="color:blue;">『変分オートエンコーダにおける推論の準最適性』 (2018)</span></li><br><li>
+
+Rodrigo Santa Cruz, Basura Fernando, Anoop Cherian, and Stephen Gould.  Deeppermnet:  Visual permutation learning.  In CVPR, 2017.  (Cited on page 27.)
+<br><span style="color:blue;">『詳細なトピック：視覚的順列学習』 (2017)</span></li><br><li>
+
+Marco Cuturi. Sinkhorn distances: Lightspeed computation of optimal transport. In NeurIPS, pages 2292–2300, 2013.  (Cited on pages 46 and 47.)
+<br><span style="color:blue;">『シンクホーン距離：光速における最適輸送計算』 (2013)</span></li><br><li>
+
+Marco Cuturi and Mathieu Blondel. Soft-dtw: a differentiable loss function for time-series. In ICML, volume 70, pages 894–903, 2017.  (Cited on page 67.)
+<br><span style="color:blue;">『Soft-dtw：時系列のための微分可能損失関数』 (2017)</span></li><br><li>
+
+Nhan Dam, Quan Hoang, Trung Le, Tu Dinh Nguyen, Hung Bui, and Dinh Phung.  Three-player wasserstein GAN via amortised duality. In IJCAI, pages 2202–2208, 2019. doi:  10.24963/ijcai. 2019/305. (Cited on page 48.)
+<br><span style="color:blue;">『償却双対性を用いた3人用Wasserstein GAN』 (2019)</span></li><br><li>
+
+John M Danskin. The theory of max-min, with applications. SIAM Journal on Applied Mathematics, 14(4):641–664, 1966.  (Cited on page 30.)
+<br><span style="color:blue;">『最大最小理論とその応用』 (1966)</span></li><br><li>
+
+Stéphane d’Ascoli, Pierre-Alexandre Kamienny, Guillaume Lample, and François Charton.  Deep symbolic regression for recurrent sequences, 2022.  (Cited on page 76.)
+<br><span style="color:blue;">『反復シーケンスに対する深いシンボリック回帰』 (2022)</span></li><br><li>
+
+Ingrid Daubechies, Michel Defrise, and Christine De Mol.   An iterative thresholding algorithm for linear inverse problems with a sparsity constraint.  Communications on Pure and Applied Mathematics:   A  Journal  Issued  by  the  Courant  Institute  of  Mathematical  Sciences,  57(11): 1413–1457, 2004.  (Cited on pages 9 and 35.)
+<br><span style="color:blue;">『スパース制約付き線形逆問題のための反復閾値アルゴリズム』 (2004)</span></li><br><li>
+
+Jack W Davidson and Sanjay Jinturkar. An aggressive approach to loop unrolling. Technical report, Citeseer, 1995.  (Cited on page 18.)
+<br><span style="color:blue;">『ループアンローリングへの積極的なアプローチ』 (1995)</span></li><br><li>
+
+Peter Dayan, Geoffrey E Hinton, Radford M Neal, and Richard S Zemel.  The helmholtz machine. Neural computation, 7(5):889–904, 1995.  (Cited on page 32.)
+<br><span style="color:blue;">『ヘルムホルツマシン. ニューラルコンピューティング』 (1995)</span></li><br><li>
+
+Pieter-Tjerk De Boer, Dirk P Kroese, Shie Mannor, and Reuven Y Rubinstein.  A tutorial on the cross-entropy method.  Annals of operations research, 134(1):19–67, 2005.  (Cited on page 10.)
+<br><span style="color:blue;">『クロスエントロピー法のチュートリアル』 (2005)</span></li><br><li>
+
+Marc Peter Deisenroth and Carl Edward Rasmussen.  PILCO: A model-based and data-eficient approach to policy search.  In ICML, pages 465–472, 2011.  (Cited on page 54.)
+<br><span style="color:blue;">『PILCO：モデルベースかつデータ効率の高い政策探索アプローチ』 (2011)</span></li><br><li>
+
+Marc Peter Deisenroth, A Aldo Faisal, and Cheng Soon Ong.  Mathematics for machine learning. Cambridge University Press, 2020.  (Cited on page 3.)
+<br><span style="color:blue;">『機械学習のための数学』 (2020)</span></li><br><li>
+
+Tristan Deleu, Tobias Würfl, Mandana Samiei, Joseph Paul Cohen, and Yoshua Bengio.  Torchmeta: A meta-learning library for pytorch.  ArXiv preprint, abs/1909.06576, 2019.  (Cited on page 68.)
+<br><span style="color:blue;">『Torchmeta: Python Torch用メタ学習ライブラリ』 (2019)</span></li><br><li>
+
+Ishan Deshpande, Yuan-Ting Hu, Ruoyu Sun, Ayis Pyrros, Nasir Siddiqui, Sanmi Koyejo, Zhizhen Zhao, David A. Forsyth, and Alexander G. Schwing.  Max-sliced wasserstein distance and its use for gans.  In CVPR, 2019.  (Cited on page 48.)
+<br><span style="color:blue;">『Wasserstein 距離とGANSへの応用』 (2019)</span></li><br><li>
+
+Steven Diamond and Stephen Boyd.  The Journal of Machine Learning Research, 17(1):2909–2913, 2016.  (Cited on pages 67 and 73.)
+<br><span style="color:blue;">『機械学習研究ジャーナル』 (2016)</span></li><br><li>
+
+Ulisse Dini.  Analisi infinitesimale.  Lithografia Gorani, 1878.  (Cited on page 31.)
+<br><span style="color:blue;">『微小分析』 (1878)</span></li><br><li>
+
+Michael Dinitz, Sungjin Im, Thomas Lavastida, Benjamin Moseley, and Sergei Vassilvitskii.  Faster matchings via learned duals.  In NeurIPS, pages 10393–10406, 2021.  (Cited on pages 46 and 76.)
+<br><span style="color:blue;">『学習済み双対による高速マッチング』 (2021)</span></li><br><li>
+
+Carl Doersch.  Tutorial on variational autoencoders.  ArXiv preprint, abs/1606.05908, 2016.  (Cited on page 32.)
+<br><span style="color:blue;">『変分オートエンコーダのチュートリアル』 (2016)</span></li><br><li>
+
+Justin Domke.  Generic methods for optimization-based modeling.  In AISTATS, pages 318–326, 2012.  (Cited on pages 11, 13, 30, and 73.)
+<br><span style="color:blue;">『最適化に基づくモデリングのための汎用手法』 (2012)</span></li><br><li>
+
+Wenqian Dong, Zhen Xie, Gokcen Kestor, and Dong Li.  Smart-pgsim:  using neural network to accelerate ac-opf power grid simulation. In SC20:  International Conference for High Performance Computing,  Networking,  Storage  and  Analysis,  pages  1–15.  IEEE,  2020.  (Cited  on  page  24.)
+<br><span style="color:blue;">『ニューラルネットワークを用いたAC-OPF電力網シミュレーションの高速化』 (2020)</span></li><br><li>
+
+David L Donoho and Michael Elad.  Optimally sparse representation in general (nonorthogonal) dictionaries  via  ℓ1  minimization.   Proceedings  of  the  National  Academy  of  Sciences,  100(5): 2197–2202, 2003.  (Cited on page 35.)
+<br><span style="color:blue;">『ℓ1最小化による一般（非直交）辞書における最適スパース表現』 (2003)</span></li><br><li>
+
+Asen L Dontchev and R Tyrrell Rockafellar.  Implicit functions and solution mappings, volume 543. Springer, 2009.  (Cited on page 31.)
+<br><span style="color:blue;">『暗黙関数と解のマッピング』 (2009)</span></li><br><li>
+
+Priya L. Donti, David Rolnick, and J. Zico Kolter.  DC3:  A learning method for optimization with hard constraints.  In ICLR, 2021.  (Cited on page 24.)
+<br><span style="color:blue;">『ハード制約を考慮した最適化のための学習手法』 (2021)</span></li><br><li>
+
+Iddo Drori, Sunny Tran, Roman Wang, Newman Cheng, Kevin Liu, Leonard Tang, Elizabeth Ke, Nikhil Singh, Taylor L. Patti, Jayson Lynch, Avi Shporer, Nakul Verma, Eugene Wu, and Gilbert Strang.  A neural network solves and generates mathematics problems by program synthesis: Calculus, differential equations, linear algebra, and more, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『ニューラルネットワークはプログラム合成によって数学の問題を解いたり生成したりする』 (2021)</span></li><br><li>
+
+John C. Duchi, Elad Hazan, and Yoram Singer.  Adaptive subgradient methods for online learning and stochastic optimization.  In COLT, pages 257–269, 2010.  (Cited on pages 14 and 28.)
+<br><span style="color:blue;">『オンライン学習と確率的最適化のための適応型劣勾配法』 (2010)</span></li><br><li>
+
+Iain Dunning, Joey Huchette, and Miles Lubin.  Jump:  A modeling language for mathematical optimization.  SIAM Review, 59(2):295–320, 2017.  doi:  10.1137/15M1020575.  (Cited on page 68.)
+<br><span style="color:blue;">『数理最適化のためのモデリング言語』 (2017)</span></li><br><li>
+
+Emilien Dupont. Learning disentangled joint continuous and discrete representations.  In NeurIPS, pages 708–718, 2018.  (Cited on page 61.)
+<br><span style="color:blue;">『分離した連続表現と離散表現の学習』 (2018)</span></li><br><li>
+
+Valentin Duruisseaux and Melvin Leok.  Accelerated optimization on riemannian manifolds via projected variational integrators, 2022.  (Cited on page 28.)
+<br><span style="color:blue;">『射影変分積分器を用いたリーマン多様体上の高速最適化』 (2022)</span></li><br><li>
+
+Damien Ernst, Pierre Geurts, and Louis Wehenkel.  Tree-based batch mode reinforcement learning. Journal of Machine Learning Research, 6, 2005.  (Cited on page 58.)
+<br><span style="color:blue;">『ツリーベースバッチモード強化学習』 (2005)</span></li><br><li>
+
+Anthony V Fiacco. Mathematical programming with data perturbations. CRC Press, 2020. (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『データ摂動を伴う数理計画法』 (2020)</span></li><br><li>
+
+Anthony V Fiacco and Yo Ishizuka.  Sensitivity and stability analysis for nonlinear programming. Annals of Operations Research, 27(1):215–235, 1990.  (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『非線形計画法の感度解析と安定性解析』 (1990)</span></li><br><li>
+
+Arnaud Fickinger, Hengyuan Hu, Brandon Amos, Stuart J. Russell, and Noam Brown.  Scalable online planning via reinforcement learning fine-tuning.  In NeurIPS, pages 16951–16963, 2021. (Cited  on  page  76.)
+<br><span style="color:blue;">『強化学習による微調整によるスケーラブルなオンラインプランニング』 (2021)</span></li><br><li>
+
+Chelsea Finn, Pieter Abbeel, and Sergey Levine.  Model-agnostic meta-learning for fast adaptation of deep networks. In ICML, volume 70, pages 1126–1135, 2017. (Cited on pages 9, 11, 12, 18, 19, 37, 70, and 71.)
+<br><span style="color:blue;">『深層ネットワークの高速適応のためのモデル非依存メタ学習』 (2017)</span></li><br><li>
+JL Fleiss.  Review papers:  The statistical basis of meta-analysis.  Statistical methods in medical research, 2(2):121–145, 1993.  (Cited on page 39.)
+<br><span style="color:blue;">『メタアナリシスの統計的基礎』 (1993)</span></li><br><li>
+
+Jakob N Foerster, Richard Y Chen, Maruan Al-Shedivat, Shimon Whiteson, Pieter Abbeel, and Igor Mordatch. Learning with opponent-learning awareness. ArXiv preprint, abs/1709.04326, 2017. (Cited  on  page  18.)
+<br><span style="color:blue;">『敵対学習の認識を用いた学習』 (2017)</span></li><br><li>
+
+Luca Franceschi, Michele Donini, Paolo Frasconi, and Massimiliano Pontil.  Forward and reverse gradient-based hyperparameter optimization. In ICML, volume 70, pages 1165–1173, 2017. (Cited on page 19.)
+<br><span style="color:blue;">『順方向および逆方向勾配法に基づくハイパーパラメータ最適化』 (2017)</span></li><br><li>
+
+Luca Franceschi, Paolo Frasconi, Saverio Salzo, Riccardo Grazzi, and Massimiliano Pontil.  Bilevel programming for hyperparameter optimization and meta-learning. In ICML, volume 80, pages 1563–1572, 2018.  (Cited on page 39.)
+<br><span style="color:blue;">『ハイパーパラメータの最適化とメタ学習のための 2 レベル プログラミング』 (2018)</span></li><br><li>
+
+Scott Fujimoto, Herke van Hoof, and David Meger.  Addressing function approximation error in actor-critic methods.   In ICML, volume 80, pages 1582–1591, 2018.   (Cited on pages 21, 45, and 53.)
+<br><span style="color:blue;">『アクター・クリティック法における関数近似誤差への対処』 (2018)</span></li><br><li>
+
+Scott Fujimoto, David Meger, Doina Precup, Ofir Nachum, and Shixiang Shane Gu.  Why should I trust you, bellman?  the bellman error is a poor replacement for value error.  In ICML, volume 162, pages 6918–6943, 2022.  (Cited on page 58.)
+<br><span style="color:blue;">『なぜベルマンを信頼すべきなのか？ベルマン誤差は値誤差の代替としては不十分だ』 (2022)</span></li><br><li>
+
+Zhi Gao, Yuwei Wu, Yunde Jia, and Mehrtash Harandi. Learning to optimize on SPD manifolds. In CVPR, 2020.  (Cited on page 28.)
+<br><span style="color:blue;">『SPD 多様体での最適化を学習する』 (2020)</span></li><br><li>
+
+Jezabel R Garcia, Federica Freddi, Stathi Fotiadis, Maolin Li, Sattar Vakili, Alberto Bernacchia, and Guillaume Hennequin.  Fisher-legendre (fishleg) optimization of deep neural networks.  In ICLR, 2023.  (Cited on page 48.)
+<br><span style="color:blue;">『ディープ ニューラル ネットワークの Fisher-legendre (フィッシュレッグ) 最適化』 (2023)</span></li><br><li>
+
+Marta Garnelo, Dan Rosenbaum, Christopher Maddison, Tiago Ramalho, David Saxton, Murray Shanahan, Yee Whye Teh, Danilo Jimenez Rezende, and S. M. Ali Eslami.  Conditional neural processes.  In ICML, volume 80, pages 1690–1699, 2018.  (Cited on page 47.)
+<br><span style="color:blue;">『条件付き神経プロセス』 (2018)</span></li><br><li>
+
+Matthieu Geist, Bilal Piot, and Olivier Pietquin.  Is the bellman residual a bad proxy?  In NeurIPS, pages 3205–3214, 2017.  (Cited on page 58.)
+<br><span style="color:blue;">『ベルマン残差は悪い代理変数か？』 (2017)</span></li><br><li>
+
+Samuel Gershman and Noah Goodman. Amortized inference in probabilistic reasoning. In Proceedings of the annual meeting of the cognitive science society, volume 36, 2014.  (Cited on page 7.)
+<br><span style="color:blue;">『確率推論における償却推論』 (2014)</span></li><br><li>
+
+Ian J. Goodfellow, Jonathon Shlens, and Christian Szegedy.  Explaining and harnessing adversarial examples.  In ICLR, 2015.  (Cited on page 12.)
+<br><span style="color:blue;">『敵対的事例の説明と活用』 (2015)</span></li><br><li>
+
+Jonathan Gordon, John Bronskill, Matthias Bauer, Sebastian Nowozin, and Richard E. Turner. Meta-learning probabilistic inference for prediction.  In ICLR, 2019.  (Cited on page 36.)
+<br><span style="color:blue;">『予測のためのメタ学習確率推論』 (2019)</span></li><br><li>
+
+Stephen Gould, Basura Fernando, Anoop Cherian, Peter Anderson, Rodrigo Santa Cruz, and Edison Guo.  On differentiating parameterized argmin and argmax problems with application to bi-level optimization.  ArXiv preprint, abs/1607.05447, 2016.  (Cited on pages 13, 30, and 73.)
+<br><span style="color:blue;">『パラメータ化されたargmin問題とargmax問題の微分化と二段階最適化への応用について』 (2016)</span></li><br><li>
+
+Riccardo  Grazzi,  Luca  Franceschi,  Massimiliano  Pontil,  and  Saverio  Salzo.    On  the  iteration complexity of hypergradient computation.  In ICML, volume 119, pages 3748–3758, 2020.  (Cited on page 68.)
+<br><span style="color:blue;">『超勾配計算の反復計算量について』 (2020)</span></li><br><li>
+
+Edward Grefenstette, Brandon Amos, Denis Yarats, Phu Mon Htut, Artem Molchanov, Franziska Meier, Douwe Kiela, Kyunghyun Cho, and Soumith Chintala.   Generalized inner loop meta-learning.  ArXiv preprint, abs/1910.01727, 2019.  (Cited on page 68.)
+<br><span style="color:blue;">『一般化内部ループメタ学習』 (2019)</span></li><br><li>
+
+Karol Gregor and Yann LeCun.  Learning fast approximations of sparse coding.  In ICML, pages 399–406, 2010.  (Cited on pages 9, 34, 35, 71, and 75.)
+<br><span style="color:blue;">『スパース符号化の高速近似学習』 (2010)</span></li><br><li>
+
+Audrunas Gruslys, Rémi Munos, Ivo Danihelka, Marc Lanctot, and Alex Graves.  Memory-eficient backpropagation through time.  In NeurIPS, pages 4125–4133, 2016.  (Cited on page 12.)
+<br><span style="color:blue;">『メモリ効率の高い時間経過バックプロパゲーション』 (2016)</span></li><br><li>
+
+Radek Grzeszczuk, Demetri Terzopoulos, and Geoffrey Hinton. Neuroanimator: Fast neural network emulation and control of physics-based models.  In 25th annual conference on Computer graphics and interactive techniques, pages 9–20, 1998.  (Cited on page 76.)
+<br><span style="color:blue;">『物理ベースモデルの高速ニューラルネットワークエミュレーションと制御』 (1998)</span></li><br><li>
+
+Silviu Guiasu and Abe Shenitzer. The principle of maximum entropy. The mathematical intelligencer, 7(1):42–48, 1985.  (Cited on page 23.)
+<br><span style="color:blue;">『最大エントロピー原理』 (1985)</span></li><br><li>
+
+Swaminathan Gurumurthy, Shaojie Bai, Zachary Manchester, and J. Zico Kolter. Joint inference and input optimization in equilibrium networks.  In NeurIPS, pages 16818–16832, 2021.  (Cited on page 43.)
+<br><span style="color:blue;">『均衡ネットワークにおける統合推論と入力最適化』 (2021)</span></li><br><li>
+
+David Ha, Andrew M. Dai, and Quoc V. Le.  Hypernetworks.  In ICLR, 2017.  (Cited on page 36.)
+<br><span style="color:blue;">『ハイパーネットワーク』 (2017)</span></li><br><li>
+
+Tuomas Haarnoja, Aurick Zhou, Kristian Hartikainen, George Tucker, Sehoon Ha, Jie Tan, Vikash Kumar, Henry Zhu, Abhishek Gupta, Pieter Abbeel, et al.   Soft actor-critic algorithms and applications.  ArXiv preprint, abs/1812.05905, 2018.  (Cited on pages 22, 51, 53, 54, and 72.)
+<br><span style="color:blue;">『ソフトアクター・クリティックアルゴリズムと応用』 (2018)</span></li><br><li>
+
+P Habets.   Stabilite asyptotique pour des problemes de perturbations singulieres.   In Stability Problems, pages 2–18. Springer, 2010.  (Cited on page 11.)
+<br><span style="color:blue;">『特異摂動問題における漸近安定性』 (2010)</span></li><br><li>
+
+Danijar Hafner, Timothy P. Lillicrap, Jimmy Ba, and Mohammad Norouzi.   Dream to control: Learning behaviors by latent imagination.  In ICLR, 2020.  (Cited on pages 53 and 54.)
+<br><span style="color:blue;">『夢からコントロールへ：潜在的想像力による学習行動』 (2020)</span></li><br><li>
+
+Tian Han, Yang Lu, Song-Chun Zhu, and Ying Nian Wu. Alternating back-propagation for generator network.  In AAAI, pages 1976–1984. AAAI Press, 2017.  (Cited on page 18.)
+<br><span style="color:blue;">『ジェネレーターネットワークの交互バックプロパゲーション』 (2017)</span></li><br><li>
+
+Harry F Harlow.  The formation of learning sets.  Psychological review, 56(1):51, 1949.  (Cited on page 36.)
+<br><span style="color:blue;">『学習セットの形成』 (1949)</span></li><br><li>
+
+James Harrison, Luke Metz, and Jascha Sohl-Dickstein.  A closer look at learned optimization: Stability, robustness, and inductive biases.  ArXiv preprint, abs/2209.11208, 2022.  (Cited on page 40.)
+<br><span style="color:blue;">『学習最適化の詳細な考察：安定性、堅牢性、そして帰納的バイアス』 (2022)</span></li><br><li>
+
+Horace He and Richard Zou.  functorch:  Jax-like composable function transforms for pytorch, 2021. (Cited on page 68.)
+<br><span style="color:blue;">『Python 3.0用のJaxのような合成可能な関数変換』 (2021)</span></li><br><li>
+
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.  Identity mappings in deep residual networks.  In ECCV, pages 630–645. Springer, 2016.  (Cited on page 39.)
+<br><span style="color:blue;">『深層残差ネットワークにおける恒等写像』 (2016)</span></li><br><li>
+
+Siyu He, Yin Li, Yu Feng, Shirley Ho, Siamak Ravanbakhsh, Wei Chen, and Barnabás Póczos. Learning to predict the cosmological structure formation.  Proceedings of the National Academy of Sciences, 116(28):13825–13832, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『宇宙構造形成の予測を学ぶ』 (2019)</span></li><br><li>
+
+Nicolas Heess, Gregory Wayne, David Silver, Timothy P. Lillicrap, Tom Erez, and Yuval Tassa. Learning continuous control policies by stochastic value gradients.  In NeurIPS, pages 2944–2952, 2015.  (Cited on pages 51 and 54.)
+<br><span style="color:blue;">『確率的価値勾配による連続制御ポリシーの学習』 (2015)</span></li><br><li>
+
+Mikael Henaff, Alfredo Canziani, and Yann LeCun. Model-predictive policy learning with uncertainty regularization for driving in dense trafic.  In ICLR, 2019.  (Cited on page 54.)
+<br><span style="color:blue;">『不確実性正規化を用いたモデル予測型ポリシー学習による密集交通状況下での運転』 (2019)</span></li><br><li>
+
+Pascal Van Hentenryck.  Optimization learning, 2025.  URL https://arxiv.org/abs/2501.03443. (Cited on pages 24 and 75.)
+<br><span style="color:blue;">『最適化学習』 (2025)</span></li><br><li>
+
+Irina Higgins, Loïc Matthey, Arka Pal, Christopher Burgess, Xavier Glorot, Matthew Botvinick, Shakir Mohamed, and Alexander Lerchner.  beta-vae:  Learning basic visual concepts with a constrained variational framework.  In ICLR, 2017.  (Cited on page 32.)
+<br><span style="color:blue;">『制約付き変分フレームワークを用いた基本的な視覚概念の学習』 (2017)</span></li><br><li>
+
+Sepp Hochreiter and Jürgen Schmidhuber.  Long short-term memory.  Neural computation, 9(8): 1735–1780, 1997.  (Cited on page 10.)
+<br><span style="color:blue;">『長期・短期記憶』 (1997)</span></li><br><li>
+
+Sepp Hochreiter, A Steven Younger, and Peter R Conwell.  Learning to learn using gradient descent. In International Conference on Artificial Neural Networks, pages 87–94. Springer, 2001.  (Cited on page 36.)
+<br><span style="color:blue;">『勾配降下法を用いた学習の学習』 (2001)</span></li><br><li>
+
+Matthew D Hoffman, David M Blei, Chong Wang, and John Paisley. Stochastic variational inference. Journal of Machine Learning Research, 14(5), 2013.  (Cited on page 34.)
+<br><span style="color:blue;">『確率的変分推論』 (2013)</span></li><br><li>
+
+Timothy Hospedales, Antreas Antoniou, Paul Micaelli, and Amos Storkey.  Meta-learning in neural networks:  A survey.  ArXiv preprint, abs/2004.05439, 2020.  (Cited on pages 36 and 75.)
+<br><span style="color:blue;">『ニューラルネットワークにおけるメタ学習：概説』 (2020)</span></li><br><li>
+
+Stephan Hoyer, Jascha Sohl-Dickstein, and Sam Greydanus. Neural reparameterization improves structural optimization.  ArXiv preprint, abs/1909.04240, 2019.  (Cited on page 10.)
+<br><span style="color:blue;">『ニューラルネットワークの再パラメータ化による構造最適化の改善』 (2019)</span></li><br><li>
+
+Jiang Hu, Xin Liu, Zaiwen Wen, and Yaxiang Yuan.  A brief introduction to manifold optimization. ArXiv preprint, abs/1906.05450, 2019.  (Cited on page 28.)
+<br><span style="color:blue;">『多様体最適化の簡単な入門』 (2019)</span></li><br><li>
+
+Kejun Huang, Nicholas D Sidiropoulos, and Athanasios P Liavas.  A flexible and eficient algorith-mic framework for constrained matrix and tensor factorization.  IEEE Transactions on Signal Processing, 64(19):5052–5065, 2016.  (Cited on page 43.)
+<br><span style="color:blue;">『制約付き行列およびテンソル分解のための柔軟かつ効率的なアルゴリズムフレームワーク』 (2018)</span></li><br><li>
+
+Tianshu Huang, Tianlong Chen, Sijia Liu, Shiyu Chang, Lisa Amini, and Zhangyang Wang. Optimizer amalgamation.  In ICLR, 2022.  (Cited on page 40.)
+<br><span style="color:blue;">『オプティマイザーの統合』 (2022)</span></li><br><li>
+
+Ferenc Huszár.  Notes on imaml:  Meta-learning with implicit gradients.  http://inference.vc, 2019.  (Cited on pages 20 and 73.)
+<br><span style="color:blue;">『imamlに関するメモ：暗黙的勾配を用いたメタ学習』 (2019)</span></li><br><li>
+
+Jeffrey Ichnowski, Paras Jain, Bartolomeo Stellato, Goran Banjac, Michael Luo, Francesco Borrelli, Joseph E. Gonzalez, Ion Stoica, and Ken Goldberg.  Accelerating quadratic optimization with reinforcement learning.  In NeurIPS, pages 21043–21055, 2021.  (Cited on pages 9, 21, 44, 71, and 73.)
+<br><span style="color:blue;">『強化学習による二次最適化の加速』 (2021)</span></li><br><li>
+
+Herbert Jaeger.  Tutorial on training recurrent neural networks, covering BPPT, RTRL, EKF and the" echo state network" approach, volume 5.  GMD-Forschungszentrum Informationstechnik Bonn, 2002. (Cited on page 18.)
+<br><span style="color:blue;">『エコー ステート ネットワーク」アプローチをカバーするリカレント ニューラル ネットワークのトレーニングに関するチュートリアル』 (2002)</span></li><br><li>
+
+Yeonwoo Jeong and Hyun Oh Song. Learning discrete and continuous factors of data via alternating disentanglement.  In ICML, volume 97, pages 3091–3099, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『交互分離によるデータの離散因子と連続因子の学習』 (2019)</span></li><br><li>
+
+Michael I Jordan, Zoubin Ghahramani, Tommi S Jaakkola, and Lawrence K Saul.  An introduction to variational methods for graphical models.  Machine learning, 37(2):183–233, 1999.  (Cited on page 32.)
+<br><span style="color:blue;">『グラフィカルモデルのための変分法入門』 (1999)</span></li><br><li>
+
+George Em Karniadakis, Ioannis G Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wang, and Liu Yang. Physics-informed machine learning.   Nature Reviews Physics, 3(6):422–440, 2021.   (Cited on page 76.)
+<br><span style="color:blue;">『物理学に基づく機械学習』 (2021)</span></li><br><li>
+
+Koray Kavukcuoglu, Marc’Aurelio Ranzato, and Yann LeCun.   Fast inference in sparse coding algorithms with applications to object recognition. arXiv preprint arXiv:1010.3467, 2010. (Cited on pages 34 and 35.)
+<br><span style="color:blue;">『スパース符号化アルゴリズムにおける高速推論と物体認識への応用』 (2010)</span></li><br><li>
+
+E James Kehoe. A layered network model of associative learning: learning to learn and configuration. Psychological review, 95(4):411, 1988.  (Cited on page 36.)
+<br><span style="color:blue;">『連合学習の階層型ネットワークモデル：学習の学習と構成』 (1988)</span></li><br><li>
+
+Elias B. Khalil, Hanjun Dai, Yuyu Zhang, Bistra Dilkina, and Le Song.  Learning combinatorial optimization algorithms over graphs.  In NeurIPS, pages 6348–6358, 2017.  (Cited on page 76.)
+<br><span style="color:blue;">『グラフ上の組み合わせ最適化アルゴリズムの学習』 (2017)</span></li><br><li>
+
+Elias Boutros Khalil, Pierre Le Bodic, Le Song, George L. Nemhauser, and Bistra Dilkina. Learning to branch in mixed integer programming.  In AAAI, pages 724–731, 2016.  (Cited on page 76.)
+<br><span style="color:blue;">『混合整数計画における分岐学習』 (2016)</span></li><br><li>
+
+Mikhail Khodak, Nina Balcan, Ameet Talwalkar, and Sergei Vassilvitskii.  Learning predictions for algorithms with predictions.  In NeurIPS, 2022.  (Cited on pages 46, 69, and 76.)
+<br><span style="color:blue;">『予測を使用してアルゴリズムの予測を学習する』 (2022)</span></li><br><li>
+
+Yoon Kim, Sam Wiseman, Andrew C. Miller, David A. Sontag, and Alexander M. Rush.  Semi-amortized variational autoencoders.  In ICML, volume 80, pages 2683–2692, 2018.  (Cited on pages 8, 9, 11, and 34.)
+<br><span style="color:blue;">『半償却変分オートエンコーダ』 (2018)</span></li><br><li>
+
+Yoon H Kim. Deep latent variable models of natural language. PhD thesis, Harvard University, 2020. (Cited on pages 32 and 75.)
+<br><span style="color:blue;">『自然言語の深層潜在変数モデル』(博士論文) (2020)</span></li><br><li>
+
+Diederik P. Kingma and Jimmy Ba.  Adam:  A method for stochastic optimization.  In ICLR, 2015. (Cited on pages 14, 29, and 63.)
+<br><span style="color:blue;">『確率的最適化のための手法』 (2015)</span></li><br><li>
+
+Diederik P. Kingma and Max Welling.  Auto-encoding variational bayes.  In ICLR, 2014.  (Cited on pages 7, 32, 33, 34, and 61.)
+<br><span style="color:blue;">『自動符号化変分ベイズ法』 (2014)</span></li><br><li>
+
+Diederik P Kingma, Max Welling, et al.  An introduction to variational autoencoders.  Foundations and Trends® in Machine Learning, 12(4):307–392, 2019.  (Cited on page 32.)
+<br><span style="color:blue;">『変分オートエンコーダ入門』 (2019)</span></li><br><li>
+
+Donald E Kirk.  Optimal control theory:  an introduction.  Courier Corporation, 2004.  (Cited on page 50.)
+<br><span style="color:blue;">『最適制御理論入門』 82004)</span></li><br><li>
+
+Michael Klamkin, Mathieu Tanneau, and Pascal Van Hentenryck.  Dual interior point optimization learning, 2025.  URL https://arxiv.org/abs/2402.02596.  (Cited on page 24.)
+<br><span style="color:blue;">『双対内点最適化学習』 (2025)</span></li><br><li>
+
+Diethard Klatte and Bernd Kummer.  Nonsmooth equations in optimization:  regularity, calculus, methods and applications, volume 60. Springer Science & Business Media, 2006. (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『最適化における非滑らかな方程式：正則性、計算、手法、応用』 (2006)</span></li><br><li>
+
+Boris Knyazev, Michal Drozdzal, Graham W. Taylor, and Adriana Romero-Soriano.  Parameter prediction for unseen deep architectures.   In NeurIPS, pages 29433–29448,  2021.   (Cited on page 40.)
+<br><span style="color:blue;">『目に見えない深いアーキテクチャのパラメータ予測』 (2021)</span></li><br><li>
+
+Vijay Konda and John Tsitsiklis.  Actor-critic algorithms.  NeurIPS, 12, 1999.  (Cited on page 57.)
+<br><span style="color:blue;">『アクター・クリティック・アルゴリズム』 (1999)</span></li><br><li>
+
+Alexander  Korotin,  Vage  Egiazarian,  Arip  Asadulaev,  Alexander  Safin,  and  Evgeny  Burnaev. Wasserstein-2 generative networks.  In ICLR, 2021.  (Cited on page 48.)
+<br><span style="color:blue;">『 Wasserstein-2型生成ネットワーク』 (2021)</span></li><br><li>
+
+James  Kotary,  Ferdinando  Fioretto,  Pascal  Van  Hentenryck,  and  Bryan  Wilder.    End-to-end constrained optimization learning:  A survey.  ArXiv preprint, abs/2103.16378, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『エンドツーエンド制約付き最適化学習：概観』 (2021)</span></li><br><li>
+
+Nikola Kovachki, Samuel Lanthaler, and Siddhartha Mishra. Journal of Machine Learning Research, 22:Art–No, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『機械学習研究ジャーナル』 (2021)</span></li><br><li>
+
+Tamás Kriváchy, Yu Cai, Joseph Bowles, Daniel Cavalcanti, and Nicolas Brunner.  Fast semidefinite programming with feedforward neural networks.  ArXiv preprint, abs/2011.05785, 2020.  (Cited on page 24.)
+<br><span style="color:blue;">『フィードフォワードニューラルネットワークを用いた高速半正定値計画法』 (2020)</span></li><br><li>
+
+L’ubor Ladicky`, SoHyeon Jeong, Barbara Solenthaler, Marc Pollefeys, and Markus Gross.  Data-driven fluid simulations using regression forests.  ACM Transactions on Graphics (TOG), 34(6): 1–9, 2015.  (Cited on page 76.)
+<br><span style="color:blue;">『回帰フォレストを用いたデータ駆動型流体シミュレーション』 (2015)</span></li><br><li>
+
+Brenden M Lake, Tomer D Ullman, Joshua B Tenenbaum, and Samuel J Gershman.  Building machines that learn and think like people.  Behavioral and brain sciences, 40, 2017.  (Cited on page 36.)
+<br><span style="color:blue;">『人間のように学習し、考える機械の構築』 (2017)</span></li><br><li>
+
+Nathan Lambert, Brandon Amos, Omry Yadan, and Roberto Calandra.  Objective mismatch in model-based reinforcement learning.  ArXiv preprint, abs/2002.04523, 2020.  (Cited on page 56.)
+<br><span style="color:blue;">『モデルベース強化学習における目的不一致』 (2020)</span></li><br><li>
+
+Guillaume Lample and François Charton.  Deep learning for symbolic mathematics. In ICLR, 2020. (Cited on page 76.)
+<br><span style="color:blue;">『記号数学のためのディープラーニング』 (2020)</span></li><br><li>
+
+Hoang Minh Le, Cameron Voloshin, and Yisong Yue.  Batch policy learning under constraints.  In ICML, volume 97, pages 3703–3712, 2019.  (Cited on page 58.)
+<br><span style="color:blue;">『制約条件下におけるバッチポリシー学習』 (2019)</span></li><br><li>
+
+Yann LeCun. The mnist database of handwritten digits. http://yann. lecun. com/exdb/mnist/, 1998. (Cited on page 61.)
+<br><span style="color:blue;">『手書き数字のmnistデータベース』 (1998)</span></li><br><li>
+
+Juho Lee, Yoonho Lee, Jungtaek Kim, Adam R. Kosiorek, Seungjin Choi, and Yee Whye Teh.  Set transformer:  A framework for attention-based permutation-invariant neural networks.  In ICML, volume 97, pages 3744–3753, 2019a.  (Cited on page 75.)
+<br><span style="color:blue;">『セットトランスフォーマー: 注意ベースの順列不変ニューラルネットワークのフレームワーク』 (2019)</span></li><br><li>
+
+Kwonjoon Lee, Subhransu Maji, Avinash Ravichandran, and Stefano Soatto.  Meta-learning with differentiable convex optimization. In CVPR, pages 10657–10665. Computer Vision Foundation / IEEE, 2019b.  doi:  10.1109/CVPR.2019.01091.  (Cited on pages 39 and 73.)
+<br><span style="color:blue;">『微分可能凸最適化を用いたメタ学習.』 (2019)</span></li><br><li>
+
+Sergey Levine and Pieter Abbeel.  Learning neural network policies with guided policy search under unknown dynamics.  In NeurIPS, pages 1071–1079, 2014.  (Cited on page 55.)
+<br><span style="color:blue;">『未知のダイナミクス下における誘導ポリシー探索を用いたニューラルネットワークポリシーの学習』 (2014)</span></li><br><li>
+
+Sergey Levine and Vladlen Koltun.  Guided policy search.  In ICML, volume 28, pages 1–9, 2013. (Cited on pages 21, 37, 51, and 55.)
+<br><span style="color:blue;">『ガイド付きポリシー検索』 (2013)</span></li><br><li>
+
+Sergey Levine, Chelsea Finn, Trevor Darrell, and Pieter Abbeel.  The Journal of Machine Learning Research, 17(1):1334–1373, 2016.  (Cited on page 55.)
+<br><span style="color:blue;">『機械学習研究ジャーナル』 (2016)</span></li><br><li>
+
+Ke Li and Jitendra Malik.  Learning to optimize.  In ICLR, 2017a.  (Cited on pages 10, 21, 36, and 37.)
+<br><span style="color:blue;">『最適化を学ぶ』 (2017)</span></li><br><li>
+
+Ke Li and Jitendra Malik. Learning to optimize neural nets. ArXiv preprint, abs/1703.00441, 2017b. (Cited on pages 10, 21, 36, and 37.)
+<br><span style="color:blue;">『ニューラルネットワークの最適化学習』 (2017)</span></li><br><li>
+
+Zongyi Li,  Nikola Borislavov Kovachki,  Kamyar Azizzadenesheli,  Burigede Liu,  Kaushik Bhat-tacharya, Andrew M. Stuart, and Anima Anandkumar.  Fourier neural operator for parametric partial differential equations.  In ICLR, 2021a.  (Cited on page 76.)
+<br><span style="color:blue;">『パラメトリック偏微分方程式のためのフーリエニューラル演算子』 (2021)</span></li><br><li>
+
+Zongyi Li, Hongkai Zheng, Nikola Kovachki, David Jin, Haoxuan Chen, Burigede Liu, Kamyar Azizzadenesheli, and Anima Anandkumar.  Physics-informed neural operator for learning partial differential equations. ArXiv preprint, abs/2111.03794, 2021b. (Cited on page 17.)
+<br><span style="color:blue;">『偏微分方程式を学習するための物理学に基づくニューラル演算子』 (2021)</span></li><br><li>
+
+Renjie Liao, Yuwen Xiong, Ethan Fetaya, Lisa Zhang, KiJung Yoon, Xaq Pitkow, Raquel Urtasun, and Richard S. Zemel. Reviving and improving recurrent back-propagation. In ICML, volume 80, pages 3088–3097, 2018.  (Cited on page 19.)
+<br><span style="color:blue;">『リカレントバックプロパゲーションの復活と改良』 (2018)</span></li><br><li>
+
+Timothy P. Lillicrap, Jonathan J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, and Daan Wierstra. Continuous control with deep reinforcement learning. In ICLR, 2016.  (Cited on page 53.)
+<br><span style="color:blue;">『深層強化学習による連続制御』 (2016)</span></li><br><li>
+
+Xinran Liu, Yuzhe Lu, Ali Abbasi, Meiyi Li, Javad Mohammadi, and Soheil Kolouri.  Teaching networks to solve optimization problems, 2022.  (Cited on pages 16 and 75.)
+<br><span style="color:blue;">『最適化問題を解くためのネットワークの指導』 (2022)</span></li><br><li>
+
+Andrea Lodi and Giulia Zarpellon.  On learning and branching:  a survey.  Top, 25(2):207–236, 2017. (Cited on page 76.)
+<br><span style="color:blue;">『学習と分岐について：概説』 (2017)</span></li><br><li>
+
+Jonathan Long, Evan Shelhamer, and Trevor Darrell.  Fully convolutional networks for semantic segmentation.  In CVPR, 2015.  (Cited on page 13.)
+<br><span style="color:blue;">『セマンティックセグメンテーションのための完全畳み込みネットワーク』 (2015)</span></li><br><li>
+
+Jonathan Lorraine, Paul Vicol, and David Duvenaud.  Optimizing millions of hyperparameters by implicit differentiation.  In AISTATS, volume 108, pages 1540–1552, 2020.  (Cited on pages 12 and 19.)
+<br><span style="color:blue;">『暗黙的微分化による数百万のハイパーパラメータの最適化』 (2020)</span></li><br><li>
+
+Kendall Lowrey, Aravind Rajeswaran, Sham M. Kakade, Emanuel Todorov, and Igor Mordatch. Plan online, learn ofline:  Eficient learning and exploration via model-based control.  In ICLR, 2019.  (Cited on page 49.)
+<br><span style="color:blue;">『オンラインで計画し、オフラインで学ぶ：モデルベース制御による効率的な学習と探索』 (2019)</span></li><br><li>
+
+Renqian Luo, Fei Tian, Tao Qin, Enhong Chen, and Tie-Yan Liu.  Neural architecture optimization. In NeurIPS, pages 7827–7838, 2018.  (Cited on pages 10 and 76.)
+<br><span style="color:blue;">『ニューラルアーキテクチャの最適化』 (2018)</span></li><br><li>
+
+Kaifeng Lv, Shunhua Jiang, and Jian Li.  Learning gradient descent:  Better generalization and longer horizons.  In ICML, volume 70, pages 2247–2255, 2017.  (Cited on page 36.)
+<br><span style="color:blue;">『勾配降下法の学習：より優れた一般化とより長いホライズン』 (2017)</span></li><br><li>
+
+Dougal Maclaurin. Modeling, inference and optimization with composable differentiable procedures. PhD thesis, Harvard University, 2016.  (Cited on page 18.)
+<br><span style="color:blue;">『構成可能微分可能手続きによるモデリング、推論、最適化』(博士論文) (2016)</span></li><br><li>
+
+Dougal Maclaurin, David Duvenaud, and Ryan P Adams.  Autograd:  Effortless gradients in numpy. In ICML 2015 AutoML workshop, volume 238, page 5, 2015a.  (Cited on page 60.)
+<br><span style="color:blue;">『Autograd: NumPyにおける簡単な勾配計算』 (2015)</span></li><br><li>
+
+Dougal Maclaurin, David Duvenaud, and Ryan P. Adams.  Gradient-based hyperparameter opti-mization through reversible learning.  In ICML, volume 37, pages 2113–2122, 2015b.  (Cited on pages 18 and 19.)
+<br><span style="color:blue;">『Adams. 可逆学習による勾配ベースハイパーパラメータ最適化』 (2015)</span></li><br><li>
+
+Niru Maheswaranathan, David Sussillo, Luke Metz, Ruoxi Sun, and Jascha Sohl-Dickstein. Reverse engineering learned optimizers reveals known and novel mechanisms.  In NeurIPS, pages 19910– 19922, 2021.  (Cited on page 28.)
+<br><span style="color:blue;">『学習したオプティマイザーをリバース エンジニアリングすると、既知のメカニズムと新しいメカニズムが明らかになる』 (2021)</span></li><br><li>
+
+Odalric-Ambrym Maillard, Rémi Munos, Alessandro Lazaric, and Mohammad Ghavamzadeh. Finite-sample analysis of bellman residual minimization. In 2nd Asian Conference on Machine Learning, pages 299–314. JMLR Workshop and Conference Proceedings, 2010.  (Cited on page 58.)
+<br><span style="color:blue;">『有限サンプルを用いたベルマン残差最小化の解析』 (2010)</span></li><br><li>
+
+Ashok Vardhan Makkuva, Amirhossein Taghvaei, Sewoong Oh, and Jason D. Lee. Optimal transport mapping via input convex neural networks. In ICML, volume 119, pages 6672–6681, 2020. (Cited on page 48.)
+<br><span style="color:blue;">『入力凸ニューラルネットワークによる最適輸送マッピング』 (2020)</span></li><br><li>
+
+Joseph Marino, Milan Cvitkovic, and Yisong Yue.  A general method for amortizing variational filtering.  In NeurIPS, pages 7868–7879, 2018a.  (Cited on page 5.)
+<br><span style="color:blue;">『変分フィルタリングを償却するための一般的な方法』 (2018)</span></li><br><li>
+
+Joseph Marino, Yisong Yue, and Stephan Mandt. Iterative amortized inference. In ICML, volume 80, pages 3400–3409, 2018b.  (Cited on pages 8 and 34.)
+<br><span style="color:blue;">『反復償却推論』 (2018)</span></li><br><li>
+
+Joseph Marino, Alexandre Piché, Alessandro Davide Ialongo, and Yisong Yue.  Iterative amortized policy optimization.  In NeurIPS, pages 15667–15681, 2021.  (Cited on pages 57 and 74.)
+<br><span style="color:blue;">『反復償却方策最適化』 (2021)</span></li><br><li>
+
+Joseph Louis Marino. Learned Feedback & Feedforward Perception & Control. PhD thesis, California Institute of Technology, 2021.  (Cited on pages 7, 32, and 75.)
+<br><span style="color:blue;">『学習フィードバックとフィードフォワード知覚と制御』(博士論文) (2021)</span></li><br><li>
+
+Tanya  Marwah,  Zachary  C.  Lipton,  and  Andrej  Risteski.    Parametric  complexity  bounds  for approximating pdes with neural networks.  In NeurIPS, pages 15044–15055, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『ニューラルネットワークによる偏微分方程式の近似におけるパラメトリック複雑度境界』 (2021)</span></li><br><li>
+
+Tim Meinhardt, Michael Möller, Caner Hazirbas, and Daniel Cremers. Learning proximal operators: Using denoising networks for regularizing inverse imaging problems.  In ICCV, pages 1799–1808, 2017.  (Cited on page 74.)
+<br><span style="color:blue;">『近接演算子の学習：ノイズ除去ネットワークを用いた逆画像問題の正規化』 (2017)</span></li><br><li>
+
+Gonzalo  E.  Mena,  David  Belanger,  Scott  W.  Linderman,  and  Jasper  Snoek.   Learning  latent permutations with gumbel-sinkhorn networks.  In ICLR, 2018.  (Cited on page 27.)
+<br><span style="color:blue;">『ガンベル・シンクホーンネットワークを用いた潜在順列の学習』 (2018)</span></li><br><li>
+
+Amil Merchant,  Luke Metz,  Samuel S. Schoenholz,  and Ekin D. Cubuk.   Learn2hop:  Learned optimization on rough landscapes.  In ICML, volume 139, pages 7643–7653, 2021.  (Cited on pages 22, 40, and 72.)
+<br><span style="color:blue;">『粗い地形における学習最適化』 (2021)</span></li><br><li>
+
+Luke Metz, Ben Poole, David Pfau, and Jascha Sohl-Dickstein.  Unrolled generative adversarial networks.  In ICLR, 2017.  (Cited on page 18.)
+<br><span style="color:blue;">『展開された敵対的生成ネットワーク』 (2017)</span></li><br><li>
+
+Luke Metz, Niru Maheswaranathan, Jeremy Nixon, C. Daniel Freeman, and Jascha Sohl-Dickstein. Understanding  and  correcting  pathologies  in  the  training  of  learned  optimizers.    In  ICML, volume 97, pages 4556–4565, 2019a.  (Cited on pages 21, 22, 39, 40, and 72.)
+<br><span style="color:blue;">『学習済み最適化アルゴリズムの訓練における病理の理解と修正』 (2019)</span></li><br><li>
+
+Luke Metz, Niru Maheswaranathan, Jonathon Shlens, Jascha Sohl-Dickstein, and Ekin D Cubuk. Using learned optimizers to make models robust to input noise.  ArXiv preprint, abs/1906.03367, 2019b.  (Cited on page 39.)
+<br><span style="color:blue;">『学習済み最適化器を用いて入力ノイズに対して堅牢なモデルを構築する』 (2019)</span></li><br><li>
+
+Luke Metz, C Daniel Freeman, Samuel S Schoenholz, and Tal Kachman.  Gradients are not all you need.  ArXiv preprint, abs/2111.05803, 2021.  (Cited on pages 39, 69, and 71.)
+<br><span style="color:blue;">『勾配だけが必要なわけではない』 (2021)</span></li><br><li>
+
+Luke Metz, James Harrison, C Daniel Freeman, Amil Merchant, Lucas Beyer, James Bradbury, Naman Agrawal, Ben Poole, Igor Mordatch, Adam Roberts, et al. Velo: Training versatile learned optimizers by scaling up.  ArXiv preprint, abs/2211.09760, 2022.  (Cited on pages 13 and 40.)
+<br><span style="color:blue;">『スケールアップによる汎用学習済み最適化アルゴリズムのトレーニング』 (2022)</span></li><br><li>
+
+Paul Milgrom and Ilya Segal.  Envelope theorems for arbitrary choice sets.  Econometrica, 70(2): 583–601, 2002.  (Cited on page 30.)
+<br><span style="color:blue;">『任意選択集合の包絡定理』 (2002)</span></li><br><li>
+
+Sidhant Misra, Line Roald, and Yeesian Ng.  Learning for constrained optimization:  Identifying optimal active constraint sets.  INFORMS Journal on Computing, 2021.  (Cited on page 24.)
+<br><span style="color:blue;">『制約付き最適化のための学習：最適なアクティブ制約セットの特定』 (2021)</span></li><br><li>
+
+Andriy Mnih and Karol Gregor.  Neural variational inference and learning in belief networks.  In ICML, volume 32, pages 1791–1799, 2014.  (Cited on page 32.)
+<br><span style="color:blue;">『信念ネットワークにおけるニューラル変分推論と学習』 (2014)</span></li><br><li>
+
+Shakir Mohamed,  Mihaela Rosca,  Michael Figurnov,  and Andriy Mnih.   Monte carlo gradient estimation in machine learning.  J. Mach. Learn. Res., 21(132):1–62, 2020.  (Cited on page 54.)
+<br><span style="color:blue;">『機械学習におけるモンテカルロ勾配推定』 (2020)</span></li><br><li>
+
+Vishal Monga, Yuelong Li, and Yonina C Eldar.  Algorithm unrolling:  Interpretable, eficient deep learning for signal and image processing.  IEEE Signal Processing Magazine, 38(2):18–44, 2021. (Cited  on  pages  18  and  75.)
+<br><span style="color:blue;">『アルゴリズムアンローリング：信号処理と画像処理のための解釈可能で効率的なディープラーニング』 (2021)</span></li><br><li>
+
+William H. Montgomery and Sergey Levine. Guided policy search via approximate mirror descent. In NeurIPS, pages 4008–4016, 2016.  (Cited on page 55.)
+<br><span style="color:blue;">『近似ミラー降下法による誘導方策探索』 (2016)</span></li><br><li>
+
+Kevin P Murphy. Machine learning:  a probabilistic perspective. MIT press, 2012. (Cited on page 3.)
+<br><span style="color:blue;">『機械学習：確率論的視点』 (2012)</span></li><br><li>
+
+Yurii Nesterov.  A method for unconstrained convex minimization problem with the rate of con-vergence o (1/kˆ 2).  In Doklady an ussr, volume 269, pages 543–547, 1983.  (Cited on pages 14 and 28.)
+<br><span style="color:blue;">『収束速度がo(1/kˆ2)である制約なし凸最小化問題に対する一手法』 (1983)</span></li><br><li>
+
+Yurii Nesterov et al. Lectures on convex optimization, volume 137. Springer, 2018. (Cited on page 3.)
+<br><span style="color:blue;">『凸最適化に関する講義』 (2018)</span></li><br><li>
+
+Khai Nguyen and Nhat Ho.  Amortized projection optimization for sliced wasserstein generative models.  ArXiv preprint, abs/2203.13417, 2022.  (Cited on page 48.)
+<br><span style="color:blue;">『スライスされたワッサースタイン生成モデルのための償却射影最適化』 (2022)</span></li><br><li>
+
+Alex Nichol, Joshua Achiam, and John Schulman.  On first-order meta-learning algorithms.  ArXiv preprint, abs/1803.02999, 2018.  (Cited on pages 11, 12, and 19.)
+<br><span style="color:blue;">『一次メタ学習アルゴリズムについて』 (2018)</span></li><br><li>
+
+Jorge Nocedal and Stephen Wright.  Numerical optimization.  Springer Science & Business Media, 2006.  (Cited on page 3.)
+<br><span style="color:blue;">『数値最適化』 (2006)</span></li><br><li>
+
+Bruno A Olshausen and David J Field. Emergence of simple-cell receptive field properties by learning a sparse code for natural images.  Nature, 381(6583):607–609, 1996.  (Cited on page 35.)
+<br><span style="color:blue;">『自然画像のためのスパースコードの学習による単純細胞受容野特性の発現』 (1996)</span></li><br><li>
+
+Takayuki Osa, Joni Pajarinen, Gerhard Neumann, J Andrew Bagnell, Pieter Abbeel, Jan Peters, et al. An algorithmic perspective on imitation learning. Foundations and Trends® in Robotics, 7 (1-2):1–179,  2018.  (Cited  on  page  52.)
+<br><span style="color:blue;">『模倣学習におけるアルゴリズム的視点』 (2018)</span></li><br><li>
+
+Brendan O’donoghue, Eric Chu, Neal Parikh, and Stephen Boyd.  Conic optimization via operator splitting and homogeneous self-dual embedding. Journal of Optimization Theory and Applications, 169(3):1042–1068, 2016.  (Cited on pages 9, 42, and 73.)
+<br><span style="color:blue;">『演算子分割と同次自己双対埋め込みによる円錐最適化』 (2016)</span></li><br><li>
+
+Xiang Pan, Minghua Chen, Tianyu Zhao, and Steven H Low. Deepopf:  A feasibility-optimized deep neural network approach for ac optimal power flow problems.  ArXiv preprint, abs/2007.01002, 2020.  (Cited on page 24.)
+<br><span style="color:blue;">『交流最適電力潮流問題のための実現可能性最適化ディープニューラルネットワークアプローチ』 (2020)</span></li><br><li>
+
+Neal Parikh and Stephen Boyd.  Proximal algorithms.  Foundations and Trends in optimization, 1 (3):127–239, 2014.  (Cited on page 27.)
+<br><span style="color:blue;">『近似アルゴリズム』 (2014)</span></li><br><li>
+
+Paavo Parmas and Masashi Sugiyama.  A unified view of likelihood ratio and reparameterization gradients.  In AISTATS, volume 130, pages 4078–4086, 2021.  (Cited on page 40.)
+<br><span style="color:blue;">『尤度比と再パラメータ化勾配の統一的視点』 (2021)</span></li><br><li>
+
+Paavo Parmas, Carl Edward Rasmussen, Jan Peters, and Kenji Doya.  PIPPS: flexible model-based policy search robust to the curse of chaos.  In ICML, volume 80, pages 4062–4071, 2018.  (Cited on pages 18 and 39.)
+<br><span style="color:blue;">『カオスの呪いに頑健な柔軟なモデルベース方策探索』 (2018)</span></li><br><li>
+
+Razvan Pascanu, Tomás Mikolov, and Yoshua Bengio.  On the dificulty of training recurrent neural networks.  In ICML, volume 28, pages 1310–1318, 2013.  (Cited on page 18.)
+<br><span style="color:blue;">『リカレントニューラルネットワークの学習の難しさについて』 (2013)</span></li><br><li>
+
+Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban Desmaison, Andreas Köpf, Edward Yang, Zachary DeVito, Martin Raison, Alykhan Tejani, Sasank Chilamkurthy, Benoit Steiner, Lu Fang, Junjie Bai, and Soumith Chintala.  Pytorch:  An imperative style, high-performance deep learning library.  In NeurIPS, pages 8024–8035, 2019.  (Cited on page 60.)
+<br><span style="color:blue;">『Pytorch: 命令型スタイルの高性能ディープラーニングライブラリ』 (2019)</span></li><br><li>
+
+Barak A Pearlmutter. Fast exact multiplication by the hessian.  Neural computation, 6(1):147–160, 1994.  (Cited on page 11.)
+<br><span style="color:blue;">『ヘッセ行列による高速かつ正確な乗算』 (1994)</span></li><br><li>
+
+Barak A Pearlmutter.  An investigation of the gradient descent process in neural networks.  PhD thesis, Carnegie Mellon University, 1996.  (Cited on page 18.)
+<br><span style="color:blue;">『ニューラルネットワークにおける勾配降下法の検討』 (1996)</span></li><br><li>
+
+Barak  A  Pearlmutter  and  Jeffrey  Mark  Siskind.   Reverse-mode  ad  in  a  functional  framework: Lambda  the  ultimate  backpropagator.   ACM  Transactions  on  Programming  Languages  and Systems (TOPLAS), 30(2):1–36, 2008.  (Cited on page 18.)
+<br><span style="color:blue;">『関数型フレームワークにおける逆モード広告：究極のバックプロパゲーター、ラムダ』 (2008)</span></li><br><li>
+
+Xavier Pennec. Intrinsic statistics on riemannian manifolds: Basic tools for geometric measurements. Journal of Mathematical Imaging and Vision, 25(1):127–154, 2006.  (Cited on page 23.)
+<br><span style="color:blue;">『リーマン多様体における固有統計：幾何学的測定のための基本ツール』 (2006)</span></li><br><li>
+
+Gabriel Peyré, Marco Cuturi, et al.  Computational optimal transport:  With applications to data science.   Foundations and Trends® in Machine Learning,  11(5-6):355–607,  2019.   (Cited on page 45.)
+<br><span style="color:blue;">『計算最適輸送』 (2019)</span></li><br><li>
+
+Michael Poli, Stefano Massaroli, Atsushi Yamashita, Hajime Asama, and Jinkyoo Park. Hypersolvers: Toward fast continuous-depth models.  In NeurIPS, 2020.  (Cited on page 76.)
+<br><span style="color:blue;">『ハイパーソルバー：高速連続深度モデルの構築に向けて』 (2020)</span></li><br><li>
+
+Isabeau Prémont-Schwarz, Jaroslav Vitku, and Jan Feyereisl. A simple guard for learned optimizers. In ICML, volume 162, pages 17910–17925, 2022.  (Cited on page 70.)
+<br><span style="color:blue;">『学習されたオプティマイザーの単純なガード』 (2022)</span></li><br><li>
+
+Aniruddh Raghu, Maithra Raghu, Samy Bengio, and Oriol Vinyals. Rapid learning or feature reuse? towards understanding the effectiveness of MAML.  In ICLR, 2020.  (Cited on page 39.)
+<br><span style="color:blue;">『高速学習か特徴再利用か？ MAMLの有効性の理解に向けて』 (2020)</span></li><br><li>
+
+Aravind Rajeswaran, Chelsea Finn, Sham M. Kakade, and Sergey Levine.   Meta-learning with implicit gradients.  In NeurIPS, pages 113–124, 2019.  (Cited on pages 19, 20, and 73.)
+<br><span style="color:blue;">『暗黙的勾配を用いたメタ学習』 (2019)</span></li><br><li>
+
+Sachin Ravi and Alex Beatson. Amortized bayesian meta-learning. In ICLR, 2019. (Cited on pages 7 and 29.)
+<br><span style="color:blue;">『償却ベイズメタ学習』 (2019)</span></li><br><li>
+
+Sachin Ravi and Hugo Larochelle. Optimization as a model for few-shot learning. In ICLR, 2017. (Cited on pages 10, 12, 38, and 70.)
+<br><span style="color:blue;">『最適化をFew-Shot Learningのモデルとして用いる』 (2017)</span></li><br><li>
+
+Esteban Real, Chen Liang, David R. So, and Quoc V. Le.  Automl-zero:  Evolving machine learning algorithms from scratch.  In ICML, volume 119, pages 8007–8019, 2020.  (Cited on page 28.)
+<br><span style="color:blue;">『機械学習アルゴリズムをゼロから進化させる』 (2020)</span></li><br><li>
+
+Danilo Jimenez Rezende and Shakir Mohamed.  Variational inference with normalizing flows.  In ICML, volume 37, pages 1530–1538, 2015.  (Cited on pages 32 and 34.)
+<br><span style="color:blue;">『正規化フローを用いた変分推論』 (2015)</span></li><br><li>
+
+Danilo Jimenez Rezende and Fabio Viola.  Taming vaes.  ArXiv preprint, abs/1810.00597, 2018. (Cited on page 73.)
+<br><span style="color:blue;">『Taming VAEs』 (2018)</span></li><br><li>
+
+Danilo Jimenez Rezende, Shakir Mohamed, and Daan Wierstra.  Stochastic backpropagation and approximate inference in deep generative models. In ICML, volume 32, pages 1278–1286, 2014. (Cited  on  pages  7  and  32.)
+<br><span style="color:blue;">『深層生成モデルにおける確率的バックプロパゲーションと近似推論』 (2014)</span></li><br><li>
+
+Stephen L Richter and Raymond A Decarlo. Continuation methods: Theory and applications. IEEE Transactions on Systems, Man, and Cybernetics, SMC-13(4):459–464, 1983.  (Cited on page 76.)
+<br><span style="color:blue;">『継続法：理論と応用』 (1983)</span></li><br><li>
+
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-net: Convolutional networks for biomedical image segmentation.  In International Conference on Medical image computing and computer-assisted intervention, pages 234–241. Springer, 2015.  (Cited on page 13.)
+<br><span style="color:blue;">『U-net: バイオメディカル画像セグメンテーションのための畳み込みネットワーク』 (2015)</span></li><br><li>
+
+Sebastian Ruder.  An overview of multi-task learning in deep neural networks.  ArXiv preprint, abs/1706.05098, 2017.  (Cited on page 36.)
+<br><span style="color:blue;">『ディープニューラルネットワークにおけるマルチタスク学習の概要』 (2017)</span></li><br><li>
+
+Thomas Philip Runarsson and Magnus Thor Jonsson.  Evolution and design of distributed learning rules.  In 2000 IEEE Symposium on Combinations of Evolutionary Computation and Neural Net-works. Proceedings of the First IEEE Symposium on Combinations of Evolutionary Computation and Neural Networks (Cat. No. 00, pages 59–63. IEEE, 2000.  (Cited on page 28.)
+<br><span style="color:blue;">『分散学習ルールの進化と設計』 (2000)</span></li><br><li>
+
+Olga Russakovsky, Jia Deng, Hao Su, Jonathan Krause, Sanjeev Satheesh, Sean Ma, Zhiheng Huang, Andrej Karpathy, Aditya Khosla, Michael Bernstein, et al. Imagenet large scale visual recognition challenge. International journal of computer vision, 115(3):211–252, 2015. (Cited on page 39.)
+<br><span style="color:blue;">『Imagenet の大規模視覚認識チャレンジ』 (2015)</span></li><br><li>
+
+Andrei A. Rusu, Dushyant Rao, Jakub Sygnowski, Oriol Vinyals, Razvan Pascanu, Simon Osindero, and Raia Hadsell.  Meta-learning with latent embedding optimization.  In ICLR, 2019.  (Cited on page 38.)
+<br><span style="color:blue;">『潜在的埋め込み最適化を用いたメタ学習』 (2019)</span></li><br><li>
+
+Moonkyung Ryu, Yinlam Chow, Ross Anderson, Christian Tjandraatmadja, and Craig Boutilier. CAQL: continuous action q-learning.  In ICLR, 2020.  (Cited on page 49.)
+<br><span style="color:blue;">『CAQL:連続行動Q学習』 (2020)</span></li><br><li>
+
+Jacob Sacks and Byron Boots.  Learning to optimize in model predictive control.  In ICRA, pages 10549–10556. IEEE, 2022.  (Cited on page 55.)
+<br><span style="color:blue;">『モデル予測制御における最適化学習』 (2022)</span></li><br><li>
+
+Shinsaku Sakaue and Taihei Oki.   Discrete-convex-analysis-based framework for warm-starting algorithms with predictions.  In NeurIPS, 2022.  (Cited on page 76.)
+<br><span style="color:blue;">『離散凸解析に基づく予測付きウォームスターティングアルゴリズムの枠組み』 (2022)</span></li><br><li>
+
+Ruslan Salakhutdinov. Deep learning. In KDD, page 1973. ACM, 2014. doi: 10.1145/2623330.2630809. (Cited on page 3.)
+<br><span style="color:blue;">『ディープラーニング』 (2014)</span></li><br><li>
+
+Tim Salimans and Jonathan Ho.  Progressive distillation for fast sampling of diffusion models.  In ICLR, 2022.  (Cited on page 76.)
+<br><span style="color:blue;">『拡散モデルの高速サンプリングのための漸進的蒸留法』 (2022)</span></li><br><li>
+
+Rajiv Sambharya, Georgina Hall, Brandon Amos, and Bartolomeo Stellato.  End-to-end learning to warm-start for real-time quadratic optimization, 2022. URL https://arxiv.org/abs/2212.08260. (Cited on page 70.)
+<br><span style="color:blue;">『リアルタイム二次最適化のためのウォームスタートへのエンドツーエンド学習』 (2022)</span></li><br><li>
+
+Rajiv Sambharya, Georgina Hall, Brandon Amos, and Bartolomeo Stellato. Learning to warm-start fixed-point optimization algorithms, 2023.  URL https://arxiv.org/abs/2309.07835.  (Cited on page 70.)
+<br><span style="color:blue;">『ウォームスタート固定小数点最適化アルゴリズムの学習』 (2023)</span></li><br><li>
+
+Alvaro Sanchez-Gonzalez, Jonathan Godwin, Tobias Pfaff, Rex Ying, Jure Leskovec, and Peter W. Battaglia.  Learning to simulate complex physics with graph networks.  In ICML, volume 119, pages 8459–8468, 2020.  (Cited on page 76.)
+<br><span style="color:blue;">『グラフネットワークを用いた複雑な物理シミュレーションの学習』 (2020)</span></li><br><li>
+
+Filippo Santambrogio.  Optimal transport for applied mathematicians.  Birkäuser, NY, 55(58-63):94, 2015.  (Cited on page 45.)
+<br><span style="color:blue;">『応用数学者のための最適輸送』 (2015)</span></li><br><li>
+
+Bruno Scherrer.  Should one compute the temporal difference fix point or minimize the bellman residual?  the unified oblique projection view. In ICML, pages 959–966, 2010. (Cited on page 58.)
+<br><span style="color:blue;">『時間差不動点を計算するべきか、それともベルマン残差を最小化すべきか？統一斜投影図法の観点から』 (2010)</span></li><br><li>
+
+Jürgen Schmidhuber. Evolutionary principles in self-referential learning, or on learning how to learn: the meta-meta-... hook.  PhD thesis, Technische Universität München, 1987.  (Cited on page 36.)
+<br><span style="color:blue;">『自己参照的学習における進化原理、あるいは学習方法の学習：メタメタフック』 (1987)</span></li><br><li>
+
+Jürgen Schmidhuber.  On learning how to learn learning strategies.  Technical report, TU Munchen, 1995.  (Cited on page 36.)
+<br><span style="color:blue;">『学習戦略の学習方法について』 (1995)</span></li><br><li>
+
+Avi Schwarzschild, Eitan Borgnia, Arjun Gupta, Furong Huang, Uzi Vishkin, Micah Goldblum, and Tom Goldstein. Can you learn an algorithm?  generalizing from easy to hard problems with recurrent networks.  In NeurIPS, pages 6695–6706, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『アルゴリズムは学習できるか？ リカレントネットワークを用いた簡単な問題から難しい問題への一般化』 (2021)</span></li><br><li>
+
+Tom Sercu, Robert Verkuil, Joshua Meier, Brandon Amos, Zeming Lin, Caroline Chen, Jason Liu, Yann LeCun, and Alexander Rives. Neural potts model. bioRxiv, 2021. (Cited on pages 7 and 38.)
+<br><span style="color:blue;">『Neural Pottsモデル』 (2021)</span></li><br><li>
+
+Amirreza Shaban, Ching-An Cheng, Nathan Hatch, and Byron Boots.  Truncated back-propagation for bilevel optimization.  In AISTATS, volume 89, pages 1723–1732, 2019.  (Cited on page 19.)
+<br><span style="color:blue;">『二層最適化のための切り捨てバックプロパゲーション』 (2019)</span></li><br><li>
+
+Zhihui Shao, Jianyi Yang, Cong Shen, and Shaolei Ren. Learning for robust combinatorial optimiza-tion:  Algorithm and application.  ArXiv preprint, abs/2112.10377, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『ロバストな組み合わせ最適化のための学習：アルゴリズムと応用』 (2021)</span></li><br><li>
+
+Alexander Shapiro.  Sensitivity analysis of generalized equations.  Journal of Mathematical Sciences, 115(4), 2003.  (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『一般化方程式の感度解析』 (2003)</span></li><br><li>
+
+Arsalan Sharifnassab, Saber Salehkaleybar, and Richard Sutton.  Metaoptimize:  A framework for optimizing step sizes and other meta-parameters, 2024.   URL https://arxiv.org/abs/2402. 02342.  (Cited on page 40.)
+<br><span style="color:blue;">『Metaoptimize: ステップサイズやその他のメタパラメータを最適化するためのフレームワーク』(2024)</span></li><br><li>
+
+Rui Shu.  Amortized Optimization, 2017.  Accessed:  2020-02-02.  (Cited on pages 6, 36, and 74.)
+<br><span style="color:blue;">『償却最適化』 (2020)</span></li><br><li>
+
+David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and Martin A. Riedmiller. Deterministic policy gradient algorithms.  In ICML, volume 32, pages 387–395, 2014.  (Cited on page 53.)
+<br><span style="color:blue;">『決定論的方策勾配アルゴリズム』 (2014)</span></li><br><li>
+
+David Silver, Anirudh Goyal, Ivo Danihelka, Matteo Hessel, and Hado van Hasselt.  Learning by directional gradient descent.  In ICLR, 2022.  (Cited on page 19.)
+<br><span style="color:blue;">『方向性勾配降下法による学習』 (2022)</span></li><br><li>
+
+Jens Sjölund.  A tutorial on parametric variational inference.  ArXiv preprint, abs/2301.01236, 2023. (Cited on page 32.)
+<br><span style="color:blue;">『パラメトリック変分推論のチュートリアル』 (2023)</span></li><br><li>
+
+Jens  Sjölund  and  Maria  Bånkestad.    Graph-based  neural  acceleration  for  nonnegative  matrix factorization, 2022.  (Cited on page 43.)
+<br><span style="color:blue;">『非負値行列分解のためのグラフベースニューラル加速』 (2022)</span></li><br><li>
+
+Alexander J. Smola, S. V. N. Vishwanathan, and Quoc V. Le. Bundle methods for machine learning. In NeurIPS, pages 1377–1384. Curran Associates, Inc., 2007.  (Cited on page 10.)
+<br><span style="color:blue;">『機械学習のためのバンドル手法』 (2007)</span></li><br><li>
+
+Casper Kaae Sønderby, Tapani Raiko, Lars Maaløe, Søren Kaae Sønderby, and Ole Winther. Ladder variational autoencoders.  In NeurIPS, pages 3738–3746, 2016.  (Cited on page 34.)
+<br><span style="color:blue;">『ラダー変分オートエンコーダ』 (2016)</span></li><br><li>
+
+Kenneth O Stanley,  David B D’Ambrosio,  and Jason Gauci.   A hypercube-based encoding for evolving large-scale neural networks.  Artificial life, 15(2):185–212, 2009.  (Cited on page 36.)
+<br><span style="color:blue;">『大規模ニューラルネットワークの進化のためのハイパーキューブベースの符号化』 (2009)</span></li><br><li>
+
+Bartolomeo Stellato, Goran Banjac, Paul Goulart, Alberto Bemporad, and Stephen Boyd.  Osqp: An operator splitting solver for quadratic programs. In UKACC 12th international conference on control (CONTROL), pages 339–339. IEEE, 2018.  (Cited on pages 9, 44, and 73.)
+<br><span style="color:blue;">『Osqp: 二次計画問題のための演算子分割ソルバー』 (2018)</span></li><br><li>
+
+Georg Still.  Lectures on parametric optimization:  An introduction.  Optimization Online, 2018. (Cited on pages 2 and 30.)
+<br><span style="color:blue;">『パラメトリック最適化の講義：入門』 (2018)</span></li><br><li>
+
+Andreas Stuhlmüller, Jessica Taylor, and Noah D. Goodman.  Learning stochastic inverses.  In NeurIPS, pages 3048–3056, 2013.  (Cited on page 7.)
+<br><span style="color:blue;">『確率的逆行列の学習』 (2013)</span></li><br><li>
+
+Michael Sucker and Peter Ochs.  A generalization result for convergence in learning-to-optimize. arXiv preprint arXiv:2410.07704, 2024.  (Cited on page 70.)
+<br><span style="color:blue;">『最適化学習における収束の一般化結果』 (2024)</span></li><br><li>
+
+Richard S Sutton and Andrew G Barto.  Reinforcement learning:  An introduction.  MIT press, 2018. (Cited on pages 5, 57, and 58.)
+<br><span style="color:blue;">『強化学習：入門』 (2018)</span></li><br><li>
+
+Kevin Swersky, Yulia Rubanova, David Dohan, and Kevin Murphy. Amortized bayesian optimization over discrete spaces.  In UAI, volume 124, 2020.  (Cited on page 29.)
+<br><span style="color:blue;">『離散空間における償却ベイズ最適化』 (2020)</span></li><br><li>
+
+Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jonathon Shlens, and Zbigniew Wojna.  Re-thinking the inception architecture for computer vision.  In CVPR, 2016.  (Cited on page 39.)
+<br><span style="color:blue;">『コンピュータビジョンにおけるインセプションアーキテクチャの再考』 (2016)</span></li><br><li>
+
+Amirhossein Taghvaei and Amin Jalali. 2-wasserstein approximation via restricted convex potentials with application to improved training for gans.  ArXiv preprint, abs/1902.07197, 2019.  (Cited on page 47.)
+<br><span style="color:blue;">『制限付き凸ポテンシャルによる2-ワッサーシュタイン近似とGANSの学習改善への応用』 (2019)</span></li><br><li>
+
+Corentin Tallec and Yann Ollivier.  Unbiasing truncated backpropagation through time.  ArXiv preprint, abs/1705.08209, 2017.  (Cited on page 19.)
+<br><span style="color:blue;">『時間経過に伴う不偏性除去のための切断バックプロパゲーション』 (2017)</span></li><br><li>
+
+Corentin Tallec and Yann Ollivier.  Unbiased online recurrent optimization.  In ICLR, 2018.  (Cited on page 19.)
+<br><span style="color:blue;">『偏りのないオンライン再帰最適化』 (2018)</span></li><br><li>
+
+Guy Tennenholtz and Shie Mannor.  The natural language of actions.  In ICML, volume 97, pages 6196–6205, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『行動の自然言語』 (2019)</span></li><br><li>
+
+James Thornton and Marco Cuturi.  Rethinking initialization of the sinkhorn algorithm.  ArXiv preprint, abs/2206.07630, 2022.  (Cited on page 46.)
+<br><span style="color:blue;">『シンクホーンアルゴリズムの初期化の再考』 (2022)</span></li><br><li>
+
+Sebastian Thrun and Lorien Pratt.  Learning to learn:  Introduction and overview.  In Learning to learn, pages 3–17. Springer, 1998.  (Cited on page 36.)
+<br><span style="color:blue;">『学ぶことを学ぶ：序論と概要』 (1998)</span></li><br><li>
+
+Ali Usman, Muhammad Rafiq, Muhammad Saeed, Ali Nauman, Andreas Almqvist, and Marcus Liwicki.  Machine learning computational fluid dynamics.  In 2021 Swedish Artificial Intelligence Society Workshop (SAIS), pages 1–4. IEEE, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『機械学習による数値流体力学』 (2021)</span></li><br><li>
+
+Tom Van de Wiele, David Warde-Farley, Andriy Mnih, and Volodymyr Mnih. Q-learning in enormous action spaces via amortized approximate maximization.  ArXiv preprint, abs/2001.08116, 2020. (Cited  on  page  76.)
+<br><span style="color:blue;">『償却近似最大化による巨大行動空間におけるQ学習』 (2020)</span></li><br><li>
+
+Ashish Vaswani,  Noam Shazeer,  Niki Parmar,  Jakob Uszkoreit,  Llion Jones,  Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin.  Attention is all you need.  In NeurIPS, pages 5998–6008, 2017.  (Cited on page 39.)
+<br><span style="color:blue;">『必要なのは注意だけ』 (2017)</span></li><br><li>
+
+Singanallur V Venkatakrishnan, Charles A Bouman, and Brendt Wohlberg. Plug-and-play priors for model based reconstruction.  In IEEE Global Conference on Signal and Information Processing, pages 945–948. IEEE, 2013.  (Cited on page 74.)
+<br><span style="color:blue;">『モデルベース再構成のためのプラグアンドプレイ事前分布』 (2013)</span></li><br><li>
+
+Shobha Venkataraman and Brandon Amos.  Neural fixed-point acceleration for convex optimization. ArXiv preprint, abs/2107.10254, 2021.  (Cited on pages 9, 42, 44, and 73.)
+<br><span style="color:blue;">『凸最適化のためのニューラル固定小数点アクセラレーション』 (2021)</span></li><br><li>
+
+Paul  Vicol,  Luke  Metz,  and  Jascha  Sohl-Dickstein.   Unbiased  gradient  estimation  in  unrolled computation graphs with persistent evolution strategies.  In ICML, volume 139, pages 10553– 10563, 2021.  (Cited on page 19.)
+<br><span style="color:blue;">『永続的進化戦略を用いた展開計算グラフにおける不偏勾配推定』 (2021)</span></li><br><li>
+
+Ricardo Vilalta and Youssef Drissi.  A perspective view and survey of meta-learning.  Artificial intelligence review, 18(2):77–95, 2002.  (Cited on page 36.)
+<br><span style="color:blue;">『メタ学習の展望と概観』 (2002)</span></li><br><li>
+
+Cédric Villani. Optimal transport:  old and new, volume 338. Springer, 2009. (Cited on pages 45, 46, and 47.)
+<br><span style="color:blue;">『最適輸送：新旧』 (2009)</span></li><br><li>
+
+Ricardo Vinuesa and Steven L Brunton. The potential of machine learning to enhance computational fluid dynamics.  ArXiv preprint, abs/2110.02085, 2021.  (Cited on page 76.)
+<br><span style="color:blue;">『機械学習による数値流体力学の強化の可能性』 (2021)</span></li><br><li>
+
+Martin  J  Wainwright  and  Michael  Irwin  Jordan.   Graphical  models,  exponential  families,  and variational inference.  Now Publishers Inc, 2008.  (Cited on page 32.)
+<br><span style="color:blue;">『グラフィカルモデル、指数族、そして変分推論』 (2008)</span></li><br><li>
+
+Homer F Walker and Peng Ni.  Anderson acceleration for fixed-point iterations.  SIAM Journal on Numerical Analysis, 49(4):1715–1735, 2011.  (Cited on page 41.)
+<br><span style="color:blue;">『固定小数点反復法におけるアンダーソン加速』 (2011)</span></li><br><li>
+
+Haoxiang Wang, Han Zhao, and Bo Li.  Bridging multi-task learning and meta-learning:  Towards eficient training and effective adaptation. In ICML, volume 139, pages 10991–11002, 2021. (Cited on page 39.)
+<br><span style="color:blue;">『マルチタスク学習とメタ学習の橋渡し：効率的な訓練と効果的な適応に向けて』 (2021)</span></li><br><li>
+
+Tingwu Wang and Jimmy Ba.  Exploring model-based planning with policy networks.  In ICLR, 2020.  (Cited on pages 10, 55, and 56.)
+<br><span style="color:blue;">『ポリシーネットワークを用いたモデルベース計画の探究』 (2020)</span></li><br><li>
+
+Lewis B Ward.  Reminiscence and rote learning.  Psychological Monographs, 49(4):i, 1937.  (Cited on page 36.)
+<br><span style="color:blue;">『回想と暗記学習』 (1937)</span></li><br><li>
+
+Christopher JCH Watkins and Peter Dayan.  Q-learning.  Machine learning, 8(3-4):279–292, 1992. (Cited on page 58.)
+<br><span style="color:blue;">『Q学習』 (1992)</span></li><br><li>
+
+Layne T Watson and Raphael T Haftka.  Modern homotopy methods in optimization.  Computer Methods in Applied Mechanics and Engineering, 74(3):289–305, 1989.  (Cited on page 76.)
+<br><span style="color:blue;">『最適化における現代のホモトピー法. 応用力学・工学におけるコンピュータ手法』 (1989)</span></li><br><li>
+
+Stefan Webb, Adam Golinski, Robert Zinkov, Siddharth Narayanaswamy, Tom Rainforth, Yee Whye Teh, and Frank Wood.  Faithful inversion of generative models for effective amortized inference. In NeurIPS, pages 3074–3084, 2018. (Cited on page 7.)
+<br><span style="color:blue;">『効果的な償却推論のための生成モデルの忠実な逆変換』 (2018)</span></li><br><li>
+
+Lilian Weng.  Meta-learning:  Learning to learn fast.  http://lilianweng.github.io/lil-log, 2018.  (Cited on pages 11, 36, and 75.)
+<br><span style="color:blue;">『メタ学習：速く学ぶための学習』 (2018)</span></li><br><li>
+
+Paul J Werbos.  Backpropagation through time:  what it does and how to do it.  Proceedings of the IEEE, 78(10):1550–1560, 1990.  (Cited on page 18.)
+<br><span style="color:blue;">『時間経過によるバックプロパゲーション：その機能と実行方法』 (1990)</span></li><br><li>
+
+Olga Wichrowska, Niru Maheswaranathan, Matthew W. Hoffman, Sergio Gomez Colmenarejo, Misha Denil, Nando de Freitas, and Jascha Sohl-Dickstein. Learned optimizers that scale and generalize. In ICML, volume 70, pages 3751–3760, 2017.  (Cited on page 39.)
+<br><span style="color:blue;">『スケーリングと汎用化を実現する学習されたオプティマイザー』 (2017)</span></li><br><li>
+
+Steffen Wiewel, Moritz Becher, and Nils Thuerey.   Latent space physics:  Towards learning the temporal evolution of fluid flow.  In Computer graphics forum, volume 38, pages 71–82. Wiley Online Library, 2019.  (Cited on page 76.)
+<br><span style="color:blue;">『潜在空間物理学：流体の流れの時間的変化の学習に向けて』 (2019)</span></li><br><li>
+
+Ronald J Williams.  Simple statistical gradient-following algorithms for connectionist reinforcement learning.  Reinforcement learning, pages 5–32, 1992.  (Cited on page 54.)
+<br><span style="color:blue;">『コネクショニスト強化学習のための単純な統計的勾配追従アルゴリズム』 (1992)</span></li><br><li>
+
+Ronald J Williams and David Zipser.  A learning algorithm for continually running fully recurrent neural networks.  Neural computation, 1(2):270–280, 1989.  (Cited on page 19.)
+<br><span style="color:blue;">『完全再帰型ニューラルネットワークを継続的に実行するための学習アルゴリズム』 (1989)</span></li><br><li>
+
+Mike Wu, Kristy Choi, Noah D. Goodman, and Stefano Ermon. Meta-amortized variational inference and learning.  In AAAI, pages 6404–6412, 2020.  (Cited on page 7.)
+<br><span style="color:blue;">『メタアモルタイズド変分推論と学習』 (2020)</span></li><br><li>
+
+Yuhuai Wu, Mengye Ren, Renjie Liao, and Roger B. Grosse.  Understanding short-horizon bias in stochastic meta-optimization.  In ICLR, 2018.  (Cited on page 19.)
+<br><span style="color:blue;">『確率的メタ最適化における短期ホライズンバイアスの理解』 (2018)</span></li><br><li>
+
+Yuxin Xiao, Eric P Xing, and Willie Neiswanger.  Amortized auto-tuning:  Cost-eficient transfer optimization for hyperparameter recommendation.  ArXiv preprint, abs/2106.09179, 2021.  (Cited on page 7.)
+<br><span style="color:blue;">『償却型自動チューニング：ハイパーパラメータ推奨のためのコスト効率の高い転移最適化』 (2021)</span></li><br><li>
+
+Kevin Xie, Homanga Bharadhwaj, Danijar Hafner, Animesh Garg, and Florian Shkurti. Latent skill planning for exploration and transfer.  In ICLR, 2021.  (Cited on page 54.)
+<br><span style="color:blue;">『潜在スキルの探索と移転のためのプランニング』 (2021)</span></li><br><li>
+
+Tianju Xue, Alex Beatson, Sigrid Adriaenssens, and Ryan P. Adams.  Amortized finite element analysis for fast pde-constrained optimization.  In ICML, volume 119, pages 10638–10647, 2020. (Cited  on  page  7.)
+<br><span style="color:blue;">『高速偏微分方程式制約最適化のための償却有限要素解析』 (2020)</span></li><br><li>
+
+Yuning You, Yue Cao, Tianlong Chen, Zhangyang Wang, and Yang Shen. Bayesian modeling and uncertainty quantification for learning to optimize:  What, why, and how.  In ICLR, 2022.  (Cited on page 29.)
+<br><span style="color:blue;">『ベイズモデリングと不確実性定量化による最適化学習：何を、なぜ、どのように』 (2022)</span></li><br><li>
+
+Fisher Yu and Vladlen Koltun.  Multi-scale context aggregation by dilated convolutions.  In ICLR, 2016.  (Cited on page 13.)
+<br><span style="color:blue;">『膨張畳み込みによるマルチスケールコンテキスト集約』 (2016)</span></li><br><li>
+
+Manzil Zaheer, Satwik Kottur, Siamak Ravanbakhsh, Barnabás Póczos, Ruslan Salakhutdinov, and Alexander J. Smola.  Deep sets.  In NeurIPS, pages 3391–3401, 2017.  (Cited on page 75.)
+<br><span style="color:blue;">『ディープセット』 (2017)</span></li><br><li>
+
+Andrew Zammit-Mangion,  Matthew Sainsbury-Dale,  and Raphaël Huser.   Neural methods for amortized  inference.   Annual  Review  of  Statistics  and  Its  Application,  12,  2024.   (Cited  on page 32.)
+<br><span style="color:blue;">『ニューラル手法による償却推論』 (2024)</span></li><br><li>
+
+Ahmed  S Zamzam  and Kyri  Baker.   Learning optimal  solutions for  extremely fast  ac optimal power flow.  In IEEE International Conference on Communications, Control, and Computing Technologies  for  Smart  Grids  (SmartGridComm),  pages  1–6.  IEEE,  2020.  (Cited  on  page  24.)
+<br><span style="color:blue;">『超高速AC最適電力フローのための最適解の学習』 (2020)</span></li><br><li>
+
+Matthew D Zeiler.  Adadelta:  an adaptive learning rate method.  arXiv preprint arXiv:1212.5701, 2012.  (Cited on pages 14 and 28.)
+<br><span style="color:blue;">『適応学習率法』 (2012)</span></li><br><li>
+
+Chongjie Zhang and Victor R. Lesser.  Multi-agent learning with policy prediction.  In AAAI, 2010. (Cited on page 18.)
+<br><span style="color:blue;">『ポリシー予測を伴うマルチエージェント学習』 (2010)</span></li><br><li>
+
+Chris Zhang, Mengye Ren, and Raquel Urtasun. Graph hypernetworks for neural architecture search. In ICLR, 2019a.  (Cited on page 40.)
+<br><span style="color:blue;">『ニューラルアーキテクチャ探索のためのグラフハイパーネットワーク』 (2019)</span></li><br><li>
+
+Junzi  Zhang,  Brendan  O’Donoghue,  and  Stephen  Boyd.   Globally  convergent  type-i  anderson acceleration for nonsmooth fixed-point iterations. SIAM Journal on Optimization, 30(4):3170– 3197, 2020.  (Cited on page 41.)
+<br><span style="color:blue;">『非滑らかな固定点反復のための大域収束型タイプIアンダーソン加速』 (2020)</span></li><br><li>
+
+Kai Zhang, Wangmeng Zuo, Shuhang Gu, and Lei Zhang.  Learning deep CNN denoiser prior for image restoration.  In CVPR, 2017.  (Cited on page 74.)
+<br><span style="color:blue;">『画像復元のためのディープラーニングCNNノイズ除去事前分布の学習』 (2017)</span></li><br><li>
+
+Xiaojing Zhang,  Monimoy Bujarbaruah,  and Francesco Borrelli.   Safe and near-optimal policy learning for model predictive control using primal-dual neural networks.  In American Control Conference  (ACC),  pages  354–359.  IEEE,  2019b.  (Cited  on  page  11.)
+<br><span style="color:blue;">『プライマル・デュアルニューラルネットワークを用いたモデル予測制御のための安全かつ準最適な方策学習』 (2019)</span></li><br><li>
+
+Wenqing Zheng, Tianlong Chen, Ting-Kuei Hu, and Zhangyang Wang. Symbolic learning to optimize: Towards interpretability and scalability.  In ICLR, 2022.  (Cited on page 28.)
+<br><span style="color:blue;">『最適化のための記号学習：解釈可能性とスケーラビリティに向けて』 (2022)</span></li><br><li>
+
+Andrey Zhmoginov, Mark Sandler, and Maksym Vladymyrov. Hypertransformer:  Model generation for supervised and semi-supervised few-shot learning.  In ICML, volume 162, pages 27075–27098, 2022.  (Cited on page 39.)
+<br><span style="color:blue;">『Hypertransformer: 教師ありおよび半教師ありのFew-Shot学習のためのモデル生成』 (2022)</span></li><br><li>
+
+Luisa M. Zintgraf, Kyriacos Shiarlis, Vitaly Kurin, Katja Hofmann, and Shimon Whiteson.  Fast context adaptation via meta-learning.  In ICML, volume 97, pages 7693–7702, 2019.  (Cited on page 38.)
+
+<br><span style="color:blue;">
+『メタ学習による高速コンテキスト適応』 (2019)
+</span>
+</li></ul></div>
+
+</p>
+    </body>
+</html>
