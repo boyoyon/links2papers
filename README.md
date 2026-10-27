@@ -32,6 +32,10 @@
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2020_Backpropagation_and_the_brain/2020_Backpropagation_and_the_brain.html#Ref">2020 逆伝播と脳</a><br>
 <a href="https://boyoyon.github.io/StudyNote_GroupTheory/data/Bibliography.html">2015 Physics from Symmetry の Bibliography</a><br>
 </p>
+<p>
+<a href="https://boyoyon.github.io/links2papers/references/tutorials.html">チュートリアル</a><br>
+<a href="https://boyoyon.github.io/links2papers/references/neuro_ai.html">Neuro AI</a><br>
+</p>
 </body>
 </html>
 
