@@ -23,6 +23,7 @@
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_NeuroAI_and_Beyond/2026_NeuroAI_and_Beyond.html#Ref">2026 NeuroAIとその先へ</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_recipe_for_intelligence/2026_the_recipe_for_intelligence.html#Ref">2026 自然システムおよび人工システムにおける知能のレシピ</a><br>
 <a href="https://boyoyon.github.io/links2papers/references/2026_introduction_to_computer_vision.html">2026 コンピュータビジョン入門</a><br>
+<a href="https://boyoyon.github.io/links2papers/references/2026_seservoir_as_a_dynamical_system.html">2026 力学系としてのリザーバー</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_theory%20of%20synchronization/2026_Half_a_century_of_the_theory_of_synchronization.html#Ref">2026 同期理論の半世紀</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_the_bomb_the_hubris_and_the_spectre.html#Ref">2026 爆弾、傲慢、そして亡霊</a><br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_Minkowskis_Geometric_Explanation/2026_Minkowskis_Geometric_Explanation.html#Ref">2026 ミンコフスキーの幾何学的説明</a><br>
