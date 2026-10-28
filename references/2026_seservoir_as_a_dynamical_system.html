@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Reservoir as a Dynamical System: A Tutorial Review</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center>Reservoir as a Dynamical System: A Tutorial Review<br><span style="color:blue;">力学系としてのリザーバー：チュートリアル・レビュー</span></center></h1>
+
+<h2>References <span style="color:blue;">参考文献</span></h2>
+<p>
+<div class="styleRef">
+<ul><li>
+[1] Y. Tang, J. Kurths, W. Lin, E. Ott,
+L. Kocarev, Introduction to Focus Issue:
+When machine learning meets complex
+systems: Networks, chaos, and nonlinear
+dynamics. Chaos: An Interdisciplinary Journal of Nonlinear Science 30(6), 063151
+(2020). https://doi.org/10.1063/5.0016505.
+URL https://doi.org/10.1063/5.0016505
+<br><span style="color:blue;">『特集号序文：機械学習と複雑系の出会い――ネットワーク、カオス、非線形ダイナミクス』 (2020)</span></li><br><li>[2] J. Pathak, B. Hunt, M. Girvan, Z. Lu,
+E. Ott, Model-free prediction of large spatiotemporally chaotic systems from data:
+A reservoir computing approach. Phys.
+Rev. Lett. 120, 024102 (2018). https://
+doi.org/10.1103/PhysRevLett.120.024102.
+URL https://link.aps.org/doi/10.1103/
+PhysRevLett.120.024102
+<br><span style="color:blue;">『データに基づく大規模な時空間カオス系のモデルフリー予測：リザーバーコンピューティングによるアプローチ』 (2018)</span></li><br><li>[3] S.L. Brunton, J.L. Proctor, J.N. Kutz, Discovering governing equations from data by
+sparse identification of nonlinear dynamical systems. Proceedings of the National
+Academy of Sciences of the United States of
+America 113(15), 3932–3937 (2016). https:
+//doi.org/10.1073/pnas.1517384113
+<br><span style="color:blue;">『非線形力学系のスパース同定による、データからの支配方程式の発見』 (2016)</span></li><br><li>[4] T.M. Bury, D. Dylewsky, C.T. Bauch, et al.,
+Predicting discrete-time bifurcations with
+deep learning. Nature Communications
+14, 6331 (2023). https://doi.org/10.1038/
+s41467-023-42020-z
+<br><span style="color:blue;">『ディープラーニングを用いた離散時間分岐の予測』 (2023)</span></li><br><li>[5] A. Choudhary, J.F. Lindner, E.G. Holliday,
+S.T. Miller, S. Sinha, W.L. Ditto, Physicsenhanced neural networks learn order and
+chaos. Physical Review E 101(6), 062207
+(2020). https://doi.org/10.1103/PhysRevE.
+101.062207
+22
+<br><span style="color:blue;">『物理学を取り入れたニューラルネットワークによる秩序とカオスの学習』 (2020)</span></li><br><li>[6] Z.K. Gao, Y.L. Li, Y.X. Yang, C. Ma,
+A recurrence network-based convolutional
+neural network for fatigue driving detection from EEG. Chaos: An Interdisciplinary
+Journal of Nonlinear Science 29(11), 113126
+(2019). https://doi.org/10.1063/1.5120538.
+URL https://doi.org/10.1063/1.5120538
+<br><span style="color:blue;">『脳波（EEG）を用いた疲労運転検知のための、再帰ネットワークに基づく畳み込みニューラルネットワーク』 (2019)</span></li><br><li>[7] G. Tsironis, in Artificial Intelligence and
+Complex Dynamical Systems, Understanding Complex Systems (Springer,
+Cham, 2025). https://doi.org/10.1007/
+978-3-031-81946-9 1
+<br><span style="color:blue;">『人工知能と複雑な力学系』 (2025)</span></li><br><li>[8] M. Lukoˇseviˇcius, H. Jaeger, Reservoir
+computing approaches to recurrent neural
+network training. Computer Science Review
+3(3), 127–149 (2009). https://doi.org/https:
+//doi.org/10.1016/j.cosrev.2009.03.005.
+URL https://www.sciencedirect.com/
+science/article/pii/S1574013709000173
+<br><span style="color:blue;">『再帰型ニューラルネットワークの学習におけるリザーバーコンピューティングのアプローチ』 (2009)</span></li><br><li>[9] H. Jaeger, H. Haas, Harnessing nonlinearity: Predicting chaotic systems and
+saving energy in wireless communication. Science 304(5667), 78–80 (2004).
+https://doi.org/10.1126/science.1091277.
+URL https://www.science.org/doi/abs/10.
+1126/science.1091277
+<br><span style="color:blue;">『非線形性の活用：カオスシステムの予測と無線通信における省エネルギー化』 (2004)</span></li><br><li>[10] L.W. Kong, H.W. Fan, C. Grebogi, Y.C.
+Lai, Machine learning prediction of critical transition and system collapse. Phys.
+Rev. Res. 3, 013090 (2021). https://doi.
+org/10.1103/PhysRevResearch.3.013090.
+URL https://link.aps.org/doi/10.1103/
+PhysRevResearch.3.013090
+<br><span style="color:blue;">『機械学習による臨界遷移およびシステム崩壊の予測』 (2021)</span></li><br><li>[11] Z. Lu, J. Pathak, B. Hunt, M. Girvan,
+R. Brockett, E. Ott, Reservoir observers:
+Model-free inference of unmeasured variables in chaotic systems. Chaos: An Interdisciplinary Journal of Nonlinear Science
+27(4), 041102 (2017). https://doi.org/10.
+1063/1.4979665. URL https://doi.org/10.
+1063/1.4979665
+<br><span style="color:blue;">『リザーバー・オブザーバー：カオスシステムにおける未計測変数のモデルフリー推定』 (2017)</span></li><br><li>[12] T.L. Carroll, Using reservoir computers to
+distinguish chaotic signals. Phys. Rev. E
+98, 052209 (2018). https://doi.org/10.1103/
+PhysRevE.98.052209. URL https://link.
+aps.org/doi/10.1103/PhysRevE.98.052209
+<br><span style="color:blue;">『リザーバーコンピュータを用いたカオス信号の識別』 (2018)</span></li><br><li>[13] K. Nakajima, I. Fischer, Reservoir Computing (Springer, 2021)
+<br><span style="color:blue;">『リサーバー・コンピューティング』 (2021)</span></li><br><li>[14] K. Inoue, T. Kubota, Q. Hoan Tran,
+N. Akashi, R. Terajima, T. Kabayama,
+J. Guan, K. Nakajima, Reservoir computing bootcamp—from python/numpy tutorial for the complete beginners to cuttingedge research topics of reservoir computing.
+Chaos: An Interdisciplinary Journal of Nonlinear Science 36(2), 023109 (2026). https:
+//doi.org/10.1063/5.0283386. URL https:
+//doi.org/10.1063/5.0283386
+<br><span style="color:blue;">『リザーバーコンピューティング・ブートキャンプ ― Python/NumPyの超初心者向けチュートリアルから、リザーバーコンピューティングの最先端研究トピックまで』 (2026)</span></li><br><li>[15] M. Inubushi, K. Yoshimura, Reservoir
+computing beyond memory-nonlinearity
+trade-off. Scientific Reports 7(1),
+10199 (2017). https://doi.org/10.
+1038/s41598-017-10257-6. URL https:
+//doi.org/10.1038/s41598-017-10257-6
+<br><span style="color:blue;">『メモリと非線形性のトレードオフを超越するリザーバーコンピューティング』 (2017)</span></li><br><li>[16] T.L. Carroll, Do reservoir computers work
+best at the edge of chaos? Chaos: An Interdisciplinary Journal of Nonlinear Science
+30(12), 121109 (2020). https://doi.org/10.
+1063/5.0038163. URL https://doi.org/10.
+1063/5.0038163
+<br><span style="color:blue;">『リザーバーコンピュータは『カオスの縁（edge of chaos）』で最もよく機能するのか？』 (2020)</span></li><br><li>[17] A. Mizzi, M. Small, D.M. Walker, Reservoir
+computing with the minimum description
+length principle. Chaos: An Interdisciplinary Journal of Nonlinear Science 35(4),
+043132 (2025). https://doi.org/10.1063/5.
+0252938. URL https://doi.org/10.1063/5.
+0252938
+<br><span style="color:blue;">『最小記述長原理を用いたリザーバーコンピューティング』 (2025)</span></li><br><li>[18] M. Massar, S. Massar, Mean-field theory
+of echo state networks. Phys. Rev. E 87,
+042809 (2013). https://doi.org/10.1103/
+PhysRevE.87.042809. URL https://link.
+aps.org/doi/10.1103/PhysRevE.87.042809
+<br><span style="color:blue;">『エコー状態ネットワークの平均場理論』 (2013)</span></li><br><li>[19] L. Grigoryeva, J.P. Ortega, Echo state
+networks are universal. Neural Networks
+108, 495–508 (2018). https://doi.org/https:
+//doi.org/10.1016/j.neunet.2018.08.025.
+URL https://www.sciencedirect.com/
+science/article/pii/S089360801830251X
+<br><span style="color:blue;">『エコー状態ネットワークの普遍性』 (2018)</span></li><br><li>[20] E. Bollt, On explaining the surprising
+success of reservoir computing forecaster
+of chaos? the universal machine learning
+23
+dynamical system with contrast to var and
+dmd. Chaos 31(1), 013108 (2021). https:
+//doi.org/10.1063/5.0024890
+<br><span style="color:blue;">『カオス予測器としてのリザーバーコンピューティングの驚くべき成功をどう説明するか？』 (2021)</span></li><br><li>[21] H. Jaeger, W. Maass, J. Principe, Editorial:
+Special issue on echo state networks and liquid state machines. Neural Netw. 20(3),
+287–289 (2007). https://doi.org/10.1016/j.
+neunet.2007.04.001. URL https://doi.org/
+10.1016/j.neunet.2007.04.001
+<br><span style="color:blue;">『エディトリアル：エコー状態ネットワークおよびリキッドステートマシンに関する特集号』 (2007)</span></li><br><li>[22] P. Erd˝os, A. R´enyi, On random graphs
+i. Publicationes Mathematicae Debrecen 6,
+290–297 (1959)
+<br><span style="color:blue;">『ランダムグラフについて』 (1959)</span></li><br><li>[23] K. Caluwaerts, F. Wyffels, S. Dieleman,
+B. Schrauwen, The spectral radius remains
+a valid indicator of the Echo state property
+for large reservoirs, in The 2013 International Joint Conference on Neural Networks
+(IJCNN) (2013), pp. 1–6. https://doi.org/
+10.1109/IJCNN.2013.6706899
+<br><span style="color:blue;">『大規模リザーバーにおけるエコー状態特性の有効な指標としてのスペクトル半径』 (2013)</span></li><br><li>[24] S. Pandey, J. Schumacher, Reservoir
+computing model of two-dimensional
+turbulent convection. Phys. Rev. Fluids 5, 113506 (2020). https://doi.
+org/10.1103/PhysRevFluids.5.113506.
+URL https://link.aps.org/doi/10.1103/
+PhysRevFluids.5.113506
+<br><span style="color:blue;">『二次元乱流対流のリザーバーコンピューティングモデル』 (2020)</span></li><br><li>[25] B.T. Nadiga, Reservoir computing as a tool
+for climate predictability studies. Journal of
+Advances in Modeling Earth Systems 13(4),
+e2020MS002290 (2021). https://doi.org/
+https://doi.org/10.1029/2020MS002290
+<br><span style="color:blue;">『気候予測可能性研究のツールとしてのリザーバーコンピューティング』 (2021)</span></li><br><li>[26] K. Srinivasan, D. Plenz, M. Girvan,
+Boosting reservoir computing with
+brain-inspired adaptive control of ei balance. Nature Communications
+16(1), 10212 (2025). https://doi.org/10.
+1038/s41467-025-64978-8. URL https:
+//doi.org/10.1038/s41467-025-64978-8
+<br><span style="color:blue;">『脳にヒントを得た興奮性・抑制性（E-I）バランスの適応制御によるリザーバーコンピューティングの強化』 (2025)</span></li><br><li>[27] F.A. dos Santos, R.R. Lima, J.L.
+Alves, D.W. Misturini, J.B. Florindo,
+Reservoir computing and non-linear
+dynamics for time series analysis: An
+application in the financial market.
+Physica D: Nonlinear Phenomena 476,
+134698 (2025). https://doi.org/https:
+//doi.org/10.1016/j.physd.2025.134698.
+URL https://www.sciencedirect.com/
+science/article/pii/S0167278925001757
+<br><span style="color:blue;">『時系列解析のためのリザーバーコンピューティングと非線形ダイナミクス：金融市場への応用』 (2025)</span></li><br><li>[28] Z. Lu, B.R. Hunt, E. Ott, Attractor reconstruction by machine learning. Chaos: An
+Interdisciplinary Journal of Nonlinear Science 28(6), 061104 (2018). https://doi.org/
+10.1063/1.5039508
+<br><span style="color:blue;">『機械学習によるアトラクター再構成』 (2018)</span></li><br><li>[29] S. Chauhan, U.K. Verma, S. Mandal,
+M.D. Shrimali, Predicting synchronization
+and oscillation death with parallel reservoir computing. Phys. Rev. E 112,
+054220 (2025). https://doi.org/10.1103/
+9n6x-qkpv. URL https://link.aps.org/doi/
+10.1103/9n6x-qkpv
+<br><span style="color:blue;">『並列リザーバーコンピューティングを用いた同期および振動停止の予測』 (2025)</span></li><br><li>[30] S. Chauhan, S. Mandal, V. Yadav, P.K.
+Jaiswal, M. Priya, M.D. Shrimali, Machine
+learning based prediction of phase ordering dynamics. Chaos: An Interdisciplinary
+Journal of Nonlinear Science 33(6), 061103
+(2023). https://doi.org/10.1063/5.0156611.
+URL https://doi.org/10.1063/5.0156611
+<br><span style="color:blue;">『機械学習に基づく相秩序化ダイナミクスの予測』 (2023)</span></li><br><li>[31] G. Li, L. Huang, Y. Lei, Reservoir computing meeting kolmogorov–arnold networks:
+Prediction of high-dimensional chaotic systems. Chaos: An Interdisciplinary Journal
+of Nonlinear Science 35(10), 103120 (2025).
+https://doi.org/10.1063/5.0289577. URL
+https://doi.org/10.1063/5.0289577
+<br><span style="color:blue;">『リザーバーコンピューティングとコルモゴロフ・アーノルド・ネットワークの融合：高次元カオスシステムの予測』 (2025)</span></li><br><li>[32] M.S.A. Alam, W. Ott, I. Timofeyev, Attractor learning for spatiotemporally chaotic
+dynamical systems using echo state networks with transfer learning. Chaos: An
+Interdisciplinary Journal of Nonlinear Science 36(2), 023105 (2026). https://doi.org/
+10.1063/5.0283121. URL https://doi.org/
+10.1063/5.0283121
+<br><span style="color:blue;">『転移学習を用いたエコー状態ネットワークによる時空間カオス力学系のアトラクター学習』 (2026)</span></li><br><li>[33] A.E. Hramov, N. Kulagin, A.N. Pisarchik,
+A.V. Andreev, Strong and weak prediction
+of stochastic dynamics using reservoir computing. Chaos: An Interdisciplinary Journal
+of Nonlinear Science 35(3), 033140 (2025).
+https://doi.org/10.1063/5.0252908. URL
+https://doi.org/10.1063/5.0252908
+24
+<br><span style="color:blue;">『リザーバーコンピューティングを用いた確率的ダイナミクスの強予測および弱予測』 (2025)</span></li><br><li>[34] R. Xiao, L.W. Kong, Z.K. Sun, Y.C. Lai,
+Predicting amplitude death with machine
+learning. Phys. Rev. E 104, 014205
+(2021). https://doi.org/10.1103/PhysRevE.
+104.014205. URL https://link.aps.org/doi/
+10.1103/PhysRevE.104.014205
+<br><span style="color:blue;">『機械学習による振幅死（amplitude death）の予測』 (2021)</span></li><br><li>[35] S. Panahi, L.W. Kong, M. Moradi, Z.M.
+Zhai, B. Glaz, M. Haile, Y.C. Lai, Machine
+learning prediction of tipping in complex
+dynamical systems. Phys. Rev. Res. 6,
+043194 (2024). https://doi.org/10.1103/
+PhysRevResearch.6.043194
+<br><span style="color:blue;">『複雑な力学系におけるティッピング（急激な状態変化）の機械学習による予測』 (2024)</span></li><br><li>[36] L.W. Kong, Y. Weng, B. Glaz, M. Haile,
+Y.C. Lai, Reservoir computing as digital twins for nonlinear dynamical systems.
+Chaos: An Interdisciplinary Journal of Nonlinear Science 33(3), 033111 (2023). https:
+//doi.org/10.1063/5.0138661. URL https:
+//doi.org/10.1063/5.0138661
+<br><span style="color:blue;">『非線形力学系のためのデジタルツインとしてのリザーバーコンピューティング』 (2023)</span></li><br><li>[37] S. Panahi, Y.C. Lai, Adaptable reservoir
+computing: A paradigm for model-free datadriven prediction of critical transitions in
+nonlinear dynamical systems. Chaos: An
+Interdisciplinary Journal of Nonlinear Science 34(5), 051501 (2024). https://doi.org/
+10.1063/5.0200898. URL https://doi.org/
+10.1063/5.0200898
+<br><span style="color:blue;">『適応型リザーバーコンピューティング：非線形力学系における臨界遷移のモデルフリーかつデータ駆動型の予測に向けたパラダイム』 (2024)</span></li><br><li>[38] G. Saxena, A. Prasad, R. Ramaswamy,
+Amplitude death: The emergence
+of stationarity in coupled nonlinear
+systems. Physics Reports 521(5),
+205–228 (2012). https://doi.org/https:
+//doi.org/10.1016/j.physrep.2012.09.003.
+Amplitude Death: The Emergence of
+Stationarity in Coupled Nonlinear Systems
+<br><span style="color:blue;">『振幅死（amplitude death）：結合非線形系における定常性の出現』 (2012)</span></li><br><li>[39] A. Koseska, E. Volkov, J. Kurths, Oscillation quenching mechanisms: Amplitude vs.
+oscillation death. Physics Reports 531(4),
+173–199 (2013). https://doi.org/https:
+//doi.org/10.1016/j.physrep.2013.06.001.
+URL https://www.sciencedirect.com/
+science/article/pii/S0370157313002652.
+Oscillation quenching mechanisms:
+Amplitude vs. oscillation death
+<br><span style="color:blue;">『振動消滅のメカニズム：振幅死（Amplitude Death）と振動死（Oscillation Death）の比較』 (2013)</span></li><br><li>[40] P. Ashwin, S. Wieczorek, R. Vitolo, P. Cox,
+Tipping points in open systems: bifurcation,
+noise-induced and rate-dependent examples
+in the climate system. Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences
+370(1962), 1166–1184 (2012). https://doi.
+org/10.1098/rsta.2011.0306. URL https://
+doi.org/10.1098/rsta.2011.0306
+<br><span style="color:blue;">『開放系におけるティッピング・ポイント：気候システムにおける分岐、ノイズ誘起型、および速度依存型の事例』 (2012)</span></li><br><li>[41] Crises, sudden changes in chaotic attractors, and transient chaos. Physica
+D: Nonlinear Phenomena 7(1), 181–
+200 (1983). https://doi.org/https:
+//doi.org/10.1016/0167-2789(83)90126-4.
+URL https://www.sciencedirect.com/
+science/article/pii/0167278983901264
+<br><span style="color:blue;">『カオス的アトラクターにおける「クライシス（急激な変化）」および過渡的カオス』 (1983)</span></li><br><li>[42] S. Shahi, F.H. Fenton, E.M. Cherry,
+Prediction of chaotic time series using
+recurrent neural networks and reservoir
+computing techniques: A comparative
+study. Machine Learning with Applications
+8, 100300 (2022). https://doi.org/https:
+//doi.org/10.1016/j.mlwa.2022.100300.
+URL https://www.sciencedirect.com/
+science/article/pii/S2666827022000275
+<br><span style="color:blue;">『リカレントニューラルネットワークおよびリザーバコンピューティング技術を用いたカオス時系列の予測：比較研究』 (2022)</span></li><br><li>[43] H. Cisneros, T. Mikolov, J. Sivic, Benchmarking Learning Efficiency in Deep Reservoir Computing, in Proceedings of The 1st
+Conference on Lifelong Learning Agents,
+Proceedings of Machine Learning Research,
+vol. 199, ed. by S. Chandar, R. Pascanu, D. Precup (PMLR, 2022), pp. 532–
+547. URL https://proceedings.mlr.press/
+v199/cisneros22a.html
+<br><span style="color:blue;">『ディープ・リザーバコンピューティングにおける学習効率のベンチマーク』 (2022)</span></li><br><li>[44] A. Chattopadhyay, P. Hassanzadeh, D. Subramanian, Data-driven predictions of a
+multiscale lorenz 96 chaotic system using
+machine-learning methods: reservoir computing, artificial neural network, and long
+short-term memory network. Nonlinear Processes in Geophysics 27(3), 373–389 (2020).
+https://doi.org/10.5194/npg-27-373-2020.
+URL https://npg.copernicus.org/articles/
+27/373/2020/
+<br><span style="color:blue;">『機械学習手法（リザーバコンピューティング、人工ニューラルネットワーク、長短期記憶ネットワーク）を用いたマルチスケール・ローレンツ96カオスシステムのデータ駆動型予測』 (2020)</span></li><br><li>[45] Y.A. Kuznetsov, R.J. Sacker, NeimarkSacker bifurcation. Scholarpedia 3(5),
+1845 (2008). https://doi.org/10.4249/
+scholarpedia.1845. Revision #91556
+25
+<br><span style="color:blue;">『Neimark-Sacker bifurcation（ナイマルク・サッカー分岐）』 (2008)</span></li><br><li>[46] S.H. Strogatz, Nonlinear Dynamics and
+Chaos: With Applications to Physics, Biology, Chemistry, and Engineering, 2nd edn.
+(Westview Press, Boulder, CO, 2015)
+<br><span style="color:blue;">『非線形ダイナミクスとカオス ―物理学・生物学・化学・工学への応用―』 第二版 (2015)</span></li><br><li>[47] Y.A. Kuznetsov, Elements of Applied Bifurcation Theory, 4th edn. Applied Mathematical Sciences (Springer Cham, 2023). https:
+//doi.org/10.1007/978-3-031-22007-4
+<br><span style="color:blue;">『応用分岐理論の基礎』 第四版 (2023)</span></li><br><li>[48] M.W. Hirsch, S. Smale, R.L. Devaney,
+in Differential Equations, Dynamical
+Systems, and an Introduction to Chaos
+(Third Edition), third edition edn.
+(Academic Press, Boston, 2013), pp. 329–
+359. https://doi.org/https://doi.org/10.
+1016/B978-0-12-382010-5.00015-4. URL
+https://www.sciencedirect.com/science/
+article/pii/B9780123820105000154
+<br><span style="color:blue;">『微分方程式、力学系、そしてカオス入門（』　(2013)</span></li><br><li>[49] J.P. Eckmann, D. Ruelle, Ergodic theory
+of chaos and strange attractors. Reviews
+of Modern Physics 57(3), 617–656 (1985).
+https://doi.org/10.1103/RevModPhys.57.
+617
+<br><span style="color:blue;">『カオスと奇妙なアトラクターのエルゴード理論』 (1985)</span></li><br><li>[50] W. Wei, F. Xu, N.J.L. Chong, C.H. Lai,
+L. Feng, Multiple descents in deep learning as a sequence of order–chaos transitions
+in LSTM networks. Physica A: Statistical Mechanics and its Applications 697,
+131754 (2026). https://doi.org/10.1016/j.
+physa.2026.131754
+<br><span style="color:blue;">『ディープラーニングにおける多重降下現象：LSTMネットワークにおける秩序からカオスへの遷移の連鎖』 (2026)</span></li><br><li>[51] C. Grebogi, E. Ott, J.A. Yorke, Chaotic
+attractors in crisis. Phys. Rev. Lett. 48,
+1507–1510 (1982). https://doi.org/10.1103/
+PhysRevLett.48.1507. URL https://link.
+aps.org/doi/10.1103/PhysRevLett.48.1507
+<br><span style="color:blue;">『危機に陥ったカオス的アトラクター』 (1982)</span></li><br><li>[52] E. Ott, Chaotic transitions (Cambridge University Press, Cambridge, 2002), pp. 304–
+344
+<br><span style="color:blue;">『カオス的遷移』 (2002)</span></li><br><li>[53] H. Whitney, Differentiable manifolds.
+Annals of Mathematics 37(3), 645–680
+(1936). https://doi.org/10.2307/1968482.
+URL https://doi.org/10.2307/1968482
+<br><span style="color:blue;">『微分可能多様体』 (1936)</span></li><br><li>[54] F. Takens, Detecting strange attractors in
+turbulence, in Dynamical Systems and Turbulence, Warwick 1980, Lecture Notes in
+Mathematics, vol. 898 (Springer, Berlin,
+Heidelberg, 1981), pp. 366–381. https://doi.
+org/10.1007/BFb0091924
+<br><span style="color:blue;">『乱流におけるストレンジアトラクターの検出』 (1980)</span></li><br><li>[55] N.H. Packard, J.P. Crutchfield, J.D. Farmer,
+R.S. Shaw, Geometry from a time series.
+Phys. Rev. Lett. 45, 712–716 (1980). https:
+//doi.org/10.1103/PhysRevLett.45.712.
+URL https://link.aps.org/doi/10.1103/
+PhysRevLett.45.712
+<br><span style="color:blue;">『時系列からの幾何学』 (1980)</span></li><br><li>[56] M.T. Rosenstein, J.J. Collins, C.J. De Luca,
+Reconstruction expansion as a geometrybased framework for choosing proper delay
+times. Physica D: Nonlinear Phenomena
+73(1), 82–98 (1994). https://doi.org/https:
+//doi.org/10.1016/0167-2789(94)90226-7.
+URL https://www.sciencedirect.com/
+science/article/pii/0167278994902267
+<br><span style="color:blue;">『適切な遅延時間を選択するための幾何学に基づく枠組みとしての「再構成展開』 (1994)</span></li><br><li>[57] E. Tan, S. Algar, D. Corrˆea, M. Small,
+T. Stemler, D. Walker, Selecting embedding delays: An overview of embedding
+techniques and a new method using persistent homology. Chaos: An Interdisciplinary
+Journal of Nonlinear Science 33(3), 032101
+(2023). https://doi.org/10.1063/5.0137223.
+URL https://doi.org/10.1063/5.0137223
+<br><span style="color:blue;">『埋め込み遅延の選択：埋め込み手法の概観とパーシステントホモロジーを用いた新しい手法』 (2023)</span></li><br><li>[58] E. Ott, Chaotic Transitions (Cambridge
+University Press, Cambridge, 2002), pp.
+345–377
+<br><span style="color:blue;">『カオス的遷移』 (2002)</span></li><br><li>[59] A. Prasad, R. Ramaswamy, Characteristic distributions of finite-time lyapunov
+exponents. Phys. Rev. E 60, 2761–2766
+(1999). https://doi.org/10.1103/PhysRevE.
+60.2761. URL https://link.aps.org/doi/10.
+1103/PhysRevE.60.2761
+<br><span style="color:blue;">『有限時間リアプノフ指数の特性分布』 (1999)</span></li><br><li>[60] D. Sisodia, S. Jalan, Dynamical analysis of a parameter-aware reservoir computer. Phys. Rev. E 110, 034211
+(2024). https://doi.org/10.1103/PhysRevE.
+110.034211. URL https://link.aps.org/doi/
+10.1103/PhysRevE.110.034211
+<br><span style="color:blue;">『パラメータを考慮したリザーバーコンピュータの力学解析』 (2024)</span></li><br><li>[61] D. Aronson, G. Ermentrout, N. Kopell,
+Amplitude response of coupled oscillators.
+Physica D: Nonlinear Phenomena 41(3),
+403–449 (1990). https://doi.org/https:
+//doi.org/10.1016/0167-2789(90)90007-C.
+26
+URL https://www.sciencedirect.com/
+science/article/pii/016727899090007C
+<br><span style="color:blue;">『結合振動子の振幅応答』 (1990)</span></li><br><li>[62] A. Ermentrout, B, R. Mahajan, A, Simulating, Analyzing, and Animating Dynamical Systems: A Guide to XPPAUT for
+Researchers and Students. Applied Mechanics Reviews 56(4), B53–B53 (2003). https:
+//doi.org/10.1115/1.1579454. URL https:
+//doi.org/10.1115/1.1579454
+<br><span style="color:blue;">『力学系のシミュレーション、解析、およびアニメーション：研究者・学生のためのXPPAUTガイド』 (2003)</span></li><br><li>[63] N. Ananthkrishnan, T. Sahai, Crises. Resonance 6, 19–33 (2001). https://doi.org/10.
+1007/BF02837669
+<br><span style="color:blue;">『共鳴』 (2001)</span></li><br><li>[64] D. Sisodia, S. Jalan, Dynamics of reservoir
+computing for crises prediction. Phys. Rev.
+E pp. – (2026). https://doi.org/10.1103/
+8b7z-fnjd. URL https://link.aps.org/doi/
+10.1103/8b7z-fnjd
+<br><span style="color:blue;">『危機予測のためのリザーバーコンピューティングのダイナミクス』 (2026)</span></li><br><li>[65] G. Luo, Y. Chu, Y. Zhang, J. Zhang,
+Double neimark–sacker bifurcation and
+torus bifurcation of a class of vibratory
+systems with symmetrical rigid stops.
+Journal of Sound and Vibration 298(1),
+154–179 (2006). https://doi.org/https:
+//doi.org/10.1016/j.jsv.2006.04.025. URL
+https://www.sciencedirect.com/science/
+article/pii/S0022460X06003907
+<br><span style="color:blue;">『対称的な剛体ストッパーを持つ振動系の一種における二重ナイマルク・サッカー分岐およびトーラス分岐』 (2006)</span></li><br><li>[66] Y. Kuznetsov, H. Meijer, Remarks on interacting neimark–sacker bifurcations. Journal
+of Difference Equations and Applications
+12, 1009–1035 (2006). https://doi.org/10.
+1080/10236190600986842
+<br><span style="color:blue;">『相互作用するナイマルク・サッカー分岐に関する考察』 (2006)</span></li><br><li>[67] Y.A. Kuznetsov, Bifurcations of Equilibria and Periodic Orbits in n-Dimensional
+Dynamical Systems (Springer International Publishing, Cham, 2023), pp.
+175–228. https://doi.org/10.1007/
+978-3-031-22007-4 5. URL https:
+//doi.org/10.1007/978-3-031-22007-4 5
+<br><span style="color:blue;">『n次元力学系における平衡点および周期軌道の分岐』 (2023)</span></li><br><li>[68] S. Oishi, H. Yamashita, H. Suzuki, S. Shirasaka. Inducing fast-slow separation
+enables robust learning of complex dynamics
+(2026). URL https://arxiv.org/abs/2602.
+11069
+<br><span style="color:blue;">『速い変数と遅い変数の分離」の導入による複雑なダイナミクスのロバストな学習』 (2026)</span></li><br><li>[69] G.E. Katz, J.A. Reggia, Using directional
+fibers to locate fixed points of recurrent neural networks. IEEE Transactions on Neural Networks and Learning Systems 29(8),
+3636–3646 (2018). https://doi.org/10.1109/
+TNNLS.2017.2733544
+<br><span style="color:blue;">『方向性ファイバー（directional fibers）を用いたリカレントニューラルネットワークの不動点の特定』 (2018)</span></li><br><li>[70] G. Katz. Directional fibers. Computer software, GitHub repository (2023). URL https:
+//github.com/garrettkatz/directional-fibers
+<br><span style="color:blue;">『Directional fibers（方向性ファイバー）』 (2023)</span></li><br><li>[71] L.W. Kong, H. Fan, C. Grebogi,
+Y.C. Lai, Emergence of transient
+chaos and intermittency in machine
+learning. Journal of Physics: Complexity 2(3), 035014 (2021). https:
+//doi.org/10.1088/2632-072X/ac0b00. URL
+https://doi.org/10.1088/2632-072X/ac0b00
+<br><span style="color:blue;">『機械学習における過渡的カオスと間欠性の出現』 (2021)</span></li><br><li>[72] D. Sisodia, S. Jalan, Finite-time lyapunov
+signatures of dynamical regimes in reservoir
+models. The European Physical Journal B
+99(6), 85 (2026). https://doi.org/10.1140/
+epjb/s10051-026-01204-4. URL https://doi.
+org/10.1140/epjb/s10051-026-01204-4
+<br><span style="color:blue;">『リザーバーモデルにおける力学レジームの有限時間リアプノフ・シグネチャー』 (2026)</span></li><br><li>[73] C. Anteneodo, Statistics of finite-time
+lyapunov exponents in the ulam map.
+Phys. Rev. E 69, 016207 (2004). https:
+//doi.org/10.1103/PhysRevE.69.016207.
+URL https://link.aps.org/doi/10.1103/
+PhysRevE.69.016207
+<br><span style="color:blue;">『ウラム写像における有限時間リアプノフ指数の統計』 (2004)</span></li><br><li>[74] J.P. Eckmann, Roads to turbulence in
+dissipative dynamical systems. Rev.
+Mod. Phys. 53, 643–654 (1981). https:
+//doi.org/10.1103/RevModPhys.53.643.
+URL https://link.aps.org/doi/10.1103/
+RevModPhys.53.643
+<br><span style="color:blue;">『散逸力学系における乱流への道』 (1981)</span></li><br><li>[75] Y.C. LAI, Extreme fluctuations of
+finite-time lyapunov exponents in
+chaotic systems. International Journal of Modern Physics B 21(23n24),
+3941–3946 (2007). https://doi.org/10.
+1142/S0217979207044998. URL https:
+//doi.org/10.1142/S0217979207044998.
+https://doi.org/10.1142/S0217979207044998
+<br><span style="color:blue;">『カオス系における有限時間リアプノフ指数の極端なゆらぎ』 (2007)</span></li><br><li>[76] X.Y. Duan, X. Ying, S.Y. Leng, J. Kurths,
+W. Lin, H.F. Ma, Embedding theory of
+27
+reservoir computing and reducing reservoir network using time delays. Phys.
+Rev. Res. 5, L022041 (2023). https://doi.
+org/10.1103/PhysRevResearch.5.L022041.
+URL https://link.aps.org/doi/10.1103/
+PhysRevResearch.5.L022041
+<br><span style="color:blue;">『リザーバーコンピューティングの埋め込み理論と時間遅延を用いたリザーバーネットワークの縮約』 (2023)</span></li><br><li>[77] A. Hart, J. Hook, J. Dawes, Embedding
+and approximation theorems for echo
+state networks. Neural Networks 128,
+234–247 (2020). https://doi.org/https:
+//doi.org/10.1016/j.neunet.2020.05.013.
+URL https://www.sciencedirect.com/
+science/article/pii/S0893608020301830
+<br><span style="color:blue;">『コー状態ネットワークに関する埋め込み定理および近似定理』 (2020)</span></li><br><li>[78] M. Goldmann, C.R. Mirasso, I. Fischer, M.C. Soriano, Learn one size to
+infer all: Exploiting translational symmetries in delay-dynamical and spatiotemporal systems using scalable neural networks. Phys. Rev. E 106, 044211
+(2022). https://doi.org/10.1103/PhysRevE.
+106.044211. URL https://link.aps.org/doi/
+10.1103/PhysRevE.106.044211
+<br><span style="color:blue;">『一つのサイズで全てを推論する：スケーラブルなニューラルネットワークを用いた、遅延力学系および時空間系における並進対称性の活用』 (2022)</span></li><br><li>[79] C.G. Langton, Computation at the edge of
+chaos: Phase transitions and emergent computation. Physica D: Nonlinear Phenomena
+42(1–3), 12–37 (1990). https://doi.org/10.
+1016/0167-2789(90)90064-V
+<br><span style="color:blue;">『カオスの縁における計算：相転移と創発的計算』 (1990)</span></li><br><li>[80] W. Maass, T. Natschl¨ager, H. Markram,
+Real-time computing without stable states:
+A new framework for neural computation
+based on perturbations. Neural Computation 14(11), 2531–2560 (2002). https://doi.
+org/10.1162/089976602760407955
+<br><span style="color:blue;">『安定状態を伴わないリアルタイム計算：摂動に基づく神経計算の新しい枠組み』 (2002)</span></li><br><li>[81] H. Jaeger, H. Haas, Harnessing nonlinearity: Predicting chaotic systems and saving
+energy in wireless communication. Science
+304(5667), 78–80 (2004). https://doi.org/
+10.1126/science.1091277
+<br><span style="color:blue;">『非線形性の活用：カオス系の予測と無線通信における省エネルギー化』 (2004)</span></li><br><li>[82] R. Legenstein, W. Maass, Edge of
+chaos and prediction of computational performance for neural circuit
+models. Neural Networks 20(3), 323–
+334 (2007). https://doi.org/https:
+//doi.org/10.1016/j.neunet.2007.04.017.
+URL https://www.sciencedirect.com/
+science/article/pii/S0893608007000433.
+Echo State Networks and Liquid State
+Machines
+<br><span style="color:blue;">『カオスの縁と神経回路モデルにおける計算性能の予測』 (2007)</span></li><br><li>[83] L. Kocarev, U. Parlitz, Generalized synchronization, predictability, and equivalence of unidirectionally coupled dynamical systems. Phys. Rev. Lett. 76,
+1816–1819 (1996). https://doi.org/10.1103/
+PhysRevLett.76.1816. URL https://link.
+aps.org/doi/10.1103/PhysRevLett.76.1816
+<br><span style="color:blue;">『一方向に結合された力学系における一般化同期、予測可能性、および等価性』 (1996)</span></li><br><li>[84] L. Grigoryeva, A. Hart, J.P. Ortega, Learning strange attractors with reservoir systems. Nonlinearity 36(9), 4674–4708 (2023)
+<br><span style="color:blue;">『リザーバーシステムを用いたストレンジアトラクターの学習』 (2023)</span></li><br><li>[85] A. Wikner, J. Harvey, M. Girvan, B.R.
+Hunt, A. Pomerance, T. Antonsen,
+E. Ott, Stabilizing machine learning
+prediction of dynamics: Novel noiseinspired regularization tested with reservoir
+computing. Neural Networks 170,
+94–110 (2024). https://doi.org/https:
+//doi.org/10.1016/j.neunet.2023.10.054.
+URL https://www.sciencedirect.com/
+science/article/pii/S0893608023006159
+<br><span style="color:blue;">『力学系の機械学習予測の安定化：リザーバーコンピューティングで検証された、ノイズに着想を得た新しい正則化手法』 (2024)</span></li><br><li>[86] J.A. Platt, A. Wong, R. Clark, S.G. Penny,
+H.D.I. Abarbanel, Robust forecasting using
+predictive generalized synchronization in
+reservoir computing. Chaos: An Interdisciplinary Journal of Nonlinear Science 31(12),
+123118 (2021). https://doi.org/10.1063/5.
+0066013. URL https://doi.org/10.1063/5.
+0066013
+<br><span style="color:blue;">『リザーバーコンピューティングにおける予測的一般化同期を用いたロバストな予測』 (2021)</span></li><br><li>[87] J.Z. Kim, Z. Lu, E. Nozari, G.J. Pappas,
+D.S. Bassett, Teaching recurrent neural networks to infer global temporal structure
+from local examples. Nature Machine Intelligence 3(4), 316–323 (2021)
+<br><span style="color:blue;">『局所的な例から大域的な時間構造を推論するようにリカレントニューラルネットワークを学習させ』 (2021)</span></li><br><li>[88] J. Shen, R. Al Ajroudi, N. Akashi,
+T. Jo, M. Nishida, Y. Wakao, R. Sakurai, Y. Kuniyoshi, K. Nakajima, Predicting bifurcation of mechanical systems using
+reservoir computing: Case studies on legged
+locomotion and pneumatic soft actuator.
+Chaos 36, 013103 (2026)
+<br><span style="color:blue;">『リザーバコンピューティングを用いた機械システムの分岐予測：脚式移動および空気圧ソフトアクチュエータに関する事例研究』 (2026)</span></li><br><li>[89] N. Akashi, Y. Kuniyoshi, T. Jo, M. Nishida,
+R. Sakurai, Y. Wakao, K. Nakajima,
+Embedding bifurcations into pneumatic
+28
+artificial muscle. Advanced Science 11,
+2304402 (2024)
+<br><span style="color:blue;">『空気圧人工筋肉への分岐現象の埋め込み』 (2024)</span></li><br><li>[90] A. Flynn, V.A. Tsachouridis, A. Amann,
+Multifunctionality in a reservoir computer.
+Chaos: An Interdisciplinary Journal of Nonlinear Science 31(1), 013118 (2021)
+<br><span style="color:blue;">『リザーバコンピュータにおける多機能性』 (2021)</span></li><br><li>[91] A. Flynn, V.A. Tsachouridis, A. Amann,
+Seeing double with a multifunctional reservoir computer. Chaos: An Interdisciplinary
+Journal of Nonlinear Science 33(11), 113127
+(2023)
+<br><span style="color:blue;">『多機能リザーバコンピュータによる二重機能の実現』 (2023)</span></li><br><li>[92] R. Terajima, K. Inoue, K. Nakajima,
+Y. Kuniyoshi, Multifunctional physical
+reservoir computing in soft tensegrity
+robots. Chaos 35, 083111 (2025)
+<br><span style="color:blue;">『ソフト・テンセグリティ・ロボットにおける多機能な物理リザーバコンピューティング』 (2025)</span></li><br><li>[93] T. Kabayama, M. Komuro, Y. Kuniyoshi,
+K. Aihara, K. Nakajima, Crisis-induced
+intermittency in reservoir computing. Physical Review Research 7, L032058 (2025)
+<br><span style="color:blue;">『リザーバーコンピューティングにおけるクライシス誘発型間欠性』 (2025)</span></li><br><li>[94] T. Kabayama, M. Komuro, K. Aihara,
+K. Nakajima, Pseudo-lorenz attractors in
+echo state networks. Japan Journal of
+Industrial and Applied Mathematics 42,
+1459–1473 (2025)
+<br><span style="color:blue;">『エコー状態ネットワークにおける擬似ローレンツアトラクター』 (2025)</span></li><br><li>[95] N. Akashi, T. Watanabe, M. Hara,
+T. Namiki, H. Kokubu, I. Tsuda, K. Nakajima, One-shot prediction of noise-induced
+bifurcations with reservoir computing.
+arXiv preprint arXiv:2606.26727 (2026)
+<br><span style="color:blue;">『リザーバーコンピューティングを用いたノイズ誘発型分岐のワンショット予測』 (2026)</span></li><br><li>[96] Y. Terasaki, K. Nakajima, Thermodynamic
+limit in learning period three. Physical
+Review Research 7, 023119 (2025)
+<br><span style="color:blue;">『周期3の学習における熱力学極限』 (2025)</span></li><br><li>[97] T. Kabayama, Y. Kuniyoshi, K. Aihara,
+K. Nakajima, Designing chaotic attractors: A semisupervised approach. Physical
+Review E 111, 034207 (2025)
+<br><span style="color:blue;">『カオスアトラクターの設計：半教師あり学習アプローチ』 (2025)</span></li><br><li>[98] L.G. Wright, T. Onodera, M.M. Stein,
+T. Wang, D.T. Schachter, Z. Hu, P.L.
+McMahon, Deep physical neural networks
+trained with backpropagation. Nature
+601(7894), 549–555 (2022)
+<br><span style="color:blue;">『誤差逆伝播法を用いて学習された深層物理ニューラルネットワーク』 (2022)</span></li><br><li>[99] Y. Imai, S. Liu, N. Akashi, K. Nakajima,
+Gradient-based optimization of spintronic
+devices. Applied Physics Letters 126(8)
+(2025)
+<br><span style="color:blue;">『スピントロニクスデバイスの勾配に基づく最適化』 (2025)</span></li><br><li>[100] H. Tomioka, K. Inoue, Y. Kuniyoshi,
+K. Nakajima, Backpropagation through soft
+body: Investigating information processing
+in brain–body coupling systems. Advanced
+Robotics Research p. e202500159 (2025)
+<br><span style="color:blue;">『軟体動物を介したバックプロパゲーション：脳・身体結合システムにおける情報処理の検討』 (2025)</span></li><br><li>[101] M. Nakajima, K. Inoue, K. Tanaka,
+Y. Kuniyoshi, T. Hashimoto, K. Nakajima, Physical deep learning with biologically inspired training method: gradient-free
+approach for physical hardware. Nature
+Communications 13(1), 7847 (2022)
+<br><span style="color:blue;">『生物学的着想に基づく学習法を用いた物理深層学習：物理ハードウェアのための勾配フリーアプローチ』 (2022)</span></li><br><li>[102] T.P. Lillicrap, D. Cownden, D.B. Tweed,
+C.J. Akerman, Random synaptic feedback
+weights support error backpropagation for
+deep learning. Nature Communications
+7(1), 13276 (2016)
+<br><span style="color:blue;">『ランダムなシナプスフィードバック重みが深層学習における誤差逆伝播をサポートする』 (2016)</span></li><br><li>[103] A. Nøkland, Direct feedback alignment provides learning in deep neural networks, in
+Advances in Neural Information Processing
+Systems, vol. 29 (2016)
+<br><span style="color:blue;">『深層ニューラルネットワークにおける直接フィードバックアライメントによる学習』 (2016)</span></li><br><li>[104] Y. Zhang, K. Inoue, M. Nakajima,
+T. Hashimoto, Y. Kuniyoshi, K. Nakajima,
+Training spiking neural networks via augmented direct feedback alignment. arXiv
+preprint arXiv:2409.07776 (2024)
+<br><span style="color:blue;">『張直接フィードバックアライメントによるスパイクニューラルネットワークの学習』 (2024)</span></li><br><li>[105] M. Nakajima, Y. Zhang, K. Inoue,
+Y. Kuniyoshi, T. Hashimoto, K. Nakajima, Reservoir direct feedback alignment:
+Deep learning by physical dynamics.
+Communications Physics 7(1), 411 (2024)
+<br><span style="color:blue;">『ザーバー直接フィードバックアライメント：物理ダイナミクスによる深層学習』 (2024)</span></li><br><li>[106] Y. Zhang, M. Nakajima, K. Inoue,
+T. Hashimoto, Y. Kuniyoshi, K. Nakajima, Scalable physical deep learning using
+optical dynamics with state-skipping training and single-map architecture. Nature
+Computational Science (2026). Accepted
+<br><span style="color:blue;">『状態スキップ学習とシングルマップアーキテクチャを用いた光力学によるスケーラブルな物理深層学習』 (2026)</span></li><br><li>[107] H. Jaeger, The “echo state” approach to
+analysing and training recurrent neural
+networks-with an erratum note. Bonn, Germany: German National Research Center
+29
+for Information Technology GMD Technical
+Report 148(34), 13 (2001)
+<br><span style="color:blue;">『再帰型ニューラルネットワークの解析と学習のための『エコーステート』アプローチ（訂正ノート付き）』 (2001)</span></li><br><li>[108] S. Boyd, L. Chua, Fading memory and the
+problem of approximating nonlinear operators with volterra series. IEEE Transactions
+on Circuits and Systems 32(11), 1150–1161
+(1985). https://doi.org/10.1109/TCS.1985.
+1085649
+<br><span style="color:blue;">『フェーディングメモリ（減衰記憶）とボルテラ級数による非線形演算子の近似問題』 (1985)</span></li><br><li>[109] J. Dambre, D. Verstraeten, B. Schrauwen,
+S. Massar, Information processing capacity of dynamical systems. Scientific reports
+2, 514 (2012). https://doi.org/10.1038/
+srep00514
+<br><span style="color:blue;">『力学系の情報処理能力』 (2012)</span></li><br><li>[110] M. Goldmann, F. K¨oster, K. L¨udge,
+S. Yanchuk, Deep time-delay reservoir computing: Dynamics and memory capacity.
+Chaos: An Interdisciplinary Journal of Nonlinear Science 30(9), 093124 (2020). https:
+//doi.org/10.1063/5.0017974. URL https:
+//doi.org/10.1063/5.0017974
+<br><span style="color:blue;">『深層時間遅延リザーバーコンピューティング：ダイナミクスと記憶容量』 (2020)</span></li><br><li>[111] S. Hochreiter, J. Schmidhuber, Long shortterm memory. Neural Computation 9(8),
+1735–1780 (1997). https://doi.org/10.1162/
+neco.1997.9.8.1735
+<br><span style="color:blue;">『長・短期記憶』 (1997)</span></li><br><li>[112] L. Feng, L. Zhang, C.H. Lai, Optimal machine intelligence at the edge of
+chaos. arXiv preprint arXiv:1909.05176
+(2020). https://doi.org/10.48550/arXiv.
+1909.05176. Submitted 2019; revised 2020
+(v2). arXiv:1909.05176 [cs.LG]
+<br><span style="color:blue;">『カオスの縁における最適な機械知能』 (2020)</span></li><br><li>[113] L. Zhang, L. Feng, K. Chen, C.H.
+Lai, Asymptotic edge of chaos as guiding principle for neural network training. International Journal of Artificial
+Intelligence and Robotics Research 1(1),
+2350001 (2024). https://doi.org/10.1142/
+S2972335323500011
+<br><span style="color:blue;">『ニューラルネットワーク学習の指針としての漸近的なカオスの縁』 (2024)</span></li><br><li>[114] Supplementary code for: Reservoir as a
+dynamical system: A tutorial review. https:
+//doi.org/10.5281/zenodo.21778344. URL
+https://github.com/complex-systems-lab/
+Tutorial Review Reservoir Computing
+<br><span style="color:blue;">『力学系としてのリザーバー：チュートリアル・レビュー』 (2026)</span></li></ul></div>
+</p>
+    </body>
+</html>
