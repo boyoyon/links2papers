@@ -11,12 +11,12 @@
         </p>
 
 <p>
-・更新日：2026/10/28　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a><br>
-・更新日：2026/10/28　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
-・更新日：2026/10/28　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
+・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a><br>
+・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
+・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
 ・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
-・更新日：2026/10/28　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a><br>
-・更新日：2026/10/28　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
+・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a><br>
+・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
 <p>
 参考文献リスト(論文へのリンクにはなっていない･･･)<br>
