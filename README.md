@@ -21,7 +21,7 @@
 <br>
 <p>
 気になる<br>
-・<a href="https://arxiv.org/abs/2610.39302">https://arxiv.org/abs/2610.39302</a> プラトン表現仮説を証明した？(素人には真偽判らず･･･)
+・2026/10/29 <a href="https://arxiv.org/abs/2610.39302">https://arxiv.org/abs/2610.39302</a> プラトン表現仮説を証明した？(素人には真偽判らず･･･)
 </p>
 <br>
 <p>
