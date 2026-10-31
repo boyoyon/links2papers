@@ -18,6 +18,12 @@
 ・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a><br>
 ・更新日：2026/10/30　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
+<br>
+<p>
+気になる<br>
+・<a href="https://arxiv.org/abs/2610.39302">https://arxiv.org/abs/2610.39302</a> プラトン表現仮説を証明した？(素人には真偽判らず･･･)
+</p>
+<br>
 <p>
 参考文献リスト(論文へのリンクにはなっていない･･･)<br>
 <a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_NeuroAI_and_Beyond/2026_NeuroAI_and_Beyond.html#Ref">2026 NeuroAIとその先へ</a><br>
