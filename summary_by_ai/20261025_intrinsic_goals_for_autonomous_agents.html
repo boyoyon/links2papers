@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Intrinsic Goals for Autonomous Agents</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2610.34638v1">自律エージェントのための内発的目標：<br>ショウジョウバエにおける階層的探索が将来の自発的行動を捉える</a></center></h1>
+
+<p>
+この論文（2026年10月発表のプレプリント）は、<strong><span style="color:magenta;">計算神経科学と強化学習（RL）の交差点において、「動物の自律的・自発的な探索行動」のメカニズムをリバースエンジニアリングするための強力なフレームワークを提示した</span></strong>研究として位置づけられます。
+従来のAIが「外部報酬（エサやスコア）」の最大化を目的とするのに対し、この研究は「何もやることがない（外部報酬がない）暗闇で、ハエや動物がなぜ自発的に動き回るのか」という内発的動機づけ（好奇心やスキルの発見）の計算論的シグニチャを、生物の実データ（脳活動＋身体運動）と高度なデジタルツインを用いて初めて定量的に一致させた点に最大の価値があります。
+主な位置づけと学術的な貢献は以下の4点に集約されます。
+</p>
+
+<h3>1. 「生物の自発性」を説明する計算論的モデルの確立</h3>
+
+<p>
+キイロショウジョウバエの全脳記録データでは、<strong><span style="color:magenta;">「ハエが自発的に旋回を決断する10秒以上前」から脳内に予測的な神経表現（IPS信号）が現れる</span></strong>ことが分かっていました。本研究は、外部報酬を一切与えず<strong><span style="color:magenta;">「内発的目標（Intrinsic Goals）」のみで訓練された人工エージェントが、この「将来の随意行動を予測する内部表現」を定量的に再現できるか検証する、初の試み</span></strong>となりました。
+</p>
+
+<h3>2. 20種類の内発的動機づけアルゴリズムのベンチマーク</h3>
+
+<p>
+好奇心、エントロピー、コンピテンシー（能力）などに基づく20種類もの主要なRL内発的動機づけ手法を網羅的に比較しました。
+</p>
+<p>
+• その結果、<strong><span style="color:magenta;">教師なしスキル発見アルゴリズムである DIAYN（Diversity is All You Need） が、ハエの行動パターンと「将来のターンを予測する神経シグニチャ」の双方において、最も強力な一致を示す</span></strong>ことを突き止めました。
+</p>
+<p>
+• 一方で、行動だけを真似できても脳内活動（予測性）が再現できない手法（MAXなど）も存在し、行動と神経活動の両面からAIモデルを評価する厳格な基準を設けました。
+</p>
+
+<h3>3. 個体差の本質が「集団での状態空間カバー率最大化」であると示唆</h3>
+
+<p>
+ハエの探索戦略には個体ごとに多様なバラつき（個体差）があります。DIAYNによって学習されたエージェントのポリシーもこの個体差を密に捉えており、この行動の多様性が個体レベルではなく「集団（個体群）全体として探索可能な状態空間のカバー率を最大化する」という具体的な計算論的目標を最適化した結果であるという新たな視野を提供しました。
+</p>
+
+<h3>
+4. ハエの脳内法則「和差算ルール」の再現
+</h3>
+
+<p>
+生物のハエの脳内（左右の半球）では、運動キネマティクスを符号化する際に<strong><span style="color:magenta;">「左右の活動の差が角速度、和が前進速度」に対応する</span></strong>という「和差算ルール（sum-difference rule）」があることが知られています。<strong><span style="color:magenta;">DIAYNで訓練されたエージェントの潜在アクティビティ（LSTMの内部状態）にも、このルールが自発的に創発される</span></strong>ことを確認しました。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+この論文は、生物学（神経科学）側に対しては「動物の自律性の背後にある計算目的（＝スキル発見や状態空間の最大化）を解き明かす手段」を、AI側に対しては「より生物らしく、外部報酬がなくとも自発的・階層的にタスクを創発できる真に自律的なAI（Autonomous Agents）の設計指針」を与える、双方向の架け橋となる重要な位置づけを持っています。
+</p>
+    </body>
+</html>
