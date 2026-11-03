@@ -20,9 +20,9 @@
 </p>
 <br>
 <p>
-気になる<br>
+気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
 ・2026/10/30 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261030_id_wm.html">世界モデルから実行不可能な夢想を排除？</a><br>
-・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_proving_and_improving_prh.html">プラトン表現仮説の証明と改善</a> (素人には真偽判らず･･･)<br>
+・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_proving_and_improving_prh.html">プラトン表現仮説を証明？/a><br>
 ・2026/10/25 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261025_intrinsic_goals_for_autonomous_agents.html">内発的動機づけアルゴリズムでハエの行動を再現した？</a><br>
 </p>
 <br>
