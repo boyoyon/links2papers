@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Strategist</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.03618">戦略家：エージェントによる推論の進化</a></center></h1>
+
+<p>
+『Strategist: Evolving Reasoning with Agents』は、プリンストン大学とMetaの研究者らによって発表され、国際会議 NeurIPS 2026 に採択された、AIエージェントの「自己進化型推論（メタエージェント）」に関する重要な研究論文です。
+</p>
+
+<p>
+<strong><span style="color:magenta;">AIモデルそのものを改変することなく、タスクごとに最適な「問題の解き方（推論戦略）」を自律的に発見・蓄積し、進化させるシステム</span></strong>として位置づけられています。
+</p>
+
+<h3>技術的な特徴と位置づけ</h3>
+
+<p>
+従来のAI開発が「モデルのパラメータの改良」や「固定された指示（プロンプト）」に依存していたのに対し、本研究はAIエージェント自身に推論の手順（アルゴリズム）を創出させる点が画期的です。
+</p>
+
+<p>
+<strong>メタエージェントとしての役割</strong><br>
+<strong><span style="color:magenta;">与えられた課題に対して、過去の成功パターン（ブループリント）をライブラリから検索し、新しい推論戦略のコードを自ら書き出し</span></strong>、実験と修正を繰り返しながら最適化します。
+</p>
+
+<p>
+<strong>圧倒的なコスト効率の実現</strong><br>
+30個のベンチマークテストにおいて、既存の強力なベースラインモデルを24のタスクで凌駕。さらに、平均精度を維持または向上させながら、推論コスト（計算コスト）を39%削減することに成功しています。
+</p>
+
+<p>
+<strong>高い汎用性と移転性</strong><br>
+一度獲得した推論戦略は、未知の新しいタスクや、他の異なるAIモデルに対しても、追加の探索なしでそのまま適用（移転）させることができます。
+</p>
+
+<h3>主要な比較</h3>
+
+<p>
+\[
+\begin{array}{|l|l|l|}
+\hline
+\textbf{項目} &	\textbf{従来のAIアプローチ} & \textbf{Strategistのアプローチ} \\
+\hline
+\textbf{改善の対象} &	 \text{モデルのパラメータや指示文の} & \text{実行可能なプログラム（コード）としての}\\
+& \text{固定的な最適化} & \text{推論戦略} \\
+\hline
+\textbf{学習・進化} &	\text{開発時のみ、または静的な} & \text{タスクをこなすごとにライブラリが}\\
+& \text{プロンプト設計} & \text{自己進化}\\
+\hline
+\textbf{計算効率} & \text{高精度を狙うほど} & \text戦略の最適化により推論コストを{}\\
+& \text{推論コストが膨らむ} &	\text{39%削減}\\
+\hline
+\end{array}
+\]
+
+</p>
+    </body>
+</html>

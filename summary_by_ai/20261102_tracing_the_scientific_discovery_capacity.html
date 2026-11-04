@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Tracing the Scientific Discovery Capacity</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.03617">LLMの科学的発見能力を訓練データに遡って分析する</a></center></h1>
+
+<p>
+『Tracing the Scientific Discovery Capacity of LLMs to Their Training Data』は、<strong><span style="color:magenta;">大規模言語モデル（LLM）が持つ「科学的発見の能力」の源泉が、訓練データ内の「一度しか出現しない事実（モノファクト：monofacts）」にあることを理論的・実験的に解明した</span></strong>重要な論文です。
+</p>
+
+<p>
+2026年11月に公開された本作は、AIによる科学的探究（AI for Science）の信頼性や、LLMが未学習の新たな知見をどう導き出すのかというブラックボックスに対し、明確なデータ駆動のメカニズムを提示した位置づけにあります。
+</p>
+
+<p>
+この論文の具体的な位置づけと重要性は、以下の3つのポイントに整理されます。
+</p>
+
+<h3>1. 理論的位置づけ：「未知の真実」を扱う新たなフレームワークの提示</h3>
+
+<p>
+従来のLLMの数学的理論（例：Kalai & Vempalaによる2024年の基礎理論）では、訓練データにない「未見の記述」は一律で「ほぼ誤り（虚偽）」として処理されることが多く、LLMがなぜ未知の科学的発見をできるのかを説明できませんでした。
+</p>
+
+<p>
+本論文は、<strong><span style="color:magenta;">未見の領域の中に「可能性のある真実の境界線（フロンティア：Frontier）」という構造を定義</span></strong>し、従来の理論を拡張しました。これにより、<strong><span style="color:magenta;">科学的発見を「欠落した確率質量（missing probability mass）」の問題として数理的に扱えるようにしました。</span></strong>
+</p>
+
+<h3>2. 発見メカニズムの特定：「モノファクト（単事実）」が鍵</h3>
+
+<p>
+<strong><span style="color:magenta;">LLMの科学的発見能力を左右する最重要因子が、訓練データに1回だけ登場する希少な事実の割合（モノファクト率：monofact rate）であることを突き止めました。</span></strong>
+</p>
+
+<p>
+材料科学（Materials Discovery）や制御ゲノミクス（Regulatory Genomics）といった実際の科学ドメインで実験を行い、訓練データ内のモノファクトの割合を直接コントロールした結果、<strong><span style="color:magenta;">モノファクト率が高ければ高いほど、モデルの科学的発見の数が一貫して増加することを証明しました。</span></strong>これは、単にデータの多様性（Diversity）を高めるだけでは説明がつかない、モノファクト特有の効果です。
+</p>
+
+<h3>3. トレードオフの解明：「発見」と「幻覚」の表裏一体性</h3>
+
+<p>
+数理的なアプローチ（Discovery–Hallucination Exchange Rate）により、<strong><span style="color:magenta;">「LLMが新たな発見をする能力を持つこと」と「イン・ディストリビューション（分布内）で幻覚（ハルシネーション）を起こすこと」は比例関係にある（表裏一体である）という本質的なトレードオフを明示しました。</span></strong>
+</p>
+
+<p>
+野心的な科学的発見（シグナル対ノイズ比が低い領域）を狙おうとすればするほど、モデルは一定の割合で幻覚を伴わざるを得ないという、AIサイエンスにおける重要な限界と性質を浮き彫りにしています。
+</p>
+
+
+<h3>まとめ</h3>
+
+<p>
+この論文は、「LLMに科学的発見をさせるためには、どのような訓練データを用意すべきか」という問いに対し、「希少な事実（モノファクト）の比率を高めるべき」という明確なデータ設計の指針（レシピ）を与えた一冊です。同時に、推論時の思考時間（Reasoning Budget）を増やしてもこの基本的な傾向は変わらない堅牢なものであることも示しており、今後のサイエンス特化型LLMのデータ収集・選別フェーズにおいて極めて重要なマイルストーンとなる文献に位置づけられます。
+</p>
+    </body>
+</html>
