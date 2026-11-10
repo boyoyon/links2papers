@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Click3R</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.12875">Click3R：疎な対応クリックを用いた対話型ステレオ3D再構成</a></center></h1>
+
+(github)　<a href="https://github.com/UVA-Computer-Vision-Lab/click3r">https://github.com/UVA-Computer-Vision-Lab/click3r</a><br>
+(on-line demo)　<a href="https://huggingface.co/spaces/uva-cv-lab/Click3R">https://huggingface.co/spaces/uva-cv-lab/Click3R</a>
+
+<p>
+論文「CLICK3R: Interactive Stereo 3D Reconstruction with Sparse Correspondence Clicks」の最大の位置づけは、「自動のフィードフォワード（一発予測型）3D復元モデル」に対して、セグメンテーションにおけるSAM（Segment Anything Model）のように「人間のわずかなクリック（点対応）」によるインタラクティブな修正を初めて融合させた点にあります。
+</p>
+
+<h3>1. 従来手法の限界と本作の立ち位置</h3>
+
+<p>
+<strong>従来のフィードフォワードモデル（DUSt3RやMASt3Rなど）</strong><br>
+2枚の画像から直接3D点を予測するため高速ですが、テクスチャが繰り返すシーンや対称な構造、視点変化が激しい場所で予測を誤った場合、ユーザーが後から修正する手段がありませんでした。
+</p>
+
+<p>
+<strong>CLICK3Rの解決策</strong><br>
+ユーザーが画像間で「こことここは同じ点」と数箇所クリック（Sparse Correspondence Clicks）するだけで、ネットワークのウェイトを微調整（ファインチューニング）することなく、瞬時に正確な3D復元へと幾何学的な軌道修正を可能にしました。
+</p>
+
+<h3>2. 技術的な特徴（軽量なアダプター構成）</h3>
+
+<p>
+既存の強力な3D復元モデル（DUSt3Rなど）をベースに、クロスアテンションをベースとした軽量な「対応点アダプター（Correspondence Adapter）」を追加する構成をとっています。
+</p>
+
+
+<p>
+これにより、ユーザーの入力を幾何学的な制約（プロンプト）として機能させ、計算負荷をほとんど増やさずに（A100 GPUでわずか+5%のオーバーヘッド）モデルの予測精度を大幅に向上させています。
+</p>
+
+<h3>3. 新たなベンチマーク「Hard3DBench」の提案</h3>
+
+<p>
+既存の自動3D復元モデルがどのようなケースで破綻（キャタストロフィック・エラー）を起こすかを定量評価するため、視点変化が激しいケースや重複領域が少ないケースなどを集めた「Hard3DBench」という高難度ベンチマークを新たに構築しました。
+</p>
+
+<p>
+実験では、自動モデルが誤った形状を出してしまう難シーンでも、CLICK3Rはわずか1〜数回のクリックで劇的にエラーを削減できることを実証しています
+</p>
+
+    </body>
+</html>
