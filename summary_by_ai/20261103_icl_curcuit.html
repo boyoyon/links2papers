@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ICL回路</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.05344">ICL(文脈内学習)の回路</a></center></h1>
+
+<p>
+論文『A Circuit for In-Context Learning』（2026年11月発表） は、大規模言語モデル（LLM）がプロンプト内の提示例からリアルタイムにタスクを学習する「文脈内学習（In-Context Learning: ICL）」の内部メカニズムを、極めて精緻かつ因果的に解明した最新のメカニスティック・インタプリタビリティ（機械論的解釈可能性）研究に位置づけられます。
+</p>
+
+<p>
+従来のICL研究（Induction Heads / 誘導回路の発見など）を発展させ、実用的な大規模モデル（0.6B〜8Bクラス）において、具体的な「回路（特定の役割を持つアテンションヘッドの結合関係）」の特定に成功しています。
+</p>
+
+<h3>1. ICLを「ゲート付き連想ルックアップ」として再定義</h3>
+
+<p>
+これまで抽象的に語られがちだったICLの動的なプロセスを因果的に追跡し、「少数の識別可能なコンポーネント（ヘッド群）によって構成された、ゲート付きの連想ルックアップ（Gated Associative Lookup）」であることを突き止めました。
+</p>
+
+<h3>2. 役割ごとの具体的なヘッド（コンポーネント）の特定</h3>
+
+<p>
+論文内では、トランスフォーマー内部で情報がどのように処理・伝達されるかを、以下のような具体的な役割を持つヘッド群（回路）としてマッピングしています。
+</p>
+
+<p>
+<strong>Writer heads（書き込みヘッド）</strong><br>
+中間層に位置し、文のクラス情報をラベルトークン（Slot）に書き込む。
+</p>
+
+<p>
+<strong>Reader heads（読み出しヘッド）</strong><br>
+上位層に位置し、クエリ（問題）のクラスと一致する過去のSlotから、対応する「ラベル（値）」を読み出す。
+</p>
+
+<p>
+<strong>Gate（ゲート）</strong><br>
+同じラベルや構造が繰り返されているというシグナル（Repeat Signal）を検知し、読み出し回路を開く制御を行う。
+</p>
+
+<p>
+<strong>Brake heads（ブレーキヘッド）</strong><br>
+直前に見たラベルへの過剰な依存を抑制し、バランスを取る。
+</p>
+
+<h3>3. トイモデルから実用LLM、命令チューニング後への「普遍性」の証明</h3>
+
+<p>
+初期のメカニスティック・インタプリタビリティ研究は、アテンションのみの小さなトイモデル（数層程度）に限定されることが多く、「本当に数億〜数十億パラメータのLLMでも同様の回路が動いているのか」が課題でした。
+</p>
+
+<p>
+本論文は、0.6B（6億）から8B（80億）パラメータに及ぶ同一ファミリーのLLMにおいて全く同じ回路の振る舞いを確認し、さらにInstruction Tuning（命令チューニング）を経たモデルでもこの回路が消失せず生き残っていることを証明しました。これにより、ICLの基本メカニズムがLLMの規模やチューニングに関わらず普遍的に備わっている強固なものであることを示しました。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+『A Circuit for In-Context Learning』は、「LLMがなぜ文脈から学習できるのか」というブラックボックスに対し、単なる統計的な相関ではなく「どのヘッドが書き込み、どのヘッドがゲートを開け、どのヘッドが読み出しているか」という因果的なリバースエンジニアリング（回路の特定）を実用スケールのLLMで達成した、マイルストーン的な論文と言えます。
+</p>
+    </body>
+</html>
