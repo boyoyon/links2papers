@@ -22,6 +22,7 @@
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_e-means.html">e-means：k-meansを凌駕する性能</a><br>
+・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_quantum_program_with_ai.html">AIを用いて形式的に検証された量子プログラムを発見する</a><br>
 ・2026/11/03 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261103_agnostic_learning_by_imitating.html">ビックワールド仮説に対応した模倣学習？</a><br>
 ・2026/11/02 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261102_tracing_the_scientific_discovery_capacity.html">科学的発見には希少な事実（モノファクト）が必要。発見と幻覚は表裏一体？</a><br>
 ・2026/11/02 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261102_strategist.html">AIモデル自体は改変せず問題の解き方を自律的に発見する？</a><br>
