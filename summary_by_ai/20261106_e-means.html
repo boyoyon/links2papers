@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>e-means</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.09501">e-means：k-meansを凌駕する性能</a><br>（エポック数は10分の1）</center></h1>
+
+<p>
+この論文は、機械学習の古典的かつ標準的なクラスタリング手法である k-means アルゴリズムを、現代のディープラーニングの知見を用いて劇的に高速化・高精度化した革新的な新アルゴリズム「e-means」を提案する位置づけ の論文です。
+</p>
+
+<p>
+Meta AI（FAIR）の著名な研究者（Faissの開発者やDINO、LLaMAの著者など）らによって2026年11月に発表され、大規模データ処理における新しいデファクトスタンダードになり得る極めて実用性の高い研究成果となっています。
+</p>
+
+<h3>💡 主な貢献と特徴</h3>
+
+<h4 style="padding-left:1em;">ミニバッチとEMAの融合</h4>
+
+<p>
+近年のディープラーニングでよく使われる「ミニバッチ更新」と「指数移動平均（EMA）」をk-meansに導入し、最適化効率を極限まで高めています。
+</p>
+
+<h4 style="padding-left:1em;">「スケーリング法則」の確立</h4>
+
+<p>
+データの規模やバッチサイズ、減衰率（decay rate）が性能にどう影響するかの方程式（スケーリング法則）を明らかにしました。
+</p>
+
+<p>
+これにより、面倒なハイパーパラメータのチューニング（探索）をせずとも、一発で最適な設定を導き出せるようになります。
+</p>
+
+<h4 style="padding-left:1em;">圧倒的な高速化（10〜45倍）</h4>
+
+<p>
+従来の標準的な手法（Lloydのk-means）が25エポック（学習回数）かけて到達する精度を、わずか1.4〜2.6エポックで超えます。
+</p>
+
+<p>
+実際のGPU計算時間（Wall-clock time）ベースで 10倍〜45倍の高速化 を達成しています。
+</p>
+
+<h4 style="padding-left:1em;">初期値依存の克服</h4>
+
+<p>
+k-meansの弱点を補うために広く使われている「k-means++」よりも、さらに低い損失（より綺麗なクラスタリング）を頻繁に達成します。
+</p>
+
+<h3>🚀 実用上のインパクト（100億件データの分類）</h3>
+
+<p>
+論文では、100億個のベクトル（DINO10Bデータセット）をわずか2.5エポックで 1600万個のクラスター に超高速で分割することに成功しています。
+</p>
+
+<h3>🎯 結論</h3>
+
+<p>
+データ分析、ベクトル検索、AIモデルのデータ選別（データキュレーション）など、現代のLLMやマルチモーダルAIの土台を支える巨大データ処理を「より安く、より速く、より正確に」行うためのゲームチェンジャー的なアルゴリズムとして位置づけられます。
+</p>
+    </body>
+</html>
