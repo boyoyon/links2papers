@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>quantum programs with AI</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.09822">AIを用いて形式的に検証された量子プログラムを発見する</a></center></h1>
+
+<p>
+この論文は、Google DeepMindとGoogle Quantum AIの研究チームによるもので、AI（LLMマルチエージェント）と定理証明器（Lean）を融合させ、古典コンピュータではシミュレーション・評価できない規模の「正しさが厳密に証明された量子プログラム」を自動発見・最適化する革新的なフレームワークを確立した論文という位置づけです。
+</p>
+
+<p>
+量子コンピュータの実用化を「アルゴリズムの最適化」という側面から大きく前進させる、パラダイムシフト的な研究とみなせます。
+</p>
+
+<h3>1. 「古典シミュレーションの限界」を形式検証で突破</h3>
+
+<h4 style="padding-left:1em;">背景の課題</h4>
+
+<p>
+従来のAIによる量子アルゴリズム開発は、正しさを確認するために古典コンピュータでシミュレーションする必要があり、小さな規模のプログラムしか扱えませんでした。
+</p>
+
+
+<h4 style="padding-left:1em;">本作の解決策</h4>
+
+<p>
+数学的定理証明器「Lean」の中に量子プログラムの検証ライブラリ（量子ホア論理など）を構築しました。
+</p>
+
+<h4 style="padding-left:1em;">位置づけ</h4>
+
+<p>
+実際に動かしてテスト（シミュレーション）しなくても、「数学的に絶対に正しい」と証明しながらAIが巨大な量子プログラムを設計できるため、古典シミュレーションの限界を完全に超越しました。
+</p>
+
+<h3>2. 実用的な科学計算で「桁違い」の性能向上を実証</h3>
+
+<p>
+単なる理論の提案にとどまらず、実用的な科学分野の量子アルゴリズムにおいて、人間の専門家が長年かけて作った従来のベースラインを大幅に塗り替えるコスト削減（効率化）を達成しています。<br>
+• 量子算術（arcsin）: 従来の290倍の効率化<br>
+• 核融合（慣性閉じ込め核融合の阻止能シミュレーション）: 11倍の効率化<br>
+• 光化学（非ボルン・オッペンハイマー動特性）: 8倍の効率化<br>
+• 創薬・代謝（チトクロームP450のシミュレーション）: 2.5倍の効率化<br>
+</p>
+
+<h3>3. マルチエージェントによる「自律的な協調研究」の最先端事例</h3>
+
+<h4 style="padding-left:1em;">AIの役割</h4>
+
+<p>
+単一のLLMがコードを書くのではなく、複数のAIエージェントが「チーム」を組みます。
+</p>
+
+<h4 style="padding-left:1em;">仕組み</h4>
+
+<p>
+エージェント同士が「共有Wiki」で知識を共有し、「カンファレンス（会議）」を開いてアイデアの批判や検証を自律的に行いながら、プログラムを洗練させます。
+</p>
+
+<h4 style="padding-left:1em;">位置づけ</h4>
+
+<p>科学的発見（AI for Science）の文脈において、「自律的に議論し、数学的厳密さで自己修正するマルチエージェントシステム」の極めて強力な成功例となっています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+これまでは「量子ハードウェアが進化しても、それを活かすアルゴリズムの設計（人間の手作業）が追いつかない」ことがボトルネックの一つとされていました。この論文は、「数学的証明ができるAI」にアルゴリズム開発を任せることで、実用的な量子計算（FTQC：誤り耐性量子計算）への到達時間を大幅に短縮できる可能性を示した、非常に重要なマイルストーンとなる論文です。
+</p>
+    </body>
+</html>
