@@ -21,6 +21,8 @@
 <br>
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
+・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_click3r.html">人がアシストするMVS(multi-view stereo)</a><br>
+・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_grasping_the_future.html">インターネットから手と物の相互作用を同時予測</a><br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_e-means.html">e-means：k-meansを凌駕する性能</a><br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_quantum_program_with_ai.html">AIを用いて形式的に検証された量子プログラムを発見する</a><br>
 ・2026/11/05 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261105_how_finite_brains.html">有限な脳がいかにして無限に一般化するのか</a><br>
