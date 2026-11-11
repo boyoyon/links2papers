@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>対照的発見</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.14514v1">対照的発見：競合する説明よりも、開かれた科学的発見を重視する</a></center></h1>
+
+<p>
+論文『Contrastive Discovery: Open-Ended Scientific Discovery over Competing Explanations』（arXiv:2611.14514v1, 2026年11月発表、コーネル大学などの研究）は、LLM（大規模言語モデル）を用いた自律的な科学的発見（AI Co-Scientist）の領域において、仮説の評価方法を「単一の検証」から「複数の対立説明からの選択」へと進化させた重要な位置づけにあります。
+</p>
+
+<p>
+これまでの主要なAI研究エージェントが抱えていた「仮説が否定されたときに、次にどの道に進むべきか分からなくなる」という情報効率の限界を突破する新しいフレームワークを提案しています。
+</p>
+
+<h3>🔍 背景と従来の限界（Pointwise Discovery）</h3>
+
+<p>
+従来の多くの科学的発見AIシステムは、1つの仮説（\(h\)）を立ててそれが「正しいか・正しくないか（\(\neg h\)）」を検証するアプローチをとっていました（これを論文では Pointwise Discovery と呼んでいます）。
+</p>
+
+
+<p>
+<strong>課題</strong><br>
+実験データによって仮説が「否定（Rejection）」された場合、「その仮説が間違いである」ことは分かっても、「では代わりに何が正しいのか」という代替案が特定できず、限られた実験予算や時間を浪費していました。
+</p>
+
+<h3>💡 本論文が提案する革新（Contrastive Discovery）</h3>
+
+<p>
+本論文は、<strong><span style="color:magenta;">科学的な進歩の本質は「単一の仮説の検証」ではなく「対立する複数の説明の絞り込み」にある</span></strong>というアプローチ（Contrastive Discovery）を導入しました。
+</p>
+
+<p>
+具体的には、AIエージェントに単一の仮説ではなく、以下の条件を満たす「対照集合（Contrast Set）」を生成・評価させます。
+</p>
+
+<p>
+<strong>MECE（相互に排他的、かつ網羅的）</strong><br>
+互いに矛盾し、かつ起こり得る主な可能性をすべてカバーする複数の説明（例：「正の影響がある」「影響はない」「負の影響がある」の3択など）。
+</p>
+
+<p>
+<strong>信念の更新</strong><br>
+実験前後のAIの「確信度（信念）」の移動（Bayesian surprise）をスコア化し、1つの実験データで一際高い確信度を得た説明を「解決策」として導き出します。
+</p>
+
+<h3>📊 主な成果と位置づけの裏付け</h3>
+
+<p>
+既存のAIエージェントのアーキテクチャを大きく変更することなく、この評価レンズ（アプローチ）を組み込むだけで、以下の圧倒的な成果を上げています。
+</p>
+
+<p>
+<strong>解決力の向上</strong><br>
+同じ実験予算（検証回数）において、従来手法よりも67%多くの科学的疑問を解決。
+</p>
+
+<p>
+<strong>否定の有効活用</strong><br>
+従来なら単に「否定」されて終わっていた実験結果の73%を、別の具体的な代替案の「決定」へと転換。
+</p>
+
+<p>
+<strong>高い信頼性</strong><br>
+38名の専門家（修士・博士保持者）によるブラインド評価で、AIが導き出した解決策と78%以上の確率で意見が一致。
+</p>
+
+<h3>🚀 まとめ</h3>
+
+<p>
+この論文は、AI Co-Scientist（AI科学者）の「推論の効率」を高めるための標準的なフレームワークとなるポテンシャルを持っています。今後、材料科学や天文学、社会科学など、データ駆動型の自動研究システムにおいて、探索アルゴリズムの性能を底上げするコア技術として位置づけられます。
+</p>
+    </body>
+</html>
