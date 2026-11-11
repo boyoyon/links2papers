@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>TorchCruves</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.14516v1">TorchCruves：微分可能なパラメトリック曲線</a></center></h1>
+
+<p>
+論文「TorchCurves: Differentiable Parametric Curves」（arXiv:2611.14516v1）は、機械学習モデルの中で「微分可能で学習可能な媒介変数曲線（Parametric Curves）」を、標準的かつ再利用可能なコンポーネント（プリミティブ）として扱うための新しいPyTorchライブラリ「TorchCurves」を提案・実装した論文です。
+</p>
+
+<p>
+従来の「特定の用途に特化した実装」の枠組みを超え、多様なニューラルネットワーク構造に組み込める「汎用的な抽象化レイヤー」を提供している点に大きな位置づけがあります。
+</p>
+
+<h3>1. 既存ツールとの違い（技術的位置づけ）</h3>
+
+<p>
+<strong>従来の課題</strong><br>
+NumPyやSciPyはスプラインや多項式の優れた計算ルーチンを持ちますが、ディープラーニングに必要な自動微分（autograd）を標準でサポートしていません。また、PyTorchエコシステムにある既存の拡張（torchcubicsplineなど）は補間問題などに特化しており、汎用的なモデルの構成要素としては使いにくい状態でした。
+</p>
+
+<p>
+<strong>TorchCurvesの解決策</strong><br>
+B-splineやルジャンドル多項式を基底とする曲線を、「入力」と「係数（パラメータ）」の両方で微分可能な形で共通のインターフェースにまとめました。これにより、既存のニューラルネットワークの層（Layer）と同じように、他のモデルと自由に結合・同時最適化が可能です。
+</p>
+
+<h3>2. 想定されている主な応用分野</h3>
+
+<p>
+論文では、この汎用プリミティブが活きる3つの重要なユースケースを提示しています。
+</p>
+
+<p>
+<strong>連続特徴量の埋め込み（Continuous Feature Embeddings）</strong><br>
+身長や体重、時間といった数値データを、曲線を用いて高次元の埋め込み空間へマッピングする。
+</p>
+
+<p>
+<strong>コルモゴロフ・アーノルド・ネットワーク（KAN）</strong><br>
+近年注目されているKANの各エッジにおける「学習可能な1変数関数」を、TorchCurvesのモジュールを重ねるだけで簡単に構築できる。
+</p>
+
+<p>
+<strong>関数回帰（Functional Regression）</strong><br>
+出力そのものが「関数」となるモデル（例：ファーストプライス・オークションにおける入札額に応じた勝率分布の予測など）への適用。
+</p>
+
+<h3>3. 実装のトレードオフ（実用性重視）</h3>
+
+<p>
+<strong>純粋なPyTorchによるベクトル化</strong><br>
+独自のハードウェアカーネル（CUDA C++など）をあえて書かず、純粋なPyTorchコードのみでベクトル化して実装されています。これにより、コードの可読性とメンテナンス性が非常に高くなっています。
+</p>
+
+<p>
+<strong>パフォーマンス</strong><br>
+処理速度の実験では、小規模なデータサイズではPython特有のオーバーヘッドがあるものの、データサイズや曲線の次元が大きくなると、並列計算によってSciPyやNumPyより高速になり、KAN専用の高速化ライブラリ（EfficientKAN）とも遜色ない速度を達成できる実用性を示しています。
+</p>
+
+<h3>💡 まとめ</h3>
+
+<p>
+この論文は、「曲線計算の理論」で新しいアルゴリズムを発明したわけではなく、「機械学習モデルのパーツとして、曲線を誰もが扱いやすく・組み合わせやすくするための標準的なソフトウェア基盤（ライブラリ）を設計し、その実用性を証明した」というエンジニアリング・実用面での貢献が大きい位置づけの論文です。
+</p>
+    </body>
+</html>

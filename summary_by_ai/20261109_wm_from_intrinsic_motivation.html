@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>内発的動機付けに基づく世界モデルの構築</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.13113v1">内発的動機付けに基づく世界モデルの構築</a></center></h1>
+
+<p>
+本論文（2026年11月発表）は、強化学習において「内発的動機づけ（探索の仕組み）」と「世界モデルの表現学習」の相互作用を、初めて大規模かつ体系的に検証・比較した包括的なベンチマーク研究として位置づけられます。
+</p>
+
+<p>
+従来の個別研究の枠組みを超え、自律的な世界モデル構築に向けた最適な「事前学習レシピ」を明示した点に強い意義があります。
+</p>
+
+<h3>📊 従来研究の課題と本作の動機</h3>
+
+<p>
+<strong>一貫性の欠如</strong><br>
+これまでも内発的動機づけを用いた世界モデル学習は研究されていましたが、実験に使われる強化学習アルゴリズムや評価環境がバラバラで、手法間の真の優劣や相乗効果が不明でした。
+</p>
+
+<p>
+<strong>限定的な比較</strong><br>
+既存の比較研究は少数の目的関数（アルゴリズム）しかカバーしていませんでした。
+</p>
+
+<h3>🛠️ 論文の主な貢献・独自性</h3>
+
+<p>
+24種類の手法と3つの世界モデル表現戦略を、共通の強化学習フレームワーク（DreamerV3）のもとで統合・評価した点が最大の独自性です。
+</p>
+
+<p>
+<strong>24の内発的目的関数を統一</strong><br>
+「好奇心（Curiosity）」「エントロピー（Entropy）」「能力（Competency）」の3大ファミリーに属する24の手法を同一フレームワークに組み込みました。
+</p>
+
+<p>
+<strong>3つの表現学習戦略との掛け合わせ</strong><br>
+観測のデコード（再構成）を行う標準的なDreamerV3に加え、次状態の埋め込み予測（JEPAスタイル）や、冗長性削減（Barlow Twinsスタイル）の3つのアプローチと内発的動機づけを組み合わせました。
+</p>
+
+<p>
+<strong>実践的な多角化評価</strong><br>
+連続制御（DMC）、ロボット操作（RoboKitchen）、オープンワールドゲーム（Craftax）を用いて、ゼロショット制御、マルチタスク転移、フューショット適応能力を厳格に測定しました。
+</p>
+
+<h3>💡 明らかになった重要な知見（インパクト）</h3>
+
+<p>
+<strong>最強の事前学習レシピの特定</strong><br>
+「好奇心駆動型の探索」と「観測再構成（デコーダありのDreamerV3）」の組み合わせが、総じて最も強力な汎化性能を示すことを突き止めました。
+</p>
+
+<p>
+<strong>複雑なタスクでの記憶の重要性</strong><br>
+抽象的で複雑な視覚タスク（Craftax）では、短期・長期の記憶を組み合わせた手法である「Never Give Up (NGU)」がゼロショットおよび適応において最高性能を達成しました。
+</p>
+
+<p>
+<strong>「想像」の罠（不一致）の発見</strong><br>
+世界モデル内（脳内シミュレーション）でのポリシー訓練を増やしすぎると、ゼロショット性能は上がっても、その後の実環境での適応能力（最適化）がかえって低下するという「スケーリングの不一致」を浮き彫りにしました。
+</p>
+    </body>
+</html>
