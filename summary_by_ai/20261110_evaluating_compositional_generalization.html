@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>構成的一般化の評価</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.13498">トランスフォーマーにおける構成的一般化の評価：<br>構成等価性とモジュールカバレッジの役割</a></center></h1>
+
+<p>
+この論文（arXiv:2611.13498）は、<strong><span style="color:magenta;">Transformerにおける構成的汎化（Compositional Generalization）の評価手法の欠陥を明らかにし、適切なベンチマーク設計の指針を示した</span></strong>重要な研究です。
+</p>
+
+<p>
+NeurIPS 2026の「Evaluations and Datasets（評価とデータセット）」トラックに採択されており、これまでの評価研究で見落とされていた「見かけ上の汎化性能の過大評価」に警鐘を鳴らす位置づけとなっています。
+</p>
+
+<h3>1. 背景と解決しようとした課題</h3>
+
+<p>
+• これまでの評価の混乱: Transformerが未知の関数の組み合わせ（構成的汎化）をどこまで処理できるかについては、これまで多くの実証研究が行われてきました。しかし、研究ごとに訓練データとテストデータの分割方法（train-test split）が場当たり的であったため、結果に一貫性がありませんでした。
+</p>
+
+<p>
+• 評価の枠組みの欠如: どのようなデータ分布の違いがモデルの性能を左右するのか、体系的な分析が不足していました。
+</p>
+
+<h3>2. この論文の主な貢献と発見</h3>
+
+<p>
+著者らは体系的な評価を通じて、性能に強く影響する2つの重要な要因を特定しました。
+</p>
+
+<p>
+<strong>構成の等価性（Composition Equivalence）の悪用</strong><br>
+最終出力のみで学習したモデル（Direct models）が高い汎化性能を見せているのは、異なるモジュールの組み合わせでも最終的な入出力の関数が同じになる「等価性」を利用しているためだと判明しました。ベンチマークからこの<strong><span style="color:magenta;">等価性を排除すると性能は劇的に低下し、実際には新しいエンドツーエンドの関数へ汎化できていないことが示されました。</span></strong>
+</p>
+
+<p>
+<strong>モジュール被覆率（Module Coverage）の変化による性能低下</strong><br>
+<strong><span style="color:magenta;">訓練時とテスト時でモジュールが登場する文脈（前後のつながり）が変化すると</span></strong>、最終出力のみのモデルだけでなく、中間ステップも含めて学習したモデル（Step-by-step models）であっても、<strong><span style="color:magenta;">性能が単調に低下することを証明しました。</span></strong>
+</p>
+
+<p>
+<strong>実用ベンチマークでの実証</strong><br>
+大規模言語モデル（Llama3-8B）を用いたコード出力予測タスク（LiveCodeBench）のケーススタディでも、この「構成の等価性」が汎化性能の評価に影響を与えていることを実証しました。
+</p>
+
+<h3>3. 研究コミュニティにおける意義</h3>
+
+<p>
+• ベンチマーク設計への指針: 既存のベンチマークには「構成の等価性」や「被覆率の偏り」が含まれているため、モデルの真の推論・汎化能力が過大評価されたり、ショートカット学習（表面的なパターン暗記）が助長されたりするリスクがあると指摘しています。
+</p>
+
+<p>
+• 今後の標準化: AIモデルの推論能力を正しく測るためには、データの分割方法やタスクの等価性を厳密にコントロールする必要があるという、今後の評価データセット作成における重要な基準を提供しています。
+</p>
+    </body>
+</html>

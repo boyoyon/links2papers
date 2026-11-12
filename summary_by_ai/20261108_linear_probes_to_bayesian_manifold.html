@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>線形プローブからベイズ多様体へ</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.12998">線形プローブからベイズ多様体へ：<br>大規模言語モデルにおける算術の幾何学</a></center></h1>
+
+<p>
+この論文（『Linear Probes to Bayesian Manifolds: Geometry of Arithmetic in Large Language Models』）は、大規模言語モデル（LLM）の「メカニズムの解釈可能性（Mechanistic Interpretability）」の分野において、従来のプローブ（線形探索）手法の限界を指摘し、より厳密な検証フレームワークを提唱する研究という位置づけです。
+</p>
+
+<h3>1. 従来研究への問題提起（既存の「線形プローブ」への批判）</h3>
+
+<p>
+これまで、LLMの内部表現から「円」や「螺旋（ヘリックス）」などの幾何学的構造を線形プローブで抽出し、「モデルはその幾何学的構造を使って計算を行っている」と結論づける研究が主流でした。
+本論文は、<strong><span style="color:magenta;">「プローブの精度が高いこと」だけでは、モデルが実際にその構造を計算に使っている証拠にはならない</span></strong>と指摘しています。
+</p>
+
+<h3>2. 新しい検証フレームワークの提案（4段階のベイズ的パイプライン）</h3>
+
+<p>
+従来のプローブが混同していた以下の4つの主張（Claims）を切り分け、個別にテストする新しい評価基準を確立しました。
+</p>
+
+<p>
+<strong>Decodability（復号可能性）</strong><br>
+活性値からその概念を読み取れるか。
+</p>
+
+<p>
+<strong>Shape（形状）</strong><br>
+それが特定の幾何学的形状（リボンやトーラスなど）を形成しているか。
+</p>
+
+<p>
+<strong>Ownership（所有権）</strong><br>
+その形状はその概念固有のものか、それとも関連する別の概念から「継承」されただけの副産物か。
+</p>
+
+<p>
+<strong>Causal use（因果的使用）</strong><br>
+モデルの最終出力がその形状に実際に依存しているか（介入実験による検証）。
+</p>
+
+<h3>3. 実証研究としての意義（算術タスクでの発見）</h3>
+
+<p>
+GPT-J 6B、Llama 3.1 8B、Pythia 6.9Bを用いた2桁の足し算・掛け算の検証を通じて、以下のような重要な知見を示しています。
+</p>
+
+<p>
+<strong>「見かけ上の構造」の多さ</strong><br>
+抽出された幾何学的形状の81%は、その概念固有のものではなく、他の関連概念から継承されたものに過ぎませんでした。
+</p>
+
+<p>
+<strong>報告基準のアップデート提案</strong><br>
+単なるプローブの「正解率」だけを報告する従来の慣習を改め、上記4つの観点すべてに対する判定結果を報告すべきだと提言しています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+<strong><span style="color:magenta;">LLM内部の「幾何学的な表現（Geometry of Representations）」に関する研究ブームに対し、「見せかけの相関」と「実際の計算メカニズム（因果関係）」を厳密に区別するための方法論的基盤を与える</span></strong>位置づけの論文（ICLR 2027査読中）と言えます。
+</p>
+    </body>
+</html>
