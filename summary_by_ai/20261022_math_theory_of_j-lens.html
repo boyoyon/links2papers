@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ヤコビアンレンズの数学理論</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2610.31955">ヤコビアンレンズの数学理論</a></center></h1>
+
+<p>
+arXiv:2610.31955（『A Mathematical Theory of the Jacobian Lens』）は、2026年7月にAnthropicが発表した新しい解釈可能性（Interpretability）手法「Jacobian lens（J-lens）」に対し、初の数理的・理論的な裏付けと拡張を与えた論文という位置づけです。
+</p>
+
+<p>
+MIT（Ila Fiete研究室ら）とコーネル大学の研究チームによって2026年10月に公開されました。
+</p>
+
+<h3>1. 背景：前提となるAnthropicの先行研究</h3>
+
+<p>
+<strong>J-lensの登場</strong><br>
+2026年7月、AnthropicのWes Gurneeらは論文『Verbalizable Representations Form a Global Workspace in Language Models』でJ-lensを提案しました。
+</p>
+
+<p>
+<strong>発見された現象</strong><br>
+J-lensを使うことで、LLM（Claudeなど）の内部表現から「モデルが将来言語化しようとしている思考（ワーキングメモリ的な表現＝J-space）」を高い精度で読み出せることが経験的に示されました。
+</p>
+
+<p>
+<strong>残されていた謎</strong><br>
+J-lensは「プロンプト・トークン位置・将来の出力位置にわたってヤコビアン（微小変化に対する出力の変化率）を平均化する」という計算を行いますが、「なぜ平均化したヤコビアンが特定の意味ある特徴だけを綺麗に抽出できるのか」という数学的メカニズムは未解明でした。
+</p>
+
+<h3>2. この論文（arXiv:2610.31955）が果たした役割</h3>
+
+<p>
+<strong>数理メカニズムの解明</strong><br>
+J-lensが優先的に検出している特徴が、力学系理論における「空間的にコヒーレント（一貫性のある）なリアプノフモード（Lyapunov modes）」であることを数学的に証明しました。具体的には、以下の3つの性質を持つ特徴だけが、平均化処理によって打ち消されずに生き残ることを示しています。
+</p>
+
+<p>
+<strong>層を通じた増幅</strong>　微小な摂動（変化）が層を経るごとに増幅される。<br>
+<strong>トークン位置の不変性</strong>　トークン位置が変わっても状態がほぼ一定に保たれる。<br>
+<strong>文脈の一貫性</strong>　異なるプロンプト（文脈）間でも表現の方向が一致している。<br>
+</p>
+
+<p>
+<strong>「グローバル・ワークスペース仮説」への冷静な再解釈</strong><br>
+AnthropicはJ-lensで見つかった空間を脳科学の「グローバル・ワークスペース（意識的思考の場）」になぞらえていましたが、本論文は「必ずしも意識やグローバル・ワークスペースを仮定しなくても、J-lensという数学的フィルターが持つ選択バイアス（上記の3性質を好む性質）だけで、Anthropicの実験結果をすべて説明できる」と理論的に整理しました。
+</p>
+
+<p>
+<strong>手法の拡張（\(\omega \)-J-lensの提案）</strong><br>
+理論解析に基づき、情報の時間スケール（短期的な処理か、長期的な文脈保持か）を自由に調整して抽出できる新しい分析手法群「\(\omega \)-J-lenses」を提案しました。
+</p>
+
+<h3>まとめ（研究史上の位置づけ）</h3>
+
+<p>
+<strong>フェーズ</strong><br>
+経験的発見（Anthropic, 2026年7月）に対する「理論的基礎づけ・一般化（2026年10月）」
+</p>
+
+<p>
+<strong>学際的意義</strong><br>
+機械学習の解釈可能性（Mechanistic Interpretability）と、力学系理論・ベイズ推論を結びつけた点
+</p>
+
+<p>
+<strong>実用上の価値</strong><br>
+既存のJ-lensが「何を見ていて、何を見落としているか」の限界を明確化し、時間軸を制御できる\(\omega \)-J-lensという新たな解析ツールを提供した点
+</p>
+    </body>
+</html>
