@@ -21,6 +21,7 @@
 <br>
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
+・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_natural_gradient_learning_in_predictive_coding.html">脱・誤差逆伝播の急先鋒？</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_contrastive_discover.html">科学的発見も仮説を一個一個切り分けて進める (障害調査と同じだ･･) </a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_torch_curves.html">TorchCurvesとは？(PyTorchの何かなんだろうけど･･･)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_evaluating_compositional_generalization.html">Transformerにおける構成的汎化の評価手法の欠陥を明らかにした(らしい･･･)</a><br>
