@@ -14,7 +14,7 @@
 ・更新日：2026/11/11　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/11　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/11　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/12　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/13　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/11　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/11　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
