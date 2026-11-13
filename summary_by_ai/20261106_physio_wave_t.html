@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>PhysioWave-T</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.08969">PhysioWave-T：生体信号のためのトークン効率の良いウェーブレット基盤モデル</a></center></h1>
+
+<p>
+この論文（PhysioWave-T: Token-Efficient Wavelet Foundation Models for Biosignals）は、生体信号（脳波・心電図・筋電図）を対象とした基盤モデル（Foundation Model）において、「高精度・汎用性」と「計算効率（軽量化）」を高い次元で両立させた最新のモデルという位置づけです。
+</p>
+
+<p>
+従来の生体信号向け基盤モデルが抱えていた計算コストの増大やデバイス間の仕様の違いといった課題を解決し、ウェアラブル端末などの実用環境でも動かせる設計になっています。
+</p>
+
+<h3>1. 研究背景と解決した課題</h3>
+
+<p>
+これまでの生体信号AI（BENDR、BIOT、LaBraM、EEGPTなど）には、主に以下の壁がありました。
+</p>
+
+<p>
+<strong>計算コストとメモリ消費の増大</strong><br>
+信号を周波数帯域（ウェーブレット変換など）ごとに展開してトークン化すると、系列長が膨れ上がりTransformerの計算負荷が重くなります。
+</p>
+
+<p>
+<strong>計測環境の違いへの対応</strong><br>
+病院やデバイスによって電極数（チャンネル数）やサンプリングレートが異なるため、単一のモデルで汎用的に扱うことが困難でした。
+</p>
+
+<h3>2. 技術的なブレークスルー（3つの柱）</h3>
+
+<p>
+本論文では、以下のアプローチで上記の課題を突破しています。
+</p>
+
+<p>
+<strong>動的スケール畳み込み（Dynamic Scale Folding）による劇的な効率化</strong><br>
+ トークン化する前に複数のウェーブレット周波数サブバンドを再結合する手法を導入しました。
+</p>
+
+<p>
+これにより、精度を一切落とすことなく、Transformerの推論遅延を4.0〜7.2倍削減し、ピークメモリ使用量を6.8〜12.7倍削減しています。
+</p>
+
+<p>
+<strong>異種デバイス対応と軽量アダプタ</strong><br>
+専用フロントエンドと学習済みチャンネル名埋め込みにより、1つのTransformerで異なる電極配置やサンプリングレートを処理します。
+</p>
+
+<p>
+未知の計測セットアップに対しても、軽量なアダプタを追加するだけでバックボーンを再利用できます。
+</p>
+
+<p>
+<strong>信頼度考慮型のマルチモーダル融合（RALF）</strong><br>
+個別に事前学習された脳波（EEG）・心電図（ECG）・筋電図（sEMG）のエンコーダ出力を、サンプルごとの信頼度に応じた重み付けで統合します。
+</p>
+
+<h3>3. 性能面での立ち位置（SOTAの達成）</h3>
+
+<p>
+規模をむやみに大きくするのではなく、アーキテクチャの工夫によって既存の大規模モデルを上回る性能を示しています。
+</p>
+
+<p>
+• 脳波（EEG）: 3,000万パラメータのモデルを1,500万以上のデータ窓で事前学習し、代表的な既存モデル（BENDR、BIOT、LaBraM、EEGPT）に対して9つの評価指標のうち8つでトップを記録しました。また、ウェアラブル端末でのてんかん発作検出において、よりパラメータ数の多い「LUNA-L」を上回りました。
+</p>
+
+<p>
+• マルチモーダル統合（SeizeIT2データセット）: RALFによる統合により、単一モダリティの最高ベースラインと比較して発作検出の感度を61.4%から74.4%へ大幅に向上させています。
+</p>
+
+
+<p>
+• 心電図（ECG）・筋電図（sEMG）: それぞれ3,000万・1,200万パラメータのモデルを構築し、主要なベンチマーク（PTB-XLやChapman-Shaoxingなど）で最高水準（SOTA）の精度を達成しています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+PhysioWave-Tは、生体信号AIの研究トレンドを「ただ大きくして精度を追うフェーズ」から、「トークン圧縮と適応的融合によって、エッジデバイスや多様な臨床現場で実用できる基盤モデルを作るフェーズ」へと前進させる重要なマイルストーンと言えます。コードや事前学習済みモデルも公開されており、今後の生体信号処理の新たなベースラインになる可能性が高い研究です。
+</p>
+    </body>
+</html>
