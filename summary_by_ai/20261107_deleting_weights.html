@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>重み付け削除の驚くべき効果</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.10866">LLM研修後の重み付け削除の驚くべき効果</a></center></h1>
+
+<p>
+この論文（arXiv:2611.10866、タイトル：The Surprising Effectiveness of Deleting Weights in LLM Post-Training、NeurIPS 2026採録）は、「重みを新しく学習・加算するのではなく、既存の重みの極一部を削除（ゼロ化）するだけ」という極めてシンプルな手法で、LLMの事後学習（Post-Training）が成立することを示した画期的な研究です。
+</p>
+
+<p>
+従来のパラメータ効率的ファインチューニング（PEFT）の常識を覆す、「引き算によるモデル適応（Pruning-as-Tuning）」の新たなパラダイムとして位置づけられます。
+</p>
+
+<h3>1. 研究背景とこれまでの課題</h3>
+
+<p>
+<strong>従来手法（FFTやLoRA）の限界</strong><br>
+従来の全パラメータ微調整（FFT）やLoRAなどの手法は、モデルの重みに対して「新しい値を上書き・加算する」アプローチをとってきました。しかし、これらにはチェックポイント（差分データ）の容量が大きくなる問題や、新しいタスクを学習すると元の能力を忘れてしまう「破局的忘却（Catastrophic Forgetting）」が起きやすいという課題がありました。
+</p>
+
+<p>
+<strong>宝くじ仮説（Lottery Ticket Hypothesis）の系譜</strong><br>
+「大規模モデルの中には、特定のタスクをこなすための部分ネットワーク（サブネットワーク）が最初から潜んでいる」という仮説（宝くじ仮説やSupermasksの研究）は以前から存在しましたが、現代の大規模言語モデル（LLM）の高度な事後学習（強化学習など）において、重みの変更を一切せずにマスク（削除）だけでどこまで通用するかは未解明でした。
+</p>
+
+<h2>2. この論文が示したブレイクスルー（新規性）</h2>
+
+<p>
+<strong>0.05%未満の「重み削除」だけでFFTに匹敵</strong><br>
+著者が提案した Deletion Tuning は、Transformerブロックのゲート射影（Gate Projection）に対してバイナリマスク（0か1か）を学習し、全体の0.05%未満の重みをゼロにするだけで、フルファインチューニング（FFT）と同等の性能を達成しました。
+</p>
+
+<p>
+<strong>主要な3つの事後学習すべてで有効</strong><br>
+単なる教師あり微調整（SFT）だけでなく、近年の推論モデル開発で主流となっている検証可能な報酬を用いた強化学習（RLVR）や、オンポリシー蒸留（On-policy distillation）の3領域すべてで有効性を実証しています。
+</p>
+
+<h3>3. 実用面・理論面でのインパクト</h3>
+
+\[
+\begin{array}{|l|l|l|}
+\hline
+\text{観点} & \text{従来の代表手法（FFT / LoRA）} & \text{本論文（Deletion Tuning）の優位性} \\
+\hline
+
+\text{保存容量} & \text{重みの差分（浮動小数点数）} & \text{1ビットのバイナリマスクで済むため、}\\
+\text{（効率性）}	& \text{を保存するため容量が大きい} & \text{FFTの数百〜数千分の1のサイズに圧縮可能} \\
+\hline
+
+\text{継続学習} & \text{強化学習などで既存タスクの} & \text{元の重み自体を書き換えないため破局的忘却が}\\
+\text{（忘却の防止）} & \text{精度が最大5.4ポイント低下} & \text{極めて少なく、ベースモデルの精度を維持} \\
+\hline
+
+\text{学習ダイナ} & \text{LoRAはFFTとは異なる幾何学的} & \text{安定ランク（Stable rank）やスペクトル変化などの} \\
+\text{ミクスの解明} & \text{構造の変化を起こしやすい} & \text{幾何学的分析において、LoRAよりもFFTの挙動に} \\
+&&\text{最も近いことを証明}\\
+\hline
+\end{array}
+\]
+
+<center>FFT: Full Fine-Tuning</center>
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+この研究は、<strong><span style="color:magenta;">「事前学習済みLLMはすでに十分な表現力を持っており、事後学習とは新しい知識を詰め込むことではなく、不要な回路を遮断（抑制）して潜在能力を引き出すプロセスである」</span></strong>という新しい視点（メカニズムの解明）と、超軽量なモデル配布・継続学習という実用的なメリットの両方を提示した重要な論文です。
+</p>
+    </body>
+</html>
