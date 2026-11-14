@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>FLEX-LBP</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.17302v1">FLEX-LBP：テクスチャ分類のための正確なバイナリ推論を用いたローカルバイナリパターンの学習</a></center></h1>
+
+(github)　<a href="https://github.com/medalimoussa/FLEX-LBP">https://github.com/medalimoussa/FLEX-LBP</a>
+
+<p>
+この論文（FLEX-LBP）は、テクスチャ分類において「古典的なLBP（Local Binary Patterns）の軽量さ・解釈可能性」と「深層学習の誤差逆伝播によるデータ適応性」を両立させた、学習可能なテクスチャ記述子として位置づけられます。
+</p>
+
+<h3>研究の背景と解決した課題</h3>
+
+<p>
+• <strong>古典的LBPの限界</strong><br>
+　計算が軽く解釈しやすい反面、半径・サンプリング角度・色空間・閾値などのハイパーパラメータをデータセットごとに手作業（グリッドサーチ）で固定する必要がありました。
+</p>
+
+<p>
+• <strong>従来の学習型LBPの限界</strong><br>
+　LBPNetやNLBPなどの先行研究は、推論時にも連続緩和（シグモイドなど）を残すため、最終的に得られる特徴量が「厳密なバイナリコードとヒストグラム」ではなくなり、解釈性やLBP本来の軽量さが失われていました。
+</p>
+
+<h3>本論文（FLEX-LBP）の独自性と学術的貢献</h3>
+
+<p>
+• <strong>厳密なバイナリ推論の維持</strong><br>
+　学習時の逆伝播（Backward）にのみストレートスルー推定量（STE）を用い、順伝播（Forward）と推論時には厳密な2値比較とヒストグラム集計を行うことで、わずか90個の学習パラメータかつ古典的LBPと同等の推論コストを実現しています。
+</p>
+
+<p>
+• <strong>解釈可能なパラメータ適応</strong><br>
+　学習された半径・角度・閾値・色変換行列が物理的・幾何学的に読み取り可能であり、異なるシード間でも一貫した適応方向（例：データセットに応じたサンプリング半径の拡大・縮小）を示すことを実証しています。
+</p>
+
+<p>
+• <strong>既存手法との性能比較</strong><br>
+　6つのカラーテクスチャベンチマークおよび大腸がん病理画像（Kather-CRC）において、古典的LBP群（CLBP, MRELBP等）や既存の学習型LBP（PCANet, NLBP）を上回り、約2,350万パラメータを持つ凍結済みImageNet ResNet-50の平均精度をも凌駕しています。
+</p>
+
+<h3>実用上のターゲット領域</h3>
+
+<p>
+• <strong>大規模モデルが不向きな領域</strong><br>
+　学習データが数百〜数千枚程度と少ない場合や、医療画像・工業検査など「なぜその特徴が抽出されたか」という説明可能性・監査可能性と超軽量な推論（わずか360バイトのモデルサイズ）が求められるタスクに最適な立ち位置です。
+</p>
+    </body>
+</html>

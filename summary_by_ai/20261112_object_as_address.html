@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>オブジェクトをアドレスとして扱う</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.17240v1">オブジェクトをアドレスとして扱う：<br>Vision Transformer Attentionにおけるインスタンスバインディング</a></center></h1>
+
+<p>
+この論文「Objects as Addresses: Instance Binding in Vision Transformer Attention」は、事前学習済みVision Transformer（ViT）が「同じカテゴリの異なる個体」を内部のSelf-Attention機構だけでどのように区別しているかを解明した、機械論的解釈可能性（Mechanistic Interpretability）の研究という位置づけです。
+</p>
+
+<p>
+従来の視覚的バインディング（特徴を個体ごとに統合する問題）や物体中心学習（Object-Centric Learning）の研究に対し、追加の学習モジュールやラベル付きプローブを一切使わず、凍結されたViT本来の計算メカニズムを直接特定・操作した点に大きな意義があります。
+</p>
+
+<h3>先行研究との比較における立ち位置</h3>
+
+<p>
+• <strong>外部プローブによる解析研究（Li et al., 2025など）からの発展</strong><br>
+　先行研究では、ViTの中間表現から「同じ物体か」を判定する二次プローブ（線形・双線形分類器）を別途学習させてバインディングの存在を示しました。本研究は背景や異カテゴリ間のペアを除外し、同じ画像内の同カテゴリ・同相対位置（距離と方向が一致）という厳密な統制条件のもとで、モデル本来のQueryとKeyの演算自体が個体を識別していることを証明しました。
+</p>
+
+<p>
+• <strong>物体中心学習（Slot AttentionやSPOTなど）への示唆</strong><br>
+　従来の物体中心学習では、特徴マップの後にスロット機構などを追加して物体を分離しますが、見た目が同じ複数個体が1つのスロットに統合されてしまう課題がありました。本研究は、ViTの最終層特徴量ではなく特定ヘッドのAttention経路を使えば、追加学習なしの単純なクラスタリングだけでも学習済みモデル（SPOT）を上回る個体分離性能（FG-ARIで0.615対0.356）が出ることを示しました。
+</p>
+
+<p>
+• <strong>「What（意味）とWhere（空間）」の分離研究の深化</strong><br>
+　 従来のViT解析では、Query/Keyが空間構造を、Valueが意味情報を担うという一般的な役割分担が知られていました。本研究はパッチ間の相対位置を完全に揃えた状態でも、特定のヘッドにおいてQuery/Keyが「どの個体か」を区別し、Valueが「どのカテゴリか」を保持するというさらに踏み込んだ分業を明らかにしました。
+</p>
+
+<h3>本研究独自のコア概念と貢献</h3>
+
+<p>
+• <strong>アテンション・アドレス（Attention Address）の発見</strong><br>
+　個体識別に敏感なヘッドでは、同じ個体に属するパッチ群（例として同一人物の頭と胴体など見た目が異なる部位）が、画像内の共通の領域から情報を読み取る傾向があります。完全に同じ見た目のコピー画像を並べて配置した場合でも、それぞれの個体に別々のアドレスが割り当てられ、物体を動かすとアドレスも追従します。
+</p>
+<p>
+• <strong>空間リクエスト（Spatial Request）の定式化と因果的介入</strong><br>
+　QueryがKeyの空間的な基底パターンと相互作用して「画像のどの領域を読むべきか」を指定する成分を「空間リクエスト」として抽出しました。DINOv2などのモデルにおいて、ある人物のパッチが持つ空間リクエストを別の人物のものに書き換える編集を行うと、モデルを再学習することなくAttentionの読み取り先を別の個体へ誘導できることを実証しました。
+</p>
+    </body>
+</html>

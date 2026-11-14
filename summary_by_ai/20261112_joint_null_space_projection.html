@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>同時ヌル空間射影</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.17103v1">データフリーモデルマージのための結合ヌル空間射影</a></center></h1>
+
+<p>
+本論文（Joint Null-Space Projection for Data-Free Model Merging）は、「データ不要（Data-Free）・学習不要・閉形式（Closed-Form）」のモデルマージ分野において、タスク間の干渉を「パラメータ単位」ではなく「入力空間上の部分空間の衝突（Subspace Interference）」として再定義した研究です。
+</p>
+
+<h3>1. パラメータ単位（Entrywise）の従来手法に対するブレイクスルー</h3>
+
+<p>
+• <strong>幾何学的構造の活用</strong><br>
+　Task Arithmetic、TIES-Merging、DAREなどの従来手法は、重み行列の各要素（座標）ごとに平均化や符号投票、枝刈りを行います。しかし、行列の行や列の入れ替えに対して不変であるこれらの手法は、重み行列が隠れ表現に作用する「入力方向の幾何学」を見落としていました。
+</p>
+
+<p>
+• <strong>大幅な精度向上</strong><br>
+　本手法（JNSP）は、各タスクの重み差分（\(\Delta _{i}\)）の上位 \(r\) 個の右特異部分空間（入力側の支配的な変化方向）を抽出し、他タスクが主張する方向の和集合と直交する空間（Joint Null Space）へ射影します。これにより、ViT-B/16の8タスク評価において平均 89.45% を達成し、TIES-Merging（77.57%）を 11.88ポイント 上回りました。
+</p>
+
+<h3>2. 既存の部分空間（Subspace）・零空間ベース手法との差別化</h3>
+
+<p>
+• <strong>「圧縮」ではなく「コンフリクトマップ」としての利用</strong><br>
+　TSVなどの既存の部分空間手法は、各タスクの差分を自身の主要な特異空間へ「圧縮」することでノイズを減らします。対照的にJNSPは、自身の特異空間を他タスクとの競合領域を特定する地図（Conflict Map）としてのみ使用します。そのため、自身のエネルギーが小さい方向であっても、他タスクと競合しなければ一切削られずに保持されます。
+</p>
+
+<p>
+• <strong>入力側基底と順序不変性（Order-Invariance）</strong><br>
+　出力側（左特異ベクトル）を使うAlphaMergingとは異なり、入力側（右特異ベクトル）を採用しています。また、継続学習や逐次マージ（NUFILTなど）のようにタスクを順番に射影するとマージ順序に依存して後発タスクが崩壊（69.64%まで低下）しますが、JNSPは「自分以外の全タスクの和集合」に対して対称に射影するため、タスクの並び順に一切依存しません。
+</p>
+
+<h3>3. 学習・最適化ベース手法に対する実用上の優位性</h3>
+
+<p>
+• <strong>完全なデータフリーと高速性</strong><br>
+　AdaMergingや蒸留ベースのマージとは異なり、推論データやラベル、勾配計算、最適化ループを一切必要としません。
+</p>
+
+<p>
+• <strong>高い再現性</strong><br>
+　SVD（特異値分解）とQR分解のみで構成される決定論的な閉形式解であり、ViT-B/16（8タスク・53テンソル）であればCPUのみで約61秒でマージが完了します。ハイパーパラメータもランク \(r\)（標準で \(r=16\)）の1つだけです。
+</p>
+
+<h3>4. 手法の適用限界（負の知見）の明確化</h3>
+
+<p>
+• <strong>ビジョンでの堅牢性と言語モデルでの失敗</strong><br>
+　ViT-B/32・ViT-B/16・ViT-L/14の各バックボーンおよび独立したチェックポイント（TALL）で一貫して最高性能を示した一方、<strong><span style="color:magenta;">言語モデル（RoBERTa-large / GLUE）では単純なTask Arithmeticを下回り失敗するというネガティブな結果も率直に報告されています。</span></strong>
+</p>
+
+<p>
+• <strong>研究上の意義</strong><br>
+　部分空間の重複度自体はビジョンと言語で同程度であるにもかかわらず言語モデルで性能が崩壊したことから、「部分空間の重複＝除去すべき有害な干渉」という仮定は画像エンコーダでは有効である一方、全タスクが共通の基底構造を共有して必要とする言語モデルにはそのまま適用できないという、部分空間マージの境界条件を明らかにしています。
+</p>
+    </body>
+</html>

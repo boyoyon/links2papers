@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>再構築できるもの</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.16259v1">再構築できるもの：妨害要素のない4Dガウススプラッティング</a></center></h1>
+
+<p>
+この論文（タイトル：Reconstruct What You Can: Distractor-free 4D Gaussian Splatting）の位置づけは、「動的シーンの4D再構成（4D Gaussian Splatting）」と「不要な映り込み除去（Distractor Removal）」という、これまで別々に発展してきた2つの研究領域を初めて統合した手法（ReCan-GS）です。
+</p>
+
+<h3>1. 従来研究が抱えていた課題（ギャップ）</h3>
+
+<p>
+スマートフォンなどでカジュアルに撮影した動画から3D/4D空間を再構成する際、既存手法は以下のジレンマを抱えていました。
+</p>
+
+<p>
+• <strong>従来の干渉物除去（Distractor Removal）手法の限界</strong><br>
+　WildGaussiansやSpotlessSplats、DeSplatなどの手法は、通行人や影などの一時的な干渉物（Distractor）を除去できますが、「背景や対象が静止していること（静的シーン）」を前提としていました。そのため、本来の被写体が動いている動的シーンに適用すると、有効な動きまで消去・抑制してしまいます。
+</p>
+
+<p>
+• <strong>従来の動的シーン再構成（4DGS / DeformableGS）の限界</strong><br>
+　時間とともに変化する変形場（Deformation Field）を学習して動きを再現できますが、「残すべき被写体の動き」と「除去すべき一時的な遮蔽物・煙・影」を区別する仕組みがありませんでした。その結果、すべてを平均化して学習してしまい、ゴースト（残像）や幾何学的な破綻が起きていました。
+</p>
+
+<h3>2. 本論文（ReCan-GS）の立ち位置とブレイクスルー</h3>
+
+<p>
+本論文は、この2つの領域のギャップを埋めるために以下のアプローチをとっています。
+
+\[
+\begin{array}{|l| l| l| l|}
+\hline
+\text{比較項目} & \text{従来の干渉物除去手法} & \text{従来の動的4D再構成手法} & \text{本論文}\\
+& \text{(DeSplat, SpotlessSplats等)} & \text{(4DGS, DeformableGS等)} & \text{(ReCan-GS)}\\
+\hline
+\text{動的シーンの再構成} & \text{✕（静的シーン前提）} & \text{◯} & \text{◎} \\
+\hline
+\text{一時的な遮蔽物} & \text{◯} & \text{✕（残像が発生）} & \text{◎}\\
+\text{・影の除去} \\
+\hline			
+\text{事前学習モデル} & \text{不要なものもある} & \text{不要} & \text{不要}\\
+\text{・マスクの必要性} & \text{（DeSplat等）} && \text{（事前学習なし・解析的）}\\
+\hline
+\text{霧・煙などの体積的} & \text{✕} & \text{✕} & \text{◎}\\
+\text{干渉の除去}\\
+\hline			
+\end{array}
+\]
+</p>
+
+<h3>3. 技術的な独自性</h3>
+
+<p>
+• <strong>事前学習モデルに頼らない純粋な幾何学的・解析的アプローチ</strong><br>
+　セグメンテーションモデルや事前学習済みの特徴抽出器（DINOなど）によるマスク生成に依存せず、変形場のヤコビアン（Jacobian）に基づく変形感度スコア（不確実性指標）を導入しています。
+</p>
+
+<p>
+• <strong>「再構成できるものだけを再構成する」分離メカニズム</strong><br>
+　一貫した動きをする「動的コアガウシアン（Core Gaussians）」と、視点や時間ごとに矛盾が生じる「干渉物ガウシアン（Distractor Gaussians）」を不確実性指標に基づいて分離（または事後剪定）します。これにより、通行人の横切り、手の映り込み、移動する影、さらには進化する煙や霧といった多様なノイズを単一の基準で除去しつつ、メインの被写体の動きだけを綺麗に復元できます。
+</p>
+    </body>
+</html>
