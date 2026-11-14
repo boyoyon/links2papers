@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ドリフトによるデータセット蒸留</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.16642v1">ドリフトによるデータセット蒸留</a></center></h1>
+
+<p>
+この論文『Dataset Distillation via Drifting』（MITの研究チームによる2026年11月公開の論文）は、データセット蒸留（Dataset Distillation）の分野において、「分類タスクへの最適化」から「実データ分布そのものの忠実な被覆（カバレッジ）」へとパラダイムを転換させた画期的な研究と位置づけられます。
+</p>
+
+<p style="padding-left:4em;">
+<strong>Dataset Distillation（データセット蒸留）</strong>とは、大規模な学習データセットの重要な情報（パターン）を凝縮し、元のデータセットと同等のモデル性能を引き出せるごく少数の「合成データセット」を作成する技術です。データセット凝縮（Dataset Condensation）とも呼ばれます。
+</p>
+
+<h3>1. 「分類器依存」からの脱却と汎用性の獲得</h3>
+
+<p>
+• <strong>従来の位置づけ</strong><br>
+　これまでの手法（勾配マッチング、軌跡マッチング、SRe²Lなどのモデル反転系）は、特定の分類器の損失を最小化すること（決定境界の学習）に強く依存していました。そのため、蒸留されたデータはその分類器特有のバイアスを引き継ぎ、他のモデルや別タスクへの汎化性能が低いという課題がありました。
+</p>
+
+<p>
+• <strong>本論文の貢献</strong><br>
+　分類目的関数を一切使わず、特徴空間上で実データの分布を直接近似することを目的としています。その結果、クラス内の多様性と分布の網羅性（Coverage）が飛躍的に向上し、結果としてゼロから分類器を学習させるベンチマークでも既存手法を大きく上回る性能を達成しました。
+</p>
+
+<h3>2. 最新生成モデル手法「Drifting」のデータセット蒸留への応用</h3>
+
+<p>
+• <strong>技術的系譜</strong><br>
+　2026年に提案された新しい生成モデリング手法「Drifting（ドリフティング）」のアイデアを応用しています。
+</p>
+
+<p style="padding-left:4em;">
+『<a href="https://arxiv.org/abs/2602.04770">Generative Modeling via Drifting</a>』 (2026)
+</p>
+
+<p>
+• <strong>手法の独自性</strong><br>
+　生成モデルの重みを学習する代わりに、合成データそのものを特徴空間上で「実データに引き寄せ（引力）」「他の合成データから遠ざける（斥力）」ことで最適化します。拡散モデル（Diffusion）ベースの蒸留手法と異なり、事前学習済みの生成モデルを一切必要とせず、ランダムノイズからでも高品質で多様な画像を生成できる点が大きな強みです。
+</p>
+
+<h3>3. 評価指標のアップデート（分布カバレッジの提唱）</h3>
+
+<p>
+• <strong>従来の問題点</strong><br>
+　大規模データセット蒸留の評価は、実質的に教師モデルからの「知識蒸留（Knowledge Distillation）」になっており、データ自体の質や多様性が正しく測られていませんでした。
+</p>
+
+<p>
+• <strong>本論文の提案</strong><br>
+　従来の分類精度に加え、特徴空間上で実データの分布をどれだけ網羅できているかを測る「Coverage（被覆率）」などの分布ベースの評価指標を補完的な標準として導入しました。
+</p>
+
+<h3>4. 画像分類の枠を超えた応用可能性の提示</h3>
+
+<p>
+• <strong>マルチモーダルへの拡張</strong><br>
+　ラプラシアンピラミッドによる表現と組み合わせることで、画像だけでなく音声（音楽ジャンル）や動画（行動認識）のデータセット蒸留にもそのまま適用できる汎用性を示しました。
+</p>
+
+<p>
+• <strong>モデル解釈とアート</strong><br>
+　異なる基盤モデル（DINOv3やCLIPなど）で蒸留した画像を比較することで「各モデルがどのような視覚的バイアスを持っているか」を可視化するツールとしての有用性や、画家の作風を1枚のキャンバスに凝縮するアート表現への応用も切り拓いています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+この論文は「大規模データセット蒸留において、事前学習済み生成モデルに頼らず、純粋な分布マッチングだけでSOTA（最高性能）を達成できること」を証明し、データセット蒸留を単なる分類器の圧縮技術から、データとモデルの相互作用を理解し多様なモダリティを扱う基盤技術へと引き上げた重要論文と言えます。
+</p>
+    </body>
+</html>
