@@ -31,6 +31,7 @@
 ・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_click3r.html">人がアシストするMVS(multi-view stereo)</a><br>
 ・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_grasping_the_future.html">インターネット動画から手と物の相互作用を同時予測</a><br>
 ・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_visual_segmentation.html">視覚的セグメンテーションの確率モデル(らしい･･･)</a><br>
+・2026/11/09 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261109_speculative_self_distillation.html">オフポリシー自己蒸留とオンポリシー自己蒸留のいいとこどり？</a><br>
 ・2026/11/08 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261108_linear_probes_to_bayesian_manifold.html">LLM内部表現に幾何学構造が見つかったからといってモデルが実際にその構造を計算に使っている証拠にはならない(そりゃそうだ)</a><br>
 ・2026/11/07 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261107_deleting_weights.html">重み削除の驚くべき効果</a><br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_e-means.html">e-means：k-meansを凌駕する性能</a><br>
