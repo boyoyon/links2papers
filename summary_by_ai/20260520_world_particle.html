@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>WorldParticle</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2605.15305v4">WorldParticle: Transformer を介したラグランジュ粒子動力学の統一世界シミュレーション</a></center></h1>
+
+<p>
+この論文 「WorldParticle: Unified World Simulation of Lagrangian Particle Dynamics via Transformer」 は、多種多様な物理現象を単一の固定されたニューラルネットワーク（Transformer）アーキテクチャで統一的にシミュレートする「汎用物理シミュレータ（世界モデル）」の確立を目指した研究として位置づけられます。
+</p>
+
+<p>
+従来の物理シミュレーションや機械学習ベースのサロゲートモデルが抱えていた「現象ごとの専用設計」という壁を打破するアプローチをとっています。具体的な学術的・技術的な位置づけは以下の4つの視点から整理できます。
+</p>
+
+<h3>1. 従来手法との比較における位置づけ</h3>
+
+<p>
+これまでの物理シミュレーション技術にはそれぞれトレードオフがあり、本研究はその隙間を埋める形で登場しました。
+</p>
+
+<p>
+• 古典的物理ソルバー（FEM, SPH, MPMなど）との違い
+</p>
+
+<p style="padding-left:4em;">
+• <strong>従来</strong>　流体（SPH）、弾性体（FEM）、粒状体（MPM）など、現象や支配方程式ごとに専用のソルバーや離散化手法を使い分ける必要がありました（NVIDIA Newtonのような統合エンジンでも内部では複数のソルバーが動いています）。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>本研究</strong>　すべてを共通の「ラグランジュ粒子表現」に落とし込み、アーキテクチャを一切変更せず（学習データのみを変えて）、6つの異なる物理カテゴリ（布、弾性体、ニュートン流体、非ニュートン流体、粒状砂、タンパク質の分子動力学）を単一の枠組みで扱います。
+</p>
+
+<p>
+• 従来のニューラルシミュレータ（GNS, MeshGraphNetsなど）との違い
+</p>
+
+<p style="padding-left:4em;">
+• <strong>従来</strong>　主にグラフニューラルネットワーク（GNN）による局所的なメッセージパッシングに依存していたため、圧力波や弾性応力のような「長距離（グローバル）な相互作用」を伝えるには何層もの計算が必要で、誤差が蓄積しやすい課題がありました。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>本研究</strong>　局所的な相互作用を捉える「粒子トークナイザ」と、マルチグリッド法に着想を得て粒子を階層的に圧縮・統合する「スーパートークン・エンコーダ／デコーダ」を組み合わせることで、局所的な接触と大域的な物理結合を同時に・高速に処理します。
+</p>
+
+<p>
+• 低次元化モデル（ROM）・ニューラルオペレータとの違い
+</p>
+
+<p style="padding-left:4em;">
+• <strong>従来</strong>　特定の形状や境界条件に対して事前に基底を計算しておく必要があり、未知の形状や幾何構造への汎化が困難でした。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>本研究</strong>　スーパートークンを固定の基底として持つのではなく、各タイムステップの現在の粒子状態から動的に（オンラインで）生成するため、学習時に見ていない形状（例：円柱や箱だけで学習し、トラ型の砂山の崩壊を予測）や粒子密度にも高い汎化性能を発揮します。
+</p>
+
+<p>
+• 動画生成系ワールドモデルとの違い
+</p>
+
+<p style="padding-left:4em;">
+• <strong>従来</strong>　ピクセル空間や潜在フレーム上で「視覚的にそれらしい動き」を生成するものが主流でした。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>本研究</strong>　明示的な3次元粒子の位置・速度を直接予測する「物理ベースのワールドモデル」であり、物理的整合性や下流タスクへの応用性を備えています。
+</p>
+
+<g3>2. 技術的ブレイクスルー（設計思想）</h3>
+
+<p>
+本研究のコアとなるアイデアは、計算力学の知見と最新のTransformer技術を融合させた点にあります。
+</p>
+
+<p>
+• <strong>予測-修正（Prediction-Correction）スキームの導入</strong>　既知の外力（重力やユーザーからの操作力など）は陽解法で直接計算（予測）し、ニューラルネットワークは「粒子間の複雑な相互作用による残差」のみを学習（修正）します。これにより、未知の外力に対する汎化性能と長期ロールアウトの安定性を大幅に高めています。
+</p>
+
+<p>
+• <strong>トークンマージング（Token Merging）による計算効率化</strong>　全粒子に対するSelf-Attentionは計算コストが膨大になりますが、層ごとにトークン数を半分にマージ（統合）していくことで、計算量を抑えつつ大域的な情報伝達を実現しています。
+</p>
+
+<h3>3. 実世界応用への架け橋としての位置づけ</h3>
+
+<p>
+単なる順方向のシミュレーション（予測）にとどまらず、微分可能（Differentiable）である利点を活かした応用が示されています。
+</p>
+
+<p>
+• <strong>インタラクティブ制御</strong>　学習時に存在しなかった任意の方向・大きさの外力をリアルタイムに与えて変形物体を操作できます。
+</p>
+
+<p>
+• <strong>逆設計（Inverse Design）</strong>　シミュレーション全体を通して誤差逆伝播（バックプロパゲーション）ができるため、「目標位置に止めるための摩擦係数」といった物理パラメータを勾配降下法で最適化できます。
+</p>
+
+<p>
+• <strong>実世界データからの学習</strong>　3D Gaussian Splattingなどを用いて実世界の動画から抽出した点群軌跡（PhysTwinデータセット）から直接ダイナミクスを学習でき、古典的なシミュレータを介さずに現実の物体操作を予測可能です。
+</p>
+
+<h3>4. 現在の限界と今後の展望（ロードマップ上の位置）</h3>
+
+<p>
+論文内の議論（Section 5）では、本研究は「統一アーキテクチャ（Unified Architecture）」を達成した段階であり、次のステップである「完全な統一モデル（Unified Model）」への過渡期と位置づけられています。
+</p>
+
+<p>
+• <strong>重みの共有</strong>　現在は「アーキテクチャは共通だが、重み（パラメータ）は物理カテゴリごとに別々に学習」しています。すべての物理現象を単一の重みセットで同時に学習・推論する基盤モデル化が次の課題です。
+</p>
+<p>
+• <strong>メモリ制約</strong>　最初のエンコーダ層で全粒子解像度のAttentionを行うため、80GBのGPU1枚あたり約5万粒子が上限となっており、スパースAttentionなどの導入による大規模化が今後の展望とされています。
+</p>
+    </body>
+</html>

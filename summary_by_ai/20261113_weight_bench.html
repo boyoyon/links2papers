@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>WeightBench</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.18553v1">WeightBench：言語モデルをウェイト空間プログラマーとして評価する</a></center></h1>
+
+<p>
+本論文（WeightBench）は、大規模言語モデル（LLM）が勾配降下法や試行錯誤に頼らず、ニューラルネットワークのパラメータ（重み）を直接解析・編集・生成する能力であるWeight-Space Programming（重み空間プログラミング：WSP）を体系的に評価する初の本格ベンチマークという位置づけです。
+</p>
+
+<p>
+従来のモデル編集や初期の概念実証にとどまっていたWSP研究を、再現性と厳密性を備えた「工学的な評価基盤」へと引き上げる役割を担っています。
+</p>
+
+<h3>先行研究・関連分野との違い（学術的位置づけ）</h3>
+
+<p>
+• <strong>初期実証（Takehi et al., 2026）からの発展</strong><br>
+　先行研究では「LLMが重みを直接読み書きできる」という初期の兆候（Sparks of WSP）が示されましたが、モデル規模やタスク難易度による信頼性の違いは未検証でした。本論文は2Kパラメータの制御モデルから7BパラメータのLLMまでを対象に、その能力の限界とスケーリング則を定量化しています。
+</p>
+
+<p>
+• <strong>Weight-Space Learning（WSL）との対比</strong><br>
+　HyperNetworksやDeep Weight-Space NetworksなどのWSL研究は、重みを処理するための「専用アーキテクチャ」を開発するアプローチです。これに対しWSPおよび本ベンチマークは、汎用LLMが自身の推論能力と数値計算ツールを用いて重みを直接プログラミングする能力に焦点を当てています。
+</p>
+
+<p>
+• <strong>既存エージェントベンチマーク（SWE-bench・MLE-bench等）の拡張</strong><br>
+　ソースコードの修正や機械学習パイプラインの構築を測る既存ベンチマークとは異なり、対象となるのは「学習済みの重みテンソルそのもの」です。無制限の推論実行（フォワードパス）による総当たり探索を禁止し、重みの幾何学的・位相的な解析能力を純粋に測定する点が最大の特徴です。
+</p>
+
+<h3>ベンチマーク設計における独自の貢献</h3>
+
+<p>
+• <strong>5つの能力軸を網羅した42タスクの構成</strong><br>
+　単なる重みの編集だけでなく、静的診断（READ）、外科的修正（FIX）、編集の不可能性判定（META）、ゼロショットでの重み生成（WRITE）、データ不要のハードウェア最適化（SYSTEMS）という5トラックで多角的に能力を測ります。
+</p>
+
+<p>
+• <strong>試行錯誤とデータ汚染を防ぐ厳格な監査基盤</strong><br>
+　OSレベルのサンドボックス隔離とNumPy演算子レベルの計測（ハッシュチェーン台帳による監査）を導入し、隠れた勾配計算や不正な推論実行を自動的に隔離・失格とします。また、モデルの重み空間にランダムな回転や次元置換を施すことで、公開モデルの暗記によるスコア水増しを防いでいます。
+</p>
+
+<h3>現在のAI技術における到達点の可視化</h3>
+
+<p>
+• <strong>「できること」と「できないこと」の境界線の明確化</strong><br>
+　GPT-6.1-solやClaude Opus 5.5などの最先端モデルであっても、小規模ネットワークの挙動読解やゲーム制御ポリシーのゼロショット生成には高い性能を発揮することが示されました。一方で、7B規模の言語モデルに対する副作用のない外科的修正、キャリブレーションデータなしでの圧縮、実現不可能な編集要求の見極めは依然として困難であり、今後のWSP研究の具体的な課題を浮き彫りにしています。
+</p>
+    </body>
+</html>
