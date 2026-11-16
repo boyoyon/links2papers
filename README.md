@@ -21,6 +21,7 @@
 <br>
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
+・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_restoring_diversity_in_distilled_image.html">蒸留画像生成モデルの多様性を回復する</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_2_math_models_of_kd.html">知識蒸留は「汎化性能向上」ではなく「最適化の加速」</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_natural_gradient_learning_in_predictive_coding.html">脱・誤差逆伝播の急先鋒？予測符号化における自然勾配学習</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/2026112_linking_rapid_learning_to_compositional_structure_in_nn.html">ニューラルネット全体をベクトルとみなして演算する？</a><br>
