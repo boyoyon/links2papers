@@ -52,6 +52,7 @@
 ・2026/10/25 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261025_intrinsic_goals_for_autonomous_agents.html">内発的動機づけアルゴリズムでハエの行動を再現した？</a><br>
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
+・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20270731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
 </p>
 <br>
 <p>
