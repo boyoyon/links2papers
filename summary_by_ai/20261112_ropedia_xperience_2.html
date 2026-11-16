@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Ropedia Xperience 2</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.17060v1">Ropedia Xperience 2</a></center></h1>
+
+<p>
+この論文（Ropedia Xperience 2、arXiv:2611.17060v1）の最大の学術的・技術的な位置づけは、「フィジカルAI（ロボット基盤モデル）におけるスケーリング則を確立するための、環境（3D空間）と行動（人間の一人称活動）を統合した次世代データ収集のゴールドスタンダード（標準基盤）の提案」にあります。
+</p>
+
+<p>
+既存のロボット学習や3Dビジョンのデータセットが抱えていた課題を解決し、実世界のデータ収集からシミュレーション、ロボット制御までを一貫してつなぐ役割を担っています。
+</p>
+
+<h2>1. 研究背景と解決する課題</h2>
+
+<p>
+• <strong>基盤モデルの限界</strong><br>
+　GPT-6 AstraやClaude Fable 5.1などの大規模基盤モデルは視覚情報から直接ロボットを制御できるようになりましたが、実世界での長期的（long-horizon）かつ接触を伴う複雑なタスクでは依然として脆弱です。
+</p>
+
+<p>
+• <strong>環境と行動の分断</strong><br>
+　言語モデルが「スケーリング則」によって飛躍的に進化したように、フィジカルAIを進化させるには「行動のデモンストレーション」と「試行錯誤できるインタラクティブな環境」の両方を大量にスケーリングさせる必要があります。しかし、従来はこれらが別々に収集されており、収集コストや拡張性に課題がありました。
+</p>
+
+<h3>2. 既存データセット・先行研究との違い（位置づけ）</h3>
+
+<p>
+Ropedia Xperience 2は、これまでの複数の研究領域のギャップを埋める位置にあります。
+</p>
+
+<p>
+• <strong>前作（Xperience-10M）の拡張</strong><nr>
+　一人称視点の人間行動データに特化していた「Xperience-10M」に対し、実環境の精密な3Dスキャン（メートル単位の空間形状）と、そこに人間の行動データを空間的に位置合わせ（レジストレーション）するパイプラインを追加して拡張しています。
+</p>
+
+<p>
+• <strong>空間データセットと行動データセットの統合</strong><br>
+　従来の「ScanNet++」や「DL3DV-10K」は静的な3D環境の収集に重点を置き、「Ego4D」や「Nymeria」は一人称の人間行動の収集に重点を置いていました。本研究は、これら2つを同一の座標系（メートル法基準）で統合している点が画期的です。
+</p>
+
+<p>
+• <strong>現場にロボット不要のデータ収集</strong><br>
+　実機ロボットを使うデータ収集（DROIDなど）はコストが高くスケールしにくい一方、本研究では「ハンドヘルドLiDARスキャナ」と「頭部装着型カメラ（HOMIE）」を用い、作業員1名のみ（ロボットやモーションキャプチャ設備なし）で現場の空間とタスク遂行データを低コストに収集できるプロトコルを確立しました。
+</p>
+
+<h3>3. この論文が果たす2つの重要な役割</h3>
+
+<p>
+収集されたデータ（公開スキャン1,589シーン、全コレクション4,230録画・131時間）は、主に以下の2つの用途の基盤として位置づけられています。
+</p>
+
+<p>
+• <strong>既存モデルの評価ベンチマーク（空間認識能力の測定）</strong><br>
+　精密な3Dスキャンを正解データ（グラウンドトゥルース）として、「深度・幾何推定」「3D物体検出」「空間推論（Spatial Intelligence）」の3つのベンチマークを提供し、最新のVLMや3D基盤モデルの限界を明らかにしています。
+</p>
+
+<p>
+• <strong>ロボット学習データの無限の拡張（データ再利用パイプライン）</strong><br>
+　1回の実地収集データを起点に、ロボット学習用の環境と行動データを以下の4つの手法で大量に生成・再利用できることを実証しています。
+</p>
+
+<p>
+　　• <strong>Real-to-Sim</strong><br>
+　　　スキャンデータから物理演算可能なデジタルツイン環境を構築し、環境をスケーリングします。
+</p>
+<p>
+　　• <strong>Human-Robot Retargeting</strong><br>
+　　　人間の全身・手指の動きを人型ロボットの軌道データに変換します。
+</p>
+<p>
+　　• <strong>Virtual Teleoperation</strong><br>
+　　　変換された仮想環境内でVR等を用いてロボットを遠隔操作し、追加データを収集します。
+</p>
+<p>
+　　• <strong>Long-Horizon Trajectory Generation</strong><br>
+　　　仮想環境内で、計算資源（コンピュート）を追加するだけで長期的・複合的なロボットの行動軌道を自動生成します。
+</p>
+    </body>
+</html>
