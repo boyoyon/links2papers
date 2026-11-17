@@ -21,8 +21,14 @@
 <br>
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
-・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_weight_bench.html">早くも、Weight-Space Programmingのベンチマーク</a><br>
+<p>
+[WSP] Weight-Space Programming (LLMが他のネットワークの重みを直接編集してバグ修正、性能改善)<br>
+[RUA] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
+</p>
+<p>
+・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_weight_bench.html">[WSP] 早くも、Weight-Space Programmingのベンチマーク</a><br>
 ・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_restoring_diversity_in_distilled_image.html">蒸留画像生成モデルの多様性を回復する</a><br>
+・2026/11/13　<a href="https://arxiv.org/html/2611.18562v1">[RUA] オープンウェイトのVLM＋シミュレーション(RL)のみで実機ロボットの自律制御に成功</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_2_math_models_of_kd.html">知識蒸留は「汎化性能向上」ではなく「最適化の加速」</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_natural_gradient_learning_in_predictive_coding.html">脱・誤差逆伝播の急先鋒？予測符号化における自然勾配学習</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/2026112_linking_rapid_learning_to_compositional_structure_in_nn.html">ニューラルネット全体をベクトルとみなして演算する？</a><br>
@@ -40,19 +46,24 @@
 ・2026/11/07 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261107_deleting_weights.html">重み削除の驚くべき効果</a><br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_e-means.html">e-means：k-meansを凌駕する性能</a><br>
 ・2026/11/06 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261106_quantum_program_with_ai.html">AIを用いて形式的に検証された量子プログラムを発見する</a><br>
+・2026/11/06　<a href="">[WSP] LLMが本当に重みの計算構造を推論しているのか体系的に検証</a><br>
 ・2026/11/05 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261105_how_finite_brains.html">有限な脳がいかにして無限に一般化するのか</a><br>
 ・2026/11/03 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261103_agnostic_learning_by_imitating.html">ビックワールド仮説に対応した模倣学習？</a><br>
 ・2026/11/03 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261103_icl_curcuit.html">ICL(文脈内学習)の回路</a><br>
 ・2026/11/03 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261103_platonic_brain.html">プラトン的脳</a><br>
+・2026/11/03　<a href="https://arxiv.org/abs/2611.05341">[WSP] 放射線治療の意思決定モデルの重みをLLMに直接修復させる試み</a><br>
+・2026/11/03　<a href="https://arxiv.org/abs/2611.04268">[WSP] 画像生成・復元用の拡散モデルの重みを編集して画質を改善する枠組みを提案</a><br>
 ・2026/11/02 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261102_tracing_the_scientific_discovery_capacity.html">科学的発見には希少な事実（モノファクト）が必要。発見と幻覚は表裏一体？</a><br>
 ・2026/11/02 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261102_strategist.html">AIモデル自体は改変せず問題の解き方を自律的に発見する？</a><br>
-・2026/11/02 <a href="https://rikiyat.github.io/blog/weight-space-programming/">LLM が 他のニューラルネットワークの重みを直接編集してバグ修正、性能向上させる (WSP: Weight-Space Programming)</a><br>
+・2026/11/02　<a href="https://rikiyat.github.io/blog/weight-space-programming/">[WSP源流] LLMはニューラルネットワークの重みをネイティブに読み書きでる</a><br>
 ・2026/11/01 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261101_value_forcing.html">価値強制： 分布型強化学習にFlowMatchingを使う</a><br>
 ・2026/10/30 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261030_id_wm.html">世界モデルから実行不可能な夢想を排除？</a><br>
 ・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_proving_and_improving_prh.html">プラトン表現仮説を証明？</a>　機械翻訳 (途中まで･･･) は<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_proving_and_improving_PRH_with_jepas/2026_proving_and_improving_PRH_with_jepas.html">こちら</a><br>
 ・2026/10/25 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261025_intrinsic_goals_for_autonomous_agents.html">内発的動機づけアルゴリズムでハエの行動を再現した？</a><br>
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
+・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA} Claude Code＋ROS2でRUAを実現</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
+・2026/09/07　<a href="https://web.mit.edu/phillipi/www/writing/robot-use-agents.html">[RUA源流] 「Robot-Use Agents」というパラダイムそのものを名付け、定義した</a><br>
 ・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20270731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
 </p>
 <br>
