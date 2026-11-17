@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>シミュレーション環境で推論モデルを訓練</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.18562v1">シミュレーション環境で推論モデルを訓練し、実機ロボットをネイティブに活用する</a></center></h1>
+
+<p>
+この論文（arXiv:2611.18562v1、タイトル：Training Reasoning Models in Simulation to Natively Use Real Robots）の位置づけは、「オープンウェイトの推論型VLM（視覚言語モデル）に対し、外部ツール（ハーネス）や実機データを一切使わず、シミュレーション上の強化学習（RL）のみで実機ロボットを自律制御させることに初めて成功した研究」です。
+</p>
+
+<p>
+これまで汎用ロボット制御において、プロプライエタリなフロンティアモデル（GPT-6 AstraやClaude Fable 5.2など）に独占されていた「推論ベースのロボット操作（Robot-Use Agents: RUA）」の能力を、オープンモデル（Qwen3.8-27B）の事後学習（Post-training）のレシピとして確立した点に大きな意義があります。
+</p>
+
+<h3>1. 研究背景と解決した課題</h3>
+
+<p>
+• <strong>フロンティアモデルとオープンモデルの格差</strong><br>
+　画面を見て操作するComputer-Use Agent（CUA）と同様に、カメラ画像を見て推論（Chain-of-Thought）し、ロボットのエンドエフェクタ（手先）の位置・姿勢を直接出力する Robot-Use Agent（RUA） が注目されています。しかし、これまで高い汎化性能を示していたのは巨大なクローズドモデルのみで、オープンモデルでは成功率が極めて低い状態でした。
+</p>
+
+<p>
+• <strong>外部ハーネスへの依存からの脱却</strong><Br>
+　従来のオープンモデル向けRUA研究の多くは、物体認識（SAM 3など）や動作プリミティブなどの外部モジュール（ハーネス）を組み合わせて行動空間を制限することでタスクを解いていました。本研究はこれらを一切排除し、モデル自身が「ネイティブに」空間把握から失敗の検知までを推論して直接姿勢を制御するアプローチ（Harness-free）をとっています。
+</p>
+
+<h3>2. 既存パラダイムとの違い（VLA vs RUA）</h3>
+
+<p>
+ロボティクス基盤モデルの主流であるVLA（Vision-Language-Actionモデル、例：\(\pi _{0.5}\)）と、本研究が推進するRUAの比較は以下の通りです。
+
+\[
+\begin{array}{|l|l|l|}
+\hline
+\text{比較項目} & \text{従来のVLAモデル} & \text{本研究のRUA} \\
+\text{} & (\pi _{0.5}\text{など)} & \text{(Qwen3.8-27B-PEAR)} \\
+\hline
+
+\text{主な学習手法} & \text{大量のロボット実演データによる} & \text{シミュレーション環境での強化学習} \\
+\text{} & \text{教師あり学習（SFT）} & \text{（RL）のみ（実演データ不要）} \\
+\hline
+\text{制御プロセス} & \text{画像・指示から行動（アクション）} & \text{状況を観察し、思考の連鎖（CoT）で推論} \\
+\text{} & \text{を直接マッピング} & \text{してから手先姿勢を出力} \\
+\hline
+\text{未知タスク} & \text{学習した動作の模倣に強く、ゴール} & \text{推論能力を活かして指示や配置の変化} \\
+\text{への汎化} & \text{や配置が変わると急激に性能低下} & \text{に柔軟に対応（LIBERO-Proで優位）} \\
+\hline
+\text{汎用能力の} & \text{ロボット特化のSFTにより、元の} & \text{数学・コーディング・視覚QAなど9つの} \\
+\text{維持} & \text{言語・推論能力が損なわれやすい} & \text{汎用ベンチマークのスコアを完全に維持} \\
+\hline
+\end{array}
+\]
+</p>
+
+<h3>3. 本論文の主要な技術的貢献</h3>
+
+<p>
+• <strong>大規模RL基盤「PEAR」の構築</strong><br>
+　長期・多ターンのエージェント強化学習を効率的に回すため、veRLとLMCacheをベースにした事後学習エンジン PEAR を開発しました。
+</p>
+
+<p>
+• <strong>カリキュラム学習によるゼロからの立ち上げ</strong><br>
+　初期状態では成功率がほぼ0%（1.6%）で報酬が得られない問題に対し、まず比較的簡単なタスク（LIBEROの一部）で学習して成功体験（報酬シグナル）を作り、その転移能力を利用してより難しい長期タスクや別環境（RoboDojo）へと段階的に学習を広げるカリキュラムを実証しました。
+</p>
+
+<p>
+• <strong>強力なSim-to-Real（シミュレーションから実機への転移）</strong><br>
+　実機データを1件も使わず、さらに学習時とは異なるロボット（双腕ロボットYAM）に対してゼロショットで 60%の成功率（ベースモデルは0%）を達成しました。さらに、学習データに全く含まれない「絵の模写」や「試薬を用いたアルカリ性テスト」といった高度な推論タスクも実機でこなせることを示しました。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+この論文は、「ロボティクス専用のデータセットや特殊なモデル構造を用意しなくても、汎用的な推論モデルにシミュレーション上で強化学習を施すだけで、実世界の物理ロボットを扱えるようになる」ことを示しました。言語モデルやCUAのポストトレーニング手法（GRPOなどのRL）をそのまま身体性AI（Embodied AI）へ拡張できることを証明した、基盤モデル開発とロボティクスの融合における重要なマイルストーンといえます。
+</p>
+    </body>
+</html>
