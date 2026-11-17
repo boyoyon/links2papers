@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>重みとキャッシュ</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.20174v1">重みとキャッシュ：LLMは表形式の基礎モデルをプログラムできる</a></center></h1>
+
+<p>
+この論文（『Weights & Caches: LLMs Can Program Tabular Foundation Models』）の位置づけは、「勾配降下法などの従来の学習（最適化）に頼らず、大規模言語モデル（LLM）が直接モデルの重みやKVキャッシュをプログラミングすることで、表形式基盤モデル（Tabular Foundation Models: TFM）の構築・修正・制御を可能にすることを示した先駆的研究」です。
+</p>
+
+<p>
+従来の機械学習と新しいアプローチ（「Weight-space programming（重み空間プログラミング）」）の交点にあり、主に以下の3つの観点からその重要性と位置づけを整理できます。
+</p>
+
+<h3>1. 研究分野における背景と文脈</h3>
+
+<p>
+• <strong>表形式基盤モデル（TFM）の発展</strong><br>
+　TabPFNに代表されるTFMは、多様な表形式データに対して事前学習済みの重みを用いて高速に推論（コンテキスト内学習）を行うモデルとして注目されています。本論文はTabPFNの開発チーム（Frank Hutterらのグループ）による最新の成果です。
+</p>
+
+<p>
+• <strong>重み空間プログラミング（Weight-space programming）の応用</strong><br>
+　これまでニューラルネットワークのパラメータは勾配ベースの最適化によってのみ獲得されるのが一般的でした。近年「LLMがモデルの重みを直接推論・操作する」という新しいパラダイムが芽生えつつあり、本研究はその概念を実用的な統計計算・表形式データ領域へ本格的に適用したものです。
+</p>
+
+<h3>2. 本論文が示した3つの新しいアプローチ（貢献）</h3>
+
+<p>
+論文では、LLM（GPT-6 Astra）を用いて勾配計算なしで以下の3つのタスクを実証しています。
+</p>
+
+<p>
+• <strong>ゼロからのモデル構築（プログラミング）</strong><br>
+　重みがゼロ初期化された状態（nanoTabPFN）に対し、LLMが直接統計計算のアルゴリズムを重みとして書き込みました。結果として、20のデータセット（TabArena）で平均ROC AUC 0.849を達成し、事前学習済みベースライン（0.876）に迫る性能を示しました。
+</p>
+
+<p>
+• <strong>事前学習済みモデルの診断と外科的修復</strong><br>
+　学習済みの「TabPFN-3.5」が抱えていた特定の失敗モード（符号付き積の回帰エラー）をLLMが自ら診断・修復しました。汎用性能をほぼ損なうことなく（誤差の増加は平均0.08%のみ）、特定の弱点だけをピンポイントで改善できることを示しました。
+</p>
+
+<p>
+• <strong>KVキャッシュ編集による推論の動的制御</strong><br>
+　モデルの重み自体を変更することなく、KVキャッシュを書き換えるプログラムをLLMに書かせることで、推論時の挙動（線形トレンドの反転や、正弦波の矩形波への変換など）を自在に操る手法を確立しました。
+</p>
+
+<h3>3. 今後のAI開発における意義</h3>
+
+<p>
+• <strong>勾配学習の補完とデバッグ手法の確立</strong><br>
+　大規模な再学習（ファインチューニング）を行わなくても、LLMによる「コード記述・重み編集」によってモデルの挙動を修正・カスタマイズできる可能性を拓きました。
+</p>
+
+<p>
+• <strong>解釈可能性（Mechanistic Interpretability）への貢献</strong><br>
+　ブラックボックスになりがちな基盤モデルの内部計算を、LLMを介して直接調査・介入するための新たなフレームワークとしての役割も担っています。
+</p>
+    </body>
+</html>
