@@ -14,7 +14,7 @@
 ・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/17　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/16　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
@@ -27,7 +27,8 @@
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_natural_gradient_learning_in_predictive_coding.html">脱・誤差逆伝播の急先鋒？予測符号化における自然勾配学習</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/2026112_linking_rapid_learning_to_compositional_structure_in_nn.html">ニューラルネット全体をベクトルとみなして演算する？</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_dataset_distillation.html">タスク・分類器に依存しないデータセット蒸留？</a><br>
-・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_latching_potts_networks.html">マインドワンダリングのモデルの何かを改良した？</a><br>
+・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_latching_potts_networks.html">マインドワンダリングのモデルのメカニズムを解明した？</a><br>
+・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_benchmarks_dont_talk_back.html">反論に対する判断力を鍛える</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_contrastive_discover.html">科学的発見も仮説を一個一個切り分けて進める (障害調査と同じだ･･) </a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_torch_curves.html">TorchCurvesとは？(PyTorchの何かなんだろうけど･･･)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_evaluating_compositional_generalization.html">Transformerにおける構成的汎化の評価手法の欠陥を明らかにした(らしい･･･)</a><br>
