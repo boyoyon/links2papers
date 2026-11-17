@@ -27,6 +27,7 @@
 </p>
 <p>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 加熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
+・2026/11/15 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261115_llm_can_program_tfm.html">[WSP] WSPで表形式基盤モデルをゼロから構築＋KVキャッシュ編集？</a><br>
 ・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_weight_bench.html">[WSP] 早くも、Weight-Space Programmingのベンチマーク</a><br>
 ・2026/11/13 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261113_restoring_diversity_in_distilled_image.html">蒸留画像生成モデルの多様性を回復する</a><br>
 ・2026/11/13　<a href="https://arxiv.org/html/2611.18562v1">[RUA] オープンウェイトのVLM＋シミュレーション(RL)のみで実機ロボットの自律制御に成功</a><br>
