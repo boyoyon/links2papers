@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ベンチマークは反論しない</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.17563v1">ベンチマークは反論しない： 自己不一致を通して学ぶ</a></center></h1>
+
+<p>
+この論文（「Benchmarks Don't Talk Back: Learning Through Self-Disagreement」、Microsoft Research、2026年11月公開）は、LLMの推論研究において「初回回答の正解率（Accuracy）を上げるだけでは獲得できない、反論に対する判断力（弁証法的能力：Dialectical Competence）を単一モデルの強化学習（RLVR）で直接鍛える」という新しい訓練パラダイムを確立した研究として位置づけられます。
+</p>
+
+<h3>1. 問題設定の位置づけ：単発の「回答精度」から対話的な「反論の裁定能力」へ</h3>
+
+<p>
+• <strong>従来のベンチマークとRLVR（検証可能な報酬による強化学習）の限界</strong><br>
+　DeepSeek-R1などに代表される従来のRLVRは「質問に対して一発で正解を出す能力（初回精度）」を劇的に高めましたが、実際の利用シーンやマルチエージェント環境では、ユーザーや他モデルから異議・反論（Disagreement）を突きつけられます。
+</p>
+
+<p>
+• <strong>迎合（Sycophancy）の別側面</strong><br>
+　既存モデルは、誤った反論に対しても自分の正解を簡単に手放してしまいます（論文内では「無条件降伏に近い」と指摘）。本研究は、単なる回答精度を上げてもこの弱点は改善しないことを実証し、「正しい反論は受け入れ（Yield）、誤った反論には自説を貫く（Hold）」という独立したスキル（Dialectical Competence）を定義・測定した点に新規性があります。
+</p>
+
+<h3>2. 手法・アプローチの位置づけ：外部モデルや推論時計算に頼らない「自己対立強化学習」</h3>
+
+<p>
+既存の自己改善・反論耐性アプローチと比較すると、本研究の提案手法（SelfD-RL）は以下のような優位なポジションにあります。
+</p>
+
+<p>
+提案手法（SelfD-RL）は、推論時の試行回数に頼る手法や外部モデルの選好データに依存する既存の自己修正・マルチエージェント手法と異なり、単一モデルが自ら対立意見を生成して正解検証器のみでオンライン学習を行います。これにより、学習時のみ自己対立を用い、推論時は通常の単一モデルとして効率的に動作します。
+</p>
+
+<h3>3. AI研究全体における意義（フロンティアモデル時代の「自己監督」への一歩）</h3>
+
+<p>
+モデルが人間の能力や既存ベンチマークの天井に近づくにつれ、外部の強い教師モデルや人間に依存してモデルを修正させる手法は限界を迎えます。本研究は、モデルが自ら生み出した反論を論理的に裁定し、正解ラベルとの照合のみで判断力を鍛えられることを示しており、外部の強い教師に頼らない「スケーラブルな自己監督」の具体的な実装ルートを提示した点に大きな意義があります。
+</p>
+    </body>
+</html>
