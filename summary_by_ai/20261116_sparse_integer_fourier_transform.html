@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>疎整数フーリエ変換とその機械学習への応用</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.21976">疎整数フーリエ変換とその機械学習への応用</a></center></h1>
+
+<p>
+本論文（arXiv:2611.21976「Sparse Integer Fourier Transform and Its Application in Machine Learning」）は、従来の高速フーリエ変換（FFT）の計算コストをさらに削減する新しい「近似離散フーリエ変換（ADFT）」手法の提案と、その工学・機械学習への応用実証という位置づけにあります。
+具体的には、デジタル信号処理のアルゴリズム効率化と、デジタルツインや故障診断などのリアルタイム工学応用をつなぐ研究です。
+</p>
+
+<h3>1. 研究背景と既存手法の課題</h3>
+
+<p>
+ビッグデータ時代において、デジタルツインやリアルタイム制御などの用途では、センサーデータのさらなる高速処理が求められています。しかし、既存のフーリエ変換手法には以下の課題がありました。
+</p>
+
+<p>
+• <strong>標準的なFFT</strong><br>
+　計算量を \(O(N\log_2 N)\) まで削減したものの、複素数や浮動小数点数の乗算（回転子：twiddle factorの演算）が多く、ハードウェア実装やリアルタイム処理において依然として計算負荷が高いです。
+</p>
+
+<p>
+• <strong>従来の近似DFT（ADFT）</strong><br>
+　行列要素を単純な整数（0, ± 1, ± j など）に置き換えて乗算器を減らすアプローチですが、要素を単純化しすぎることで近似誤差が大きくなるというトレードオフがありました。
+</p>
+
+<p>
+• <strong>スパースフーリエ変換（SFT）</strong><br>
+　周波数領域での信号のスパース性（疎性）を利用する手法であり、周波数成分が複雑な信号に対してはうまく機能しないという制約があります。
+</p>
+
+<h3>2. 本論文の核となる貢献（SIFTの提案）</h3>
+
+<p>
+著者らは上記の課題を解決するため、SIFT（Sparse Integer Fourier Transform）を提案しています。
+</p>
+
+<p>
+• <strong>行列分解と最適化の組み合わせ</strong><br>
+　Radix-n FFTのDFT行列を4つの疎な行列に分解し、回転子を含む対角行列のみを進化計算アルゴリズム（遺伝的アルゴリズムやNSGA-IIなど）で小さな整数の複素数積に近似します。
+</p>
+
+<p>
+• <strong>高精度と低コストの両立</strong><br>
+　Radix-32のFFTにおいて、正確なFFTと比較して算術コスト（ハードウェア複雑度）を75%削減しつつ、近似誤差を極めて小さく（RMSEが 2.3765× 10⁻⁸ 未満、MAPEが 0.01089% 未満）抑えることに成功しています。従来の32点ADFT手法（Cintraらの手法）と比べても、誤差を数千分の1に低減しています。
+</p>
+
+<p>
+• <strong>メモリ効率の向上</strong><br>
+　密なフーリエ行列全体を保持せず、因数分解された疎な形式のまま扱うため、実装が軽量になります。
+</p>
+
+<h3>3. 工学・機械学習パイプラインにおける位置づけ</h3>
+
+<p>
+単なるアルゴリズムの理論提案にとどまらず、機械学習の前処理（特徴量抽出）としての有効性を示している点も本論文の特徴です。
+</p>
+
+<p>
+• <strong>数値実験による妥当性検証</strong><br>
+　合成関数や片持ち梁の動的荷重下における固有振動数抽出（FEM解析との比較）を通じて、物理シミュレーションでも高い精度を維持できることを示しています。
+</p>
+
+<p>
+• <strong>機械学習への応用</strong><br>
+　風力タービン発電機の故障診断データセットに対し、SIFTとヒルベルト変換を用いて抽出された振幅・位相特徴量をLSTMやTransformerに入力しました。その結果、生データを直接入力する場合と比べて入力次元を大幅に削減しながら、分類精度を向上させる（Transformerで平均94.67%）ことに成功しています。
+</p>
+    </body>
+</html>
