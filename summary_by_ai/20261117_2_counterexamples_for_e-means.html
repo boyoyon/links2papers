@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>e-meansに対する2つの反例</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="">e-meansに対する2つの反例</a></center></h1>
+
+<p>
+本論文（arXiv:2611.22065v1、Zhenisbek Assylbekov著、2026年11月17日公開）の位置づけは、Meta（Jégouら）のチームが提案した高速クラスタリング手法 「e-means」の理論的限界（ワーストケースでの破綻）を厳密な数学的反例によって証明した批判的・検証的ペーパー です。
+</p>
+
+<p>
+論文内の記述に基づき、研究文脈における具体的な位置づけを4つのポイントで整理します。
+</p>
+
+<h3>1. 元論文（Bessa et al., 2026）に対する「理論的反例」の提示</h3>
+
+<p>
+• <strong>背景</strong><br>
+　Bessaら（arXiv:2611.09501v1）は、通常のk-means（Lloyd法）の10分の1のエポック数でより低い損失を達成する手法として「e-means（指数移動平均による中心更新＋使用率の低いクラスタの復活処理）」を提案し、ベンチマークでの有効性を主張しました。
+</p>
+
+<p>
+• <strong>本論文の役割</strong><br>
+　これに対し、本論文は「e-meansが公表しているパラメータ設定・アルゴリズムのままでは、標準的なk-meansよりもはるかに悪い局所解に陥る具体的な反例」を2つ構成し、アルゴリズムの構造的な欠陥を明らかにしています。
+</p>
+
+<h3>2. 2つの主要なメカニズムの欠陥証明</h3>
+
+<p>
+本論文は、e-meansを構成する2つの柱のそれぞれが引き起こす失敗を分離して証明しています。
+</p>
+
+<p>
+• <strong>反例1（クラスタ復活処理の欠陥）</strong><br>
+　 割り当て比率（質量）のみを基準に死んだクラスタを判定する「Mass-based revival（質量ベースの復活）」は、たとえすでに大域的最適解（グローバル・オプティマム）に到達していても、遠く離れた少数派（レア）クラスタの中心を強制的に削除してしまいます。その結果、標準k-meansに対する損失の比率が無限大に発散（unbounded）し、初期値にk-means++を用いてもその期待値保証が失われることを示しました。
+</p>
+
+<p>
+• <strong>反例2（指数移動平均＝忘却の欠陥）</strong><br>
+　ミニバッチ更新による過去の観測データの「忘却（Forgetting）」により、現在のバッチに含まれていないデータ点の存在が忘れ去られ、決定境界が移動して誤ったクラスタ割り当てを引き起こし、結果として標準k-meansより悪い固定点に収束する確率が厳密に存在すること（8点の例で確率 24/49）を証明しました。
+</p>
+
+<h3>3. Faiss（Metaの類似検索ライブラリ）の実装議論への貢献</h3>
+
+<p>
+• 本論文は単なる机上の空論ではなく、Faissの実装（NumpyEmeans, revision 2b648f0） を用いて再現検証が行われています。
+</p>
+
+<p>
+• 論文内で引用されているFaissのIssue #5907（Sahai, 2026a）で報告されていた「kが小さいときにレアなクラスタが上書きされる」という経験的なバグ報告を数学的に一般化し、損失の乖離が無限大になり得ることを証明しました。
+</p>
+
+<p>
+• また、その後Faiss側で提案された代替案（コストベースや距離分離ベースの復活ルール：Pull Request #5908, #5915）の正当性を裏付ける根拠（なぜ単純な「使用率・質量ベース」の復活ルールではダメなのかの証明）としても機能しています。
+</p>
+
+<h3>4. 研究のスコープと限界の明確化</h3>
+
+<p>
+• 著者自身も述べている通り、本論文の反例は「固有次元（intrinsic dimension）が1の極端なデータセット」における最悪ケース（ワーストケース）の失敗メカニズムを特定したものであり、高次元の埋め込み（Embedding）ベンチマークにおける平均的な失敗頻度を否定するものではありません。
+</p>
+
+<p>
+• 元論文（Bessa et al., 2026, Section 3.3）が認めていた「小さなデータセットや低次元データにおけるスケーリング則の限界」に対し、具体的な数学的テストケースを提供したという位置づけになります。
+</p>
+    </body>
+</html>
