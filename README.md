@@ -28,6 +28,7 @@
 <p>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_2_counterexamples_for_e-means.html">e-means に対する2つの反例</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
+・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_resolution_hypothesis.html">分解能仮説：改善案は出しているのに評価の分解能が足りていない･･･</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_feedback.html">高品質トレーニング・データ枯渇後はどうすべきか？</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_lattice_language_models.html">計算量ではなく計算容量？</a><br>
