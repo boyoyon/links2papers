@@ -26,7 +26,7 @@
 [<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#RUA">RUA</a>] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
 </p>
 <p>
-・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 加熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
+・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_feedback.html">高品質トレーニング・データ枯渇後はどうすべきか？</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_lattice_language_models.html">計算量ではなく計算容量？</a><br>
 ・2026/11/15 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261115_llm_can_program_tfm.html">[WSP] WSPで表形式基盤モデルをゼロから構築＋KVキャッシュ編集？</a><br>
