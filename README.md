@@ -22,8 +22,8 @@
 <p>
 気になる (AIに解説して貰った。素人には真偽判らず･･･)<br>
 <p>
-[WSP] Weight-Space Programming (LLMが他のネットワークの重みを直接編集してバグ修正、性能改善)<br>
-[RUA] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
+[<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#WSP">WSP</a>] Weight-Space Programming (LLMが他のネットワークの重みを直接編集してバグ修正、性能改善)<br>
+[<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#RUA">RUA</a>] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
 </p>
 <p>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 加熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
