@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>楕円サンプリング</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.18542v1">楕円サンプリング：ガウス分布およびそれ以外の分布に対する最適な補間スケジュール</a></center></h1>
+
+<p>
+この論文 「Elliptic Sampling: Optimal interpolant schedules for Gaussians and Beyond」（arXiv:2611.18542v1） の研究上の位置づけは、「確率的補間（Stochastic Interpolants）および拡散・フローベース生成モデルにおいて、これまで経験則や個別に設計されていた『補間スケジュール』と『数値離散化手法（ソルバー）』の選択を、複素解析と有理関数近似の理論に基づいて統合し、理論的最適性を初めて確立した研究」 です。
+</p>
+
+<h3>1. 「スケジュール」と「ソルバー（離散化）」の統合的設計</h3>
+
+<p>
+• 従来の課題: 拡散モデルやフローマッチングでは、ノイズ（補間）スケジュールと、確率フロー常微分方程式（PF-ODE）を解くためのソルバー（DDIMやDPM-Solver++など）は、別々に設計・調整されるのが一般的でした。
+</p>
+
+<p>
+• 本研究のアプローチ: 両者を切り離さず、「複素時間におけるODE軌道の解析性（正則性が保たれる複素平面上の帯の幅）」 という共通の数学的基準から同時に導出しました。その結果、ターゲット分布の条件数 \(\kappa \) を明示的に組み込んだ 「楕円スケジュール（Elliptic Schedule）」 と、それに特化した離散化手法 「Zoloflow」 を提案しています。
+</p>
+
+<h3>2. ガウス分布サンプリングにおける「ミニマックス最適性」の証明</h3>
+
+<p>
+• 理論的ブレイクスルー: ガウス分布に対するスコアベースサンプリングの誤差解析を、19世紀の数学者ゾロタレフ（Zolotarev）による「有理関数の最良一様近似問題」へと帰着させました。
+</p>
+
+<p>
+• 計算量の改善: 既存の標準的な手法では条件数 \(\kappa \) に対して \(\sqrt{\kappa }\) の依存性が生じていたのに対し、提案手法 Zoloflow は \(\Theta(\log \kappa \log(\sqrt{d}/\varepsilon))\) 回のスコア評価で全変動距離（TV誤差） \(\varepsilon \) を達成します。これは、すべての忘却型（oblivious）スコア・スパンアルゴリズムの中で理論的下限（ミニマックス最適）に一致する画期的な結果です。
+</p>
+
+<h3>3. 既存の有名スケジュール・手法を包含する一般化フレームワーク</h3>
+
+<p>
+本論文の楕円スケジュールは、ターゲット分布の異方性（条件数 \(\kappa \)）とスケール（中心 \(\={\lambda }\)）を表す2つのパラメータを持ち、既存の重要な先行研究を特別な場合として統一的に説明できます。
+</p>
+
+<p>
+• Trigonometric（Cosine）スケジュール: 条件数 \(\kappa \to 1\)（等方的な分布）の極限で、楕円スケジュールは従来の三角関数スケジュールに一致します。
+</p>
+
+<p>
+• Align Your Steps (AYS): スケール調整を施した \(\kappa = 1\) の楕円スケジュールは、等方性ガウス分布に対するAYSの解析的グリッドと一致します。
+</p>
+
+<p>
+• Lipschitz-guided スケジュール: \(\kappa \to \infty\) の極限において、ドリフトのリプシッツ定数を最小化する先行研究のスケジュールと同じ漸近的最適性に到達します。
+</p>
+
+<h3>4. 強対数凹分布から実用的画像生成（非対数凹）への橋渡し</h3>
+
+<p>
+• 対数凹分布への拡張: ガウス分布の枠を超え、強対数凹（strongly log-concave）なターゲット分布に対しても、楕円スケジュールと選点法（collocation method）を組み合わせることで、\(\widetilde{O}(\sqrt{d}\,\mathrm{polylog}(\kappa, 1/\varepsilon))\) という極めて少ないスコア評価回数で収束することを証明しました。
+</p>
+
+<p>
+• 実用モデルでの有効性: 理論の前提を満たさない複雑な画像データ（SiT-XL/2 や Stable Diffusion 3.5 Medium）においても、既存のソルバー（DPM-Solver++）と楕円スケジュールを組み合わせることで、特に 4〜8ステップといった極めて少ない関数評価回数（NFE）の領域で従来スケジュール（LinearやTrig）を上回る生成品質（FIDスコア） を実証しています。
+まとめると、この論文は「数値解析（有理近似・複素解析）の厳密な理論を武器に、生成モデルのサンプリング高速化（少数ステップ生成）におけるスケジュール設計に明確な数学的根拠と最適解を与えたマイルストーン的研究」と位置づけられます。
+</p>
+    </body>
+</html>

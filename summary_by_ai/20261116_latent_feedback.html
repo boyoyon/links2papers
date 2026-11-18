@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>潜在フィードバック</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.20404v1">潜在フィードバックは、計算とデータの増幅器である</a></center></h1>
+
+<p>
+この論文『Latent Feedback Is a Compute and Data Amplifier』は、「高品質な学習データが枯渇した（データ制約下の）LLM事前学習において、余剰な計算資源（FLOPs）をエポック数の増加ではなくアーキテクチャの工夫に投じるべきだ」とスケーリング則レベルで実証した研究として位置づけられます。
+</p>
+
+<p>
+従来のスケーリング則研究やアーキテクチャ研究の文脈において、本論文には以下の4つの重要な位置づけがあります。
+</p>
+
+<h3>1. 「データ制約下での計算資源の使い道」に対する新たな回答</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+　現在のLLM事前学習は計算量ではなく「高品質なテキストデータの不足」がボトルネックとなっています。限られたデータを複数エポック繰り返して学習する手法が一般的ですが、反復回数が増えるほど性能向上の効率は急速に低下します。
+</p>
+
+<p>
+• <strong>本論文の貢献</strong><br>
+　前トークンの最上位層の隠れ状態を次トークンの入力にフィードバックする「Latent Feedback（潜在フィードバック）」を導入し、同じデータ・同じ計算量（FLOPs）でエポック数を増やした標準Transformerと初めて公平に比較しました。その結果、現代のLLMが学習するデータ量（パラメータあたり数十トークン以上）の領域では、エポックを重ねるよりもLatent Feedbackに計算資源を使う方が圧倒的に効率的であることを示しました。
+</p>
+
+<h3>2. 「計算量とデータの増幅器（Amplifier）」としての定量的証明</h3>
+
+<p>
+• <strong>計算量の削減</strong><br>
+　ユニークな学習データ量を固定した場合、標準Transformerと同じ損失（Loss）に到達するための計算量を最大48%削減します。
+</p>
+
+<p>
+• <strong>データ量の削減</strong><br>
+　エポック数を固定した場合、同じ損失に到達するために必要なユニークデータを最大47%削減します。また、この削減効果はパラメータあたりのデータ量が増えるほど、また反復学習（エポック数）が増えるほど拡大することが確認されています。
+</p>
+
+<h3>3. 統一的なスケーリング則の確立</h3>
+
+<p>
+• <strong>有効パラメータ数としての定式化</strong><br>
+　従来のデータ制約下スケーリング則（Muennighoffら）を拡張し、Latent Feedbackを「標準Transformerの \(v\) 倍（基準値で約1.14倍）の有効パラメータ数を持つモデル」として単一の数式に統合しました。
+</p>
+
+<p>
+• <strong>高い予測精度</strong><br>
+　60M〜271Mパラメータの小規模モデルでフィットした法則から、未知の778Mモデルの損失を誤差0.3%以内、モデル間の性能差を0.05%以内の精度で予測することに成功しています。これにより、どのデータ量・計算予算の境界線（クロスオーバー点）からLatent Feedbackが優位になるかを事前に計算できるようになりました。
+</p>
+
+<h3>4. 「深さ方向のループ（Looped Models）」との差別化</h3>
+
+<p>
+• <strong>推論コストの優位性</strong><br>
+　1トークン内で層を何度も繰り返す従来のLooped Transformer（Universal Transformerなど）は、学習時だけでなく推論（生成）時の毎ステップでも追加の計算コストが発生します。
+</p>
+
+<p>
+• <strong>時間（トークン）方向の再帰</strong><br>
+　一方、Latent Feedbackは「前のトークンの状態」を次に渡すため、自己回帰的なテキスト生成時にはすでに前トークンの状態が計算済みです。そのため、学習時とプロンプト処理（Prefill）時にのみ追加コストがかかり、推論時の生成コストやKVキャッシュは標準Transformerとほぼ変わらないという実用上の大きな強みを持っています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+本論文は「データが足りないならモデルを深くループさせるかエポックを増やす」という従来のアプローチに対し、「推論コストを増やさずにモデルの表現力（有効パラメータ）を引き上げ、限られたデータから最大限の性能を引き出す実践的な選択肢」としてLatent Feedbackを位置づけた重要なマイルストーンと言えます。
+</p>
+    </body>
+</html>
