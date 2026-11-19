@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Monoculture Robust Learning</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.24881v1">Monoculture Robust Learning</a></center></h1>
+
+<p>
+『Monoculture Robust Learning』（arXiv:2611.24881v1）は、複数のAIモデルが同じ訓練データを共有することで同じ個人に対して一斉に誤判定を下してしまう「アルゴリズムの単一栽培（Algorithmic Monoculture）」問題を、PAC学習の理論的枠組みに初めて定式化し、その解決可能性と限界を解明した計算学習理論の論文です。
+</p>
+
+<p>
+ジョン・クラインバーグ（コーネル大学）やオマー・レインゴールド（スタンフォード大学）らによって2026年11月に公開されました。
+</p>
+
+<h3>研究の背景と先行研究との違い</h3>
+
+<p>
+これまで「アルゴリズムの単一栽培」や関連分野は、主に社会厚生への影響や現象の観測に焦点が当てられていました。本論文は、それらに対して「1つのデータセットだけから、誤りが相関しない複数のモデルを学習できるか？」というアルゴリズム的・学習理論的な問いを立てた点に独自の位置づけがあります。
+
+\[
+\begin{array}{|l|l|l|}
+\hline
+\text{関連分野・先行研究} & \text{主な焦点} & \text{本論文の立ち位置} \\
+\hline
+\text{アルゴリズムの単一栽培} & \text{共通モデルの利用が社会全体の厚生を} & \text{現象の指摘にとどまらず、PAC学習において} \\
+
+\text{(Kleinberg & Raghavan, } & \text{損なうことや、結果の画一化} & \text{同時誤判定（Conjunctive Error）を抑える} \\
+\text{2021 など)	} & \text{（Outcome Homogenization）} & \text{ためのサンプル複雑性の限界と学習} \\
+\text{} & \text{ の危険性を指摘。} & \text{アルゴリズムを提示。} \\
+\hline
+
+\text{モデルの多様性 / } & \text{同程度の精度を持つ異なるモデルが} & \text{多様なモデルが理論上存在しても、} \\
+\text{ラショーモン効果} & \text{多数存在し、個人ごとに異なる} & \text{標準的な学習では誤りが重なりやすい} \\
+\text{(Black et al., 2022; } & \text{予測を出し得ることを解明。} & \text{点を指摘。誤りを分散させる具体的} \\
+\text{Marx et al., 2020 など)} & \text{} & \text{な学習手順を与える。} \\
+\hline
+
+\text{学習の再現性} & \text{科学的な再現性やプライバシー} & \text{「データに対する安定性（再現性）」を} \\
+\text{（Replicability）} & \text{保護のため、異なるデータでも} & \text{持つアルゴリズムを同一データ上で乱数} \\
+\text{(Impagliazzo et al., } & \text{同じ出力を得る「安定性」を} & \text{シードを変えて複数回実行することで、} \\
+\text{2022; Hopkins et al., } & \text{追求。} & \text{逆に予測の多様性（単一栽培への頑健性）が} \\
+\text{2025)} & \text{} & \text{生まれるという意外な接続を発見。} \\
+\hline
+
+\text{自己一貫性} & \text{正解ラベルに依存せず、訓練} & \text{正解ラベルに依存し、全モデルが同時に} \\
+\text{（Self-consistency）} & \text{データの違いによる予測の} & \text{誤った予測をしてしまう確率} \\
+\text{(Cooper et al., 2023)} & \text{ブレ（恣意性）を減らすことを} & \text{（Conjunctive Error）を最小化すること} \\
+\text{} & \text{目的とする。} & \text{に焦点を当てる。} \\
+\hline
+
+\end{array}
+\]
+</p>
+
+<h3>この論文が明らかにした3つの核心的知見</h3>
+
+<p>
+本論文は、複数モデルが同時に失敗する原因を「データの偏り（サンプルのランダム性）」と「アルゴリズム内部の乱数（内部ランダム性）」の2つに分離（Monomatrixという枠組みで整理）し、以下の理論的結論を導きました。
+</p>
+
+<p>
+• <strong>データ不足に起因する盲点の限界（下界の証明）</strong><br>
+訓練データに希少なグループ（マイノリティなど）が含まれていない場合、同じデータからいくら複数のモデルを作っても全員が同じ誤りを犯します。この同時誤判定率を \(\gamma \) 以下に抑えるには、本質的にサンプルサイズを \(\Omega(\log(1/\gamma))\) 倍に増やす必要があり、学習アルゴリズムの工夫だけでは独立性を生み出せないことを証明しました。
+</p>
+
+<p>
+• <strong>「再現性（Replicability）」と「多様性」の意外な結びつき</strong><br>
+誤りの原因がアルゴリズム内部の乱数にある場合、点ごとの再現性（Pointwise Replicability）を持つ学習器を同じデータセットに対して異なる乱数シードで \(k\) 回実行するだけで、全員が同時に誤る確率が \(k\) に対して指数関数的に減少することを示しました。
+</p>
+
+<p>
+• <strong>データ分割（Sample Splitting）の有効性</strong><br>
+総データ数が限られている場合、全データを使って1つの高精度なモデルを作り全員で使い回すよりも、データを独立に分割して少し精度の低い複数のモデルを別々に学習させる方が、全員が同時に失敗する確率（期待単一栽培誤差）を低く抑えられることを示しました。
+</p>
+
+<h3>実践的・社会的な意義</h3>
+
+<p>
+ローン審査や採用選考など、複数の企業やサービスが共通の基盤モデルやデータセットを利用する現代のAIエコシステムにおいて、「個人のモデル単体の精度を最大化すること」が必ずしも「システム全体の安全性や公平性」につながらないことを数学的に裏付けた点に大きな意義があります。
+</p>
+    </body>
+</html>
