@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>言語モデルは自身の重みを書き換えることができる</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.21885v1">言語モデルは自身の重みを書き換えることができる</a></center></h1>
+
+<p>
+論文「Language Models Can Rewrite Their Own Weights」（arXiv:2611.21885）の位置づけは、「勾配計算や追加学習なしで、言語モデルが自身の推論のみを使って自らの重みを直接書き換え、継続的に自己改善（Self-Rewriting）できることを初めて実証した研究」です。
+</p>
+
+<p>
+従来のモデル改善手法の限界を打破し、2026年11月に注目を集めた「重み空間プログラミング（Weight-Space Programming）」の流れを「他者モデルの編集」から「完全な自己編集」へと発展させたマイルストーンといえます。
+</p>
+
+<h3>1. 研究の背景とブレイクスルー（何が新しいのか）</h3>
+
+<p>
+これまでLLMの振る舞いを変える手段は大きく2つしかなく、それぞれに課題がありました。本研究はその「第3の道」を切り開きました。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{改善アプローチ} & \text{特徴とメリット} & \text{従来の課題} & \text{本研究（Self-Rewriting）} \\
+\text{} & \text{} & \text{} & \text{の位置づけ} \\
+\hline
+\text{ファインチュー} & \text{重みに知識や能力が} & \text{莫大な計算資源（GPU} & \text{学習インフラや勾配計算} \\
+\text{ニング/追加学習} & \text{永続的に定着する} & \text{クラスタ）や学習イン} & \text{が不要（単一GPUで数時間} \\
+\text{} & \text{} & \text{フラが必要} & \text{動作するのみ）} \\
+\hline
+\text{プロンプト /} & \text{手軽に推論時の精度} & \text{タスクが終わると改善} & \text{重みに変更が永続化される} \\
+\text{テスト時計算} & \text{を引き上げられる} & \text{が消え、回答ごとに推論} & \text{ため、推論時の追加コストが} \\
+\text{} & \text{} & \text{コストがかかる} & \text{ゼロ} \\
+\hline
+\text{重み空間} & \text{勾配なしで重みを直接} & \text{「より賢い別モデル」が} & \text{教師モデルなしで「自分自身} \\
+\text{プログラミング} & \text{編集して性能を} & \text{「小さなモデル」を編集} & \text{の重み」を自律的に診断} \\
+\text{（先行研究）} & \text{上げる} & \text{する構図だった} & \text{・修正できる} \\
+\hline
+\end{array}
+\]
+
+</p>		
+
+<h3>2. AI研究史における3つの重要な意義</h3>
+
+<p>
+• <strong>「学習」と「推論」の境界の融合</strong><br>
+　従来のAIは「学習フェーズで重みを固定し、推論フェーズでは重みを変えない」のが大前提でした。本研究は、人間が対話や内省を通じて思考を修正するように、推論（Python環境での自己診断とコード実行）の延長線上でモデル自身のパラメータを更新できることを示しました。
+</p>
+
+<p>
+• <strong>再帰的自己改善（RSI）への新たなアプローチ</strong><br>
+　外部の人間による最適化アルゴリズムや大規模な強化学習ループを介さず、モデルが「自分の失敗を分析（隠れ状態の比較など）→ 重みを編集 → 自己テストで検証 → 改善されれば採用」というサイクルを8セッション連続で回し、未知のベンチマーク精度を向上（+6.6ポイント）させました。また、破損した自身のコピーをテキストの数学問題だけで自己修復し、未知の画像ベンチマークの精度まで回復（7%→70%）させた点は、モデルの内部表現に対する深い自己理解（解釈可能性の応用）を示唆しています。
+</p>
+
+<p>
+• <strong>自己編集能力の「創発（スケーリング則）」の発見</strong><br>
+　同じモデルファミリーでも、2Bモデルは何もできず、4B・9Bモデルは自分自身を壊してしまいました。27B規模になって初めて人間のように内部状態を分析して適切に重みを書き換えられるようになったことから、「自身の脳（重み）を外科手術する能力」もモデル規模の拡大に伴って創発する知能の一部であることが明らかになりました。
+</p>
+    </body>
+</html>
