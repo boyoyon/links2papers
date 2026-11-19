@@ -26,7 +26,7 @@
 [<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#RUA">RUA</a>] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
 </p>
 <p>
-・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコードを着た(大人のふりをした)RAG</a><br>
+・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコードを着た (「大人のふりをした」ということらしい) RAG</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_decoding_wo_decoder.html">デコーダー無しのデコード</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_2_counterexamples_for_e-means.html">e-means に対する2つの反例</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
