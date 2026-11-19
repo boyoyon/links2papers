@@ -26,6 +26,7 @@
 [<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#RUA">RUA</a>] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
 </p>
 <p>
+・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_monoculture_robust_learning.html">Monoculture Robust Learning (複数のAIモデルが同じ訓練データを共有する場合)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_decomposing_sgd_dynamics.html">教師刺激によるスパイクと分散の膨張(LazyでもRichでもないない領域の挙動を解析？)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_prognosis_wo_prediction.html">予測なき予後？</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_learning_trajectories.html">学習軌跡は解読可能な痕跡を残す</a><br>
