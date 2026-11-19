@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>WM^MLLM</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.24193v1">\(\mathrm{WM}^{\mathrm{MLLM}}\): MLLMを世界的なモデルへと変える</a></center></h1>
+
+<p>
+この論文（WM\({}^{\text{MLLM}}\): Turning MLLMs into World Models）の位置づけは、「MLLM（マルチモーダル大規模言語モデル）を中核として構築された、世界初の対話型ワールドモデル（インタラクティブ世界モデル）」です。
+従来のワールドモデルや画像編集技術が抱えていた「記憶のドリフト（再訪時の変化）」や「編集の一貫性の欠如」という課題を、「世界の状態（ワールドステート）を生成器の外部に独立して保持し、MLLMに管理・更新させる」という新しいアーキテクチャによって解決した点に大きな意義があります。
+</p>
+
+<h3>1. 既存研究との比較における位置づけ</h3>
+
+<p>
+これまでの世界生成・編集技術にはそれぞれ限界があり、本論文はそのギャップを埋める存在として位置づけられています。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{アプローチ} & \text{代表例} & \text{特徴と課題} & \mathrm{WM}^{\mathrm{MLLM}} \text{ のアプローチ}\\
+\hline
+
+\text{動画} & \text{Genie 3 / 4,} & \text{動画生成器のコンテキスト内に世界} & \text{状態を外部（パノラマとパッチ} \\
+\text{ワールド} & \text{Matrix-Game 3.0} & \text{を保持します。カメラが離れて戻る} & \text{＋履歴）に保存します。} \\
+\text{モデル} & \text{など} & \text{と再合成されるため、以前の編集が} & \text{動画生成器（Sol-H3）は遷移の} \\
+\text{} & \text{} & \text{消えたり変化（ドリフト）したり} & \text{表示のみを行い、状態の書き換え} \\
+\text{} & \text{} & \text{します。} & \text{は行いません。} \\
+\hline
+
+\text{3D} & \text{HunyuanWorld, } & \text{メッシュやガウシアンサーフェル等} & \text{MLLM（GPT-6.1-sol）が} \\
+\text{ワールド} & \text{WonderWorld, } & \text{で明示的な3D空間を構築します。} & \text{操作計画、局所編集の領域} \\
+\text{モデル} & \text{Marble など} & \text{しかし、MLLMによる計画、柔軟な} & \text{選択、状態の検証までを} \\
+\text{} & \text{} & \text{オブジェクト編集、正確な復元、} & \text{一貫して制御します。} \\
+\text{} & \text{} & \text{編集前の検証のすべてを兼ね備えた} & \text{} \\
+\text{} & \text{} & \text{システムはありませんでした。} & \text{} \\
+\hline
+
+\text{画像編集} & \text{Agent Banana, } & \text{MLLMの計画やフィードバックを用} & \text{単一画像から構築したパノ} \\
+\text{エージェ} & \text{EditAgent} & \text{いて画像を編集します。単発やレイ} & \text{} \\
+\text{ント} & \text{など} & \text{ヤー単位の編集には強いものの、空} & \text{ラマ空間内で、移動・再} \\
+\text{} & \text{} & \text{間を移動・探索し続ける「対話的な} & \text{訪・オブジェクト編集・天} \\
+\text{} & \text{} & \text{世界」としての構築には至っていま} & \text{候や照明の変更などを統合} \\
+\text{} & \text{} & \text{せんでした。} & \text{的に行えます。} \\
+\hline
+
+\end{array}
+\]
+
+</p>			
+
+<h3>2. 技術的・学術的な3つの柱</h3>
+
+<p>
+本論文は、対話型ワールドモデルに不可欠な3つの性質を「構造的に（by construction）」保証した点が高く評価されています。
+</p>
+
+<p>
+• <strong>再訪性（Return）</strong><br>
+　同じリビジョン（版）の場所にカメラを戻すと、画像生成器を呼ばずに保存された状態からレンダリングするため、以前の景色がピクセル単位で正確に再現されます。
+</p>
+
+<p>
+• <strong>局所性（Locality）</strong><br>
+　画像生成モデル（GPT-Image）が編集案を出した後、MLLMが元画像と比較して「変更が及ぶ領域（サポート）」を事後的に特定し、その範囲だけをパノラマに合成します。これにより、編集領域外のピクセルが一切変化しないことを保証します。
+</p>
+
+<p>
+• <strong>永続性（Persistence）</strong><br>
+　すべての変更リクエストは直前の状態（リビジョン履歴やシーングラフ）を引き継いで実行され、MLLMの検証（チェック）を通過した変更のみが次の状態としてコミットされます。
+</p>
+
+<h3>3. 研究トレンドにおける意義</h3>
+
+<p>
+近年は「生成モデル（動画や画像）そのものに世界を記憶・シミュレートさせる」アプローチが主流でしたが、本論文は「画像・動画生成器はあくまで『候補の提案』や『見た目の提示』に徹し、世界の記憶と論理的な整合性の管理はMLLMと外部状態に任せる」という役割分担（システム設計）を提示しました。
+</p>
+
+<p>
+その結果、環境復元ベンチマーク（MBench-A）におけるカメラ往復完了率（85.3% vs 既存最高50.9%）や、編集ベンチマーク（CompBench）の全15指標で最高性能を達成しており、「MLLMエージェントによる空間・世界構築」という新たな方向性を確立した論文と言えます。
+</p>
+    </body>
+</html>
