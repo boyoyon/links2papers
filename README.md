@@ -14,7 +14,7 @@
 ・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/19　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/18　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
@@ -30,6 +30,7 @@
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_resolution_hypothesis.html">分解能仮説：改善案は出しているのに評価の分解能が足りていない･･･</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_worldviews_in_llm.html">安全性を確保しようと事後学習をがんばったらAIが暗い世界観を持ってしまった･･･</a><br>
+・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_lm_can_rewrite_own_weights.html">[WSP] やっぱり出てきた　自己 WSP</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_feedback.html">高品質トレーニング・データ枯渇後はどうすべきか？</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_lattice_language_models.html">計算量ではなく計算容量？</a><br>
