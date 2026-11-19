@@ -28,7 +28,7 @@
 <p>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_learning_trajectories.html">学習軌跡は解読可能な痕跡を残す</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_self_improve.html">LLM は教えられなくても自己改善できる？(知識爆発の導火線に火がついた？)</a><br>
-・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコードを着た (「大人のふりをした」ということらしい) RAG</a><br>
+・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコートを着た (「大人のふりをした」ということらしい) RAG</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_decoding_wo_decoder.html">デコーダー無しのデコード</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_2_counterexamples_for_e-means.html">e-means に対する2つの反例</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
