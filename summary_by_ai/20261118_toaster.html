@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>トースター</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.23648v1">トースター：カスケード接続された線形メモリとターゲット伝搬による非線形メモリ</a></center></h1>
+
+<p>
+本論文（Toaster: Nonlinear Memory from Cascaded Linear Memories and Target Propagation）は、長文脈処理（リカレントメモリ）の研究領域において、「高速な学習が可能な線形メモリ」と「高い表現力を持つ非線形（深層）メモリ」のトレードオフを解消し、両者の利点を橋渡しする（ブリッジする）位置づけにあります。
+</p>
+
+<p>
+2026年11月にGoogle Researchおよび南カリフォルニア大学（USC）の研究チームによって発表された本研究の具体的な学術的・技術的位置づけは以下の通りです。
+</p>
+
+<h3>1. 既存研究の2大潮流と課題（解決しようとしたボトルネック）</h3>
+
+<p>
+従来の固定サイズ状態を持つリカレントメモリ（RNN系アテンション代替手法）は、大きく2つのファミリーに分かれていました。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{メモリの種類} & \text{代表的な手法} & \text{強み} & \text{弱み（ボトルネック）} \\
+\hline
+
+\text{線形メモリ} & \text{DeltaNet, Gated } & \text{更新則がアフィン変換であり、} & \text{状態が単一の行列（線形写像）} \\
+\text{(Linear } & \text{DeltaNet, KDA } & \text{WY表現（チャンク単位の} & \text{に制限されるため、記憶容量} \\
+\text{Memory)} & \text{(Kimi Delta } & \text{並列化）が厳密に成立する} & \text{や表現力に限界がある。} \\
+\text{} & \text{Attention) など} & \text{ため、極めて高速に学習できる。} & \text{} \\
+\hline
+
+\text{深層・非線形} & \text{TTT-MLP, Titans, } & \text{状態を多層パーセプトロン} & \text{勾配が活性化関数を通過する} \\
+\text{メモリ} & \text{Atlas, LaCT, TNT} & \text{（MLP）とし、テスト時学習} & \text{ためWY表現が存在せず、} \\
+\text{(Deep /} & \text{など} & \text{（TTT）で更新するため、} & \text{小さなチャンクでの近似的な} \\
+\text{ TTT Memory)} & \text{} & \text{非線形な複雑な関係を} & \text{ミニバッチ更新に頼る必要} \\
+\text{} & \text{} & \text{記憶できる。} & \text{があり、学習速度（スルー} \\
+\text{} & \text{} & \text{} & \text{プット）が大幅に低下する。} \\
+\hline
+
+\end{array}
+\]
+
+</p>
+
+<h3>2. Toasterの独自性とブレークスルー</h3>
+
+<p>
+Toasterは、「2層の線形メモリ（KDA）の間に非線形活性化関数（GELU）を挟み、隠れ層の学習にターゲット伝播（Target Propagation）を用いる」というアプローチで上記2つのギャップを埋めました。
+</p>
+
+<p>
+• <strong>層ごとのWYカーネル適用</strong><br>
+出力層の誤差を第2メモリ経由で逆投影して第1メモリ（隠れ層）の「ターゲット値」を生成することで、各層を独立した標準的な線形メモリとして扱えるようにしました。これにより、既存の高速なWYカーネルをそのまま流用できます。
+</p>
+
+<p>
+• <strong>先行研究（GSAやDelta MLP等）との違い</strong><br>
+2つの線形メモリを重ねる先行研究（ABC, GSA, Ravenなど）は各層を独立に書き込んでいましたが、Toasterは「メモリ自身の出力誤差」を介して2つの層の書き込みを結合しており、トークン単位では2層MLPの勾配降下法と数学的に等価な挙動を実現しています。
+</p>
+
+<h3>3. 実用・性能面での立ち位置</h3>
+
+<p>
+• <strong>品質と速度の両立</strong><br>
+1.2B規模までの実験において、線形メモリ（KDA）や深層メモリ（Titans）を上回る言語モデリング性能・下流タスク精度を達成しつつ、32K文脈長においてTitansの2.8〜5.5倍高速（KDAの1.33倍以内のオーバーヘッド）という実用的な学習速度を維持しています。
+</p>
+
+<p>
+• <strong>ハイブリッド構成での優位性</strong><br>
+Qwen3-NextやKimi K3など近年の大規模モデルで主流となっている「リカレント層3：グローバルAttention層1」のハイブリッド構成において、KDA・Titans・スライディングウィンドウAttentionを抑えて最も高い性能（ベースラインのAttentionをも上回るパープレキシティと検索精度）を示しており、次世代の長文脈LLMのビルディングブロックとしての可能性を示しています。
+</p>
+
+<br>
+●なぜ「TOASTER」？
+<br><br>
+
+<p>
+「Toaster（トースター）」という名前の由来は、論文の1章（脚注1）にて著者らによってユーモアを交えて説明されています。
+</p>
+
+<p>
+「2つのスロット（＝線形メモリ）の間に熱（＝非線形性）を挟んだ構造だから」というのがその理由です。
+</p>
+
+<p>
+具体的には、パンを焼くトースターの構造に見立てた言葉遊びになっています<br>
+• <strong>2つのスロット（two slots）</strong>　2層の「線形メモリ（\(\mathbf{S}^{(1)}\) と \(\mathbf{S}^{(2)}\)）」のこと。<br>
+• <strong>間に挟まれた熱（heat between them）</strong>　その2つのメモリの間に挟まれた「非線形活性化関数（GELUなど）」のこと。
+</p>
+
+<p>
+なお、著者らは「原理的にはもっと多くのスロット（多層化）があっても構わない（＝4枚焼きトースターのように拡張可能）」とも付け加えています（付録Cでも \(N\) 層への拡張が議論されています）。
+</p>
+
+<br>
+●「WY表現」とは？<br>
+<br>
+
+<p>
+WY表現（WY representation）とは、数値線形代数の分野で考案された「複数のハウスホルダー行列（鏡映変換行列）の積を、2つの行列（\(\mathbf{W}\) と \(\mathbf{Y}\)）を用いたコンパクトな形式にまとめて表現する手法」です。
+</p>
+
+<p>
+近年の線形リカレントメモリ（DeltaNetやKDAなど）においては、「1トークンずつの逐次的な記憶の更新を、計算結果の厳密さを保ったままチャンク（塊）単位の並列な行列積に変換する」ための鍵となる技術として使われています。
+</p>
+
+<h3>4. なぜ必要なのか？（逐次処理のボトルネック）</h3>
+
+<p>
+線形メモリでは、新しいトークンが来るたびに、記憶行列 \(\mathbf{S}_{t-1}\) に対してランク1の修正（一般化ハウスホルダー変換 \(\mathbfit{I} - \beta_t \mathbfit{k}_t \mathbfit{k}_t^{\mathsf{T}}\)）を掛けて状態を更新します。
+</p>
+
+<p>
+• これをそのまま計算すると、前のトークンの更新が終わるまで次のトークンを計算できない逐次処理（ループ）になり、GPUやTPUの並列計算能力を活かせず学習が非常に遅くなります。
+</p>
+
+<h3>5. WY表現による解決の仕組み</h3>
+
+<p>
+\(C\) トークン分の更新（チャンク）をまとめて処理する際、\(C\) 個のハウスホルダー行列の掛け算をそのまま展開する代わりに、補助ベクトル \(\mathbfit{w}_{i}\) を導入して以下のように変形します（本論文の表記ではキー行列 \(\mathbf{K}\) が元の論文の \(\mathbf{Y}\) に相当します）。
+\(\prod _{s=1}^{C}\left(\mathbf{I}-\beta _{s}\mathbfit{k}_{s}\mathbfit{k}_{s}^{\mathsf{T}}\right)\;=\;\mathbf{I}-\sum _{i=1}^{C}\mathbfit{k}_{i}\mathbfit{w}_{i}^{\mathsf{T}}\;=\;\mathbf{I}-\mathbf{K}^{\mathsf{T}}\mathbf{W}\)
+</p>
+
+<p>
+この変形により、計算プロセスが劇的に効率化されます：
+</p>
+
+<p>
+<strong>① 小さな三角方程式を解く</strong><br>
+チャンク内のトークン同士の内積から、サイズ \(C \times C\)（例：\(32 \times 32\)）の小さな三角行列の連立方程式を解いて補助行列 \(\mathbf{W}\)（および値側の \(\mathbf{U}\)）を求めます。
+</p>
+
+<p>
+<strong>② 高密度な行列積（Matmul）で一括更新</strong><br>
+求めた \(\mathbf{W}, \mathbf{U}\) を使うことで、チャンク終了後の記憶状態や全トークンの出力を数回の大きな行列積だけで一括計算できます。
+</p>
+
+<h3>6. WY表現のメリットとToasterでの意義</h3>
+
+<p>
+• <strong>近似なしの「厳密な」高速化</strong><br>
+ミニバッチ近似のように過去の更新を無視するのではなく、1トークンずつ順番に更新した場合と数学的にまったく同じ結果が得られます。
+</p>
+
+<p>
+• <strong>Toasterでの役割</strong><br>
+従来の深層メモリ（Titansなど）は更新式の途中に非線形関数（活性化関数）が挟まるため、ハウスホルダー行列の積の形が崩れてWY表現が使えませんでした。Toasterは「ターゲット伝播」によって各層を独立した線形メモリに分解することで、非線形メモリでありながら層ごとにWY表現の高速カーネルをそのまま実行できるようにしています。
+</p>
+    </body>
+</html>

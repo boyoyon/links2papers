@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>光ニューラルネットワークの現場トレーニング</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.23875v1">コーディングエージェントによる光ニューラルネットワークの現場トレーニング</a></center></h1>
+
+<p>
+この論文（arXiv:2611.23875v1、「In Situ Training of Optical Neural Networks by Coding Agents」）は、「光ニューラルネットワーク（ONN）の現場（実機）学習における長年のボトルネックを、コーディングエージェント（LLM）による自律的な物理理解とプログラム化によって解決する新たなパラダイム（"Optics as Code"）を提示した研究」という位置づけです。
+</p>
+
+<p>
+スタンフォード大学（Gordon Wetzstein研究室など）とスイス連邦工科大学ローザンヌ校（EPFL：Christophe Moser、Demetri Psaltis研究室など）という、光コンピューティングと計算イメージングのトップ研究グループによる共同研究です。
+学術的・技術的な背景と本研究の立ち位置は以下の3点に集約されます。
+</p>
+
+<h3>1. 従来の「実機学習（In Situ Training）」が抱えていたジレンマの解消</h3>
+
+<p>
+光ニューラルネットワークは高速・低消費電力なAI計算基盤として期待されていますが、製造誤差や光学素子のズレなどにより、シミュレーション通りの精度が実機で出ない（本実験では98%から35%に低下）という課題があります。これを解決する従来の実機学習には、以下のトレードオフがありました。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{手法	} & \text{アプローチ} & \text{メリット} & \text{デメリット（ボトルネック）} \\
+\hline
+
+\text{デジタルツイン} & \text{実機データから精密な微分} & \text{高精度（本実験で96.3%）} & \text{デバイスごとに専門家の} \\
+\text{/ モデル較正} & \text{可能モデルを構築し、誤差} & \text{} & \text{知識、膨大な測定データ} \\
+\text{} & \text{逆伝播法で学習} & \text{} & \text{（約6.7万枚）、GPUで} \\
+\text{} & \text{} & \text{} & \text{の長時間学習が必要} \\
+\hline
+
+\text{勾配なし最適化} & \text{PPOなどのアルゴリズムで} & \text{事前の物理モデルが不要} & \text{パラメータ数が増えると} \\
+\text{（強化学習など）} & \text{報酬のみを頼りに試行錯誤} & \text{} & \text{実験回数が爆発し、精度} \\
+\text{} & \text{} & \text{} & \text{が頭打ちになる（本実験} \\
+\text{} & \text{} & \text{} & \text{で最大52.5%）} \\
+\hline
+
+\text{本研究：} & \text{LLMエージェントが仮説} & \text{専門家・事前の精密モデル} & \text{LLMの推論能力やハー} \\
+\text{Optics as } & \text{検証とプローブ測定を行い、} & \text{不要で、デジタルツイン並} & \text{ネス（実験環境インター} \\
+\text{Code} & \text{光学系を「コード」として} & \text{みの高精度（96.8%）を少} & \text{フェース）の設計に依存} \\
+\text{} & \text{再パラメータ化して調整} & \text{ない測定回数で達成} & \text{} \\
+\hline
+
+\end{array}
+\]
+</p>
+
+<h3>2. LLMエージェントの応用領域の拡張（「重み空間プログラミング」の物理世界への適用）</h3>
+
+<p>
+近年、LLMがデジタルニューラルネットワークの重みを直接読み書きする「重み空間プログラミング（Weight-space programming）」や、実験装置の自動アライメントを行う研究が登場しています。
+本研究はこれらを統合・発展させ、「パラメータを直接見ることができず、測定結果（カメラ画像）から推測するしかない物理デバイス」のニューラルネットワーク学習をLLMに担わせた点に新規性があります。
+</p>
+
+<h3>3. 光プロセッサの大量展開・実用化に向けたブレイクスルー</h3>
+
+<p>
+光コンピューティングを実用化して数千・数百万台規模で展開する際、「1台ごとに専門家が張り付いてキャリブレーションを行う」ことはコスト面で不可能です。
+</p>
+
+<p>
+本研究では、LLMが実験を通じて得た知見を自然言語の「ノート（引き継ぎメモ）」として残すことで、別のセッションや別個体のデバイスにも知識を効率的に転移できることを示しました。また、マルチモードファイバーや複雑媒質など、数式でのモデル化が困難な非線形物理システムをAI計算機として活用するための汎用的なツールとしての可能性も切り拓いています。
+</p>
+    </body>
+</html>
