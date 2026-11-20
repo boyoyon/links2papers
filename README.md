@@ -26,14 +26,15 @@
 [<a href="https://boyoyon.github.io/Glossary_and_Papers/Glossary_and_Papers.html#RUA">RUA</a>] Robot-use Agent (ロボットを使うエージェント。ロボットがエージェントを使う訳ではない)<br>
 </p>
 <p>
-・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_counterfactual_world_models.html">反事実的世界モデル (2回呼び出すだけで、見えない外乱に適応)</a><br>
-・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_optical_nn.html">Optics as Code</a><br>
-・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_toaster.html">トースター　(高速・高精度な非線形メモリ)</a><br>
+★：追加・変更項目<br>
+・2026/11/18★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_counterfactual_world_models.html">反事実的世界モデル (2回呼び出すだけで、見えない外乱に適応)</a><br>
+・2026/11/18★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_optical_nn.html">Optics as Code</a><br>
+・2026/11/18★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_toaster.html">トースター　(高速・高精度な非線形メモリ)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_monoculture_robust_learning.html">Monoculture Robust Learning (複数のAIモデルが同じ訓練データを共有する場合)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_decomposing_sgd_dynamics.html">教師刺激によるスパイクと分散の膨張(LazyでもRichでもないない領域の挙動を解析？)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_prognosis_wo_prediction.html">予測なき予後？</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_learning_trajectories.html">学習軌跡は解読可能な痕跡を残す</a><br>
-・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_where_the_tokens_go.html">トークンの行先</a><br>
+・2026/11/17★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_where_the_tokens_go.html">トークンの行先</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_self_improve.html">LLM は教えられなくても自己改善できる？(知識爆発の導火線に火がついた？)</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコートを着た (「大人のふりをした」ということらしい) RAG</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_decoding_wo_decoder.html">デコーダー無しのデコード</a><br>
@@ -82,7 +83,7 @@
 ・2026/11/01 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261101_value_forcing.html">価値強制： 分布型強化学習にFlowMatchingを使う</a><br>
 ・2026/10/30 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261030_id_wm.html">世界モデルから実行不可能な夢想を排除？</a><br>
 ・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_proving_and_improving_prh.html">プラトン表現仮説を証明？</a>　機械翻訳 (途中まで･･･) は<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_proving_and_improving_PRH_with_jepas/2026_proving_and_improving_PRH_with_jepas.html">こちら</a><br>
-・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_rethinking_neural_thickets.html">密林仮説の再考 (出力ロジットにバイアスを加えるだけで高精度になる？)</a><br>
+・2026/10/29★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_rethinking_neural_thickets.html">密林仮説の再考 (出力ロジットにバイアスを加えるだけで高精度になる？)</a><br>
 ・2026/10/25 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261025_intrinsic_goals_for_autonomous_agents.html">内発的動機づけアルゴリズムでハエの行動を再現した？</a><br>
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
