@@ -82,6 +82,7 @@
 ・2026/11/01 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261101_value_forcing.html">価値強制： 分布型強化学習にFlowMatchingを使う</a><br>
 ・2026/10/30 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261030_id_wm.html">世界モデルから実行不可能な夢想を排除？</a><br>
 ・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_proving_and_improving_prh.html">プラトン表現仮説を証明？</a>　機械翻訳 (途中まで･･･) は<a href="https://boyoyon.github.io/HTMLs_translated_to_Japanese/papers/2026_proving_and_improving_PRH_with_jepas/2026_proving_and_improving_PRH_with_jepas.html">こちら</a><br>
+・2026/10/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_rethinking_neural_thickets.html">密林仮説の再考 (出力ロジットにバイアスを加えるだけで高精度になる？)</a><br>
 ・2026/10/25 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261025_intrinsic_goals_for_autonomous_agents.html">内発的動機づけアルゴリズムでハエの行動を再現した？</a><br>
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
