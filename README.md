@@ -39,7 +39,7 @@
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_decomposing_sgd_dynamics.html">教師刺激によるスパイクと分散の膨張(LazyでもRichでもないない領域の挙動を解析？)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_prognosis_wo_prediction.html">予測なき予後？</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_learning_trajectories.html">学習軌跡は解読可能な痕跡を残す</a><br>
-・2026/11/17★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_where_the_tokens_go.html">トークンの行先</a><br>
+・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_where_the_tokens_go.html">トークンの行先</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_self_improve.html">LLM は教えられなくても自己改善できる？(知識爆発の導火線に火がついた？)</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコートを着た (「大人のふりをした」ということらしい) RAG</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_decoding_wo_decoder.html">デコーダー無しのデコード</a><br>
