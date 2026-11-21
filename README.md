@@ -94,7 +94,7 @@
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
 ・2026/09/07　<a href="https://web.mit.edu/phillipi/www/writing/robot-use-agents.html">[RUA源流] 「Robot-Use Agents」というパラダイムそのものを名付け、定義した</a><br>
-・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20270731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
+・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
 ・2026/05/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260520_world_particle.html">汎用物理シミュレータ？</a><br>
 </p>
 <br>
