@@ -29,6 +29,7 @@
 ★：追加・変更項目<br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_weightcode.html">[WSP] WeightCode (WSPの差分プログラミング？メタプログラミング？)</a><br>
 　　AIモードに何度も論文解説をお願いしていたら、解説が雑になってしまった･･･<br>
+    他の論文は解説してくれるので、この論文に説明したくない何かがあるのか???気になる<br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_cultural_invariance_in_music_evoked_emotions.html">音楽によって引き起こされる感情の文化的不変性</a><br> 
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_world_models_favor_learned_priors.html">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a><br> 
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>    
