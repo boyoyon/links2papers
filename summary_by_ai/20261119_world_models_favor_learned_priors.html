@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26366v1">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a></center></h1>
+
+<p>
+この論文「World Models Favor Learned Priors over Visual Evidence」（arXiv:2611.26366v1）は、物理世界モデル（World Models）における「学習データの偏り（事前分布バイアス）」と「目の前の視覚的証拠（キャリブレーション動画）」の対立を解消する研究という位置づけです。
+</p>
+
+<p>
+従来の物理シミュレーション・世界モデル研究（CoPhy、MaNGO、Cosmosなど）の課題を明確化し、評価基準と解決手法の両面から新たなアプローチを提示しています。
+</p>
+
+<h3>1. 研究背景と解決しようとしている課題</h3>
+
+<p>
+• <strong>「見た目」だけでは物理法則がわからない問題</strong><br>
+反発係数や質量比などが異なる物体でも、見た目が同じであれば静止画からは物理法則を判別できません。そのため、短い参照動画（キャリブレーション）の動きから現在の物理ルールを推論し、別の初期状態での動きを予測する「視覚的キャリブレーション（Visual Calibration）」が重要になります。
+</p>
+
+<p>
+• <strong>ロングテール分布による「思い込み（事前分布バイアス）」</strong><br>
+現実世界のデータは特定の物理条件に偏り（ロングテール分布）があります。従来のモデルは学習データで頻出する「一般的なルール」に引きずられ、目の前の動画（証拠）が「レアな物理法則」を示していても、よくある動きを予測してしまうという課題を抱えていました。
+</p>
+
+<h3>2. 本論文の2つの柱（貢献）</h3>
+
+<p>
+この論文は、既存研究のミッシングリンクを埋めるために以下の2つを提案しています。
+
+\[
+\begin{array}{|l|l|l|}
+\hline
+\text{提案要素} & \text{名称} & \text{役割・位置づけ} \\
+\hline
+
+\text{評価ベンチ} & \text{TailWorld} & \text{「学習データの偏り（頻度）」と「証拠動画の情報量」を独立して制御} \\
+\text{マーク} & \text{} & \text{できる評価環境。同じ初期状態から「真の（レアな）ルール」と} \\
+\text{} & \text{} & \text{「一般的なルール」の2つの未来を用意し、モデルがどれだけ一般的な} \\
+\text{} & \text{} & \text{ルールに引っ張られる（バイアスがかかる）かを定量化します。} \\
+\hline
+
+\text{提案手法} & \text{RIFT} & \text{観測された相互作用から現在の物理ルールを線形制約として逆算し、} \\
+\text{} & \text{(Rule} & \text{別の初期状態へ転移させるフレームワーク。最大の特徴は、「学習時の} \\
+\text{} & \text{Inference for} & \text{出現頻度の影響度（\(\tau \)）」を推論時に明示的にコントロールできる点に} \\
+\text{} & \text{Transfer)} & \text{あり、十分な証拠があればレアな物理法則を優先して予測できます。} \\
+\hline
+
+\end{array}
+\]
+
+</p>
+
+<h3>3. 関連分野の中での立ち位置</h3>
+
+<p>
+• <strong>メタ学習・適応型ダイナミクスモデル（CoPhyNet, MaNGO, NCFなど）に対して</strong><br>
+従来の適応手法は、環境ごとのパラメータ更新や軌跡の条件付けを行いますが、学習データの頻度バイアスに対する明示的な制御が欠けていました。RIFTは「証拠の適合度」と「事前頻度」を分離して扱うことでこれを克服しています。
+</p>
+
+<p>
+• <strong>大規模動画生成・基盤世界モデル（NVIDIA Cosmos, Wan2.2など）に対して</strong><br>
+実験では最新の基盤モデルも評価されていますが、デモ動画を与えても物理法則の厳密な転移やレアな挙動の予測には苦戦することが示されています。大規模モデルが抱える「学習データの平均的な挙動に寄りすぎる」という弱点を突いた問題提起となっています。
+</p>
+
+<p>
+• <strong>ロングテール学習（Long-tailed Learning）に対して</strong><br>:
+画像認識などの分類タスクで研究されてきた「事前分布の補正（Prior Correction）」の考え方を、「動画から潜在的な物理法則を推論し、別の状態へ転移させて未来を予測する」という連続的な物理ダイナミクス領域へ拡張した点に新規性があります。
+</p>
+    </body>
+</html>

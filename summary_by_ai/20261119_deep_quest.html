@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>DeepQuest</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26343v1">DeepQuest：アルツハイマー病における知識のギャップから科学的発見へ</a></center></h1>
+
+<p>
+本論文（『DeepQuest: From Knowledge Gaps to Scientific Discovery in Alzheimer's Disease』）の学術的な位置づけは、「『実験の自動化』から『既存の科学的知見を前進させる、検証可能で価値ある発見の創出』へとAIサイエンティスト研究を次の段階へ引き上げた研究」にあります。
+</p>
+
+<p>
+これまでのAI研究エージェント（AI Scientist-v2やMedical AI Scientistなど）が抱えていた課題を乗り越えるため、特にアルツハイマー病（AD）のコホート研究という領域において、以下の3つの重要な転換点を示しています。
+</p>
+
+<h3>1. 「アイデアの量産」から「知識のギャップ（Knowledge Gap）起点の仮説構築」へ</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+既存のAIサイエンティストは、与えられたタスクの精度向上や網羅的な仮説生成には長けていましたが、「それが科学的に本当に解くべき未解決の問い（知識のギャップ）なのか」という根拠が希薄でした。
+</p>
+
+<p>
+• <strong>本研究の貢献</strong><br>
+ドメインの総説論文（レビュー）から「既知の事実」と「未解明の現象（研究上の限界）」を構造化して抽出し、元の文献への追跡可能性（トレーサビリティ）を保ったまま検証可能な仮説へと変換する手法を確立しました。
+</p>
+
+<h3>2. 「データ制約下でのタスク最適化」の導入</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+機械学習のベンチマークタスクとは異なり、医療・臨床コホート研究（OASIS-3やADNIなど）では、「魅力的な仮説であっても、手元のデータに該当する変数や追跡期間がなければ検証不可能」という現実的な制約があります。
+</p>
+
+<p>
+• <strong>本研究の貢献</strong><br>
+仮説の実行前に、利用可能なデータの構造・欠損・縦断的つながりを精査する「データ実現可能性スクリーニング」と、Eloレーティングを用いたグループ比較による「優先順位付け」を導入しました。これにより、限られた計算資源で最も科学的価値と実行可能性が高い問いを自律的に選択できるようにしました。
+</p>
+
+<h3>3. 「統計的有意性」と「科学的貢献度」の分離監査（Two-Level Auditing）</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+従来のエージェント（例えば既存のADRD仮説検証システムなど）は、既知の関連性の再現や、単なる統計的有意差の発見にとどまりがちで、「その結論が既存の研究に対してどれだけ新しい知見を加えたか」を客観的に評価できていませんでした。
+</p>
+
+<p>
+• <strong>本研究の貢献</strong><br>
+実験プロセスやコードの妥当性をチェックする「実行監査」と、得られた結論を既存の論文コーパスと照合して「再発見（Rediscovery）」「拡張（Extension）」「新規発見候補（Candidate New Discovery）」に分類する「知識貢献監査」を完全に分離しました。
+</p>
+
+<h3>まとめ：どのようなインパクトを持つ研究か</h3>
+
+<p>
+単なる「AIによるデータ分析の効率化ツール」ではなく、「既存文献の限界を特定し、手持ちの医療データで検証可能な問いを選び抜き、得られた知見の新規性を文献ベースで証明する」という一連の科学的発見プロセス（Scientific Discovery）をエンドツーエンドで体系化したフレームワークとして位置づけられます。実際に、OASIS-3で導き出された神経精神症状やアミロイド・タウ病理に関する3つの代表的な医学的知見が、外部の独立コホート（ADNIやAIBL）でも再現されたことは、AIが自律的に医学的価値のある仮説検証を行えることを実証した重要なマイルストーンと言えます。
+</p>
+    </body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>「意識」の探求</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26590v1">「意識」の探求：<br> 視覚言語モデルにおける選択的アクセスとグローバルワークスペース</a></center></h1>
+
+<p>
+この論文（arXiv:2611.26590v1、タイトル：Probing the “Conscious” Mind: Selective Access and Global Workspace in Vision-Language Models）の位置づけは、脳科学の「グローバル・ワークスペース理論（GWT）」を視覚言語モデル（VLM）に拡張し、マルチモーダルな概念処理のメカニズムを解明する「機械的解釈可能性（Mechanistic Interpretability）」の最新研究です。
+</p>
+
+<p>
+具体的には、以下の3つの観点からその学術的・技術的位置づけを整理できます。
+</p>
+
+<h3>1. 先行研究（LLM単体）から「マルチモーダル（VLM）」への拡張</h3>
+
+<p>
+• <strong>先行研究（J-Lensなど）の限界</strong><br>
+これまでGurneeら（2026）が提案したJacobian Lens（J-Lens）などにより、大規模言語モデル（LLM）の内部にGWTのような「選択的アクセス」や「共有ワークスペース」の構造があることは示されていました。しかし、それらはテキスト（単一モダリティ）に限定されていました。
+</p>
+
+<p>
+• <strong>本論文の貢献</strong><br>
+視覚エンコーダ（V-Lens）とテキストデコーダ（L-Lens）を統合したMC-Lens（Multimodal Concept Lens）を提案し、画像とテキストという異なるモダリティから入力された情報が、どのように共通の意味空間（出力語彙空間）で統合・選択され、推論に使われるかを初めて体系的に実証しました。
+</p>
+
+<h3>2. 解釈可能性手法の高度化（単一トークンから「概念方向セット」へ）</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+従来の語彙ベースの読み出し手法は、特定の「1つの単語トークン（例：bicycle）」に依存していましたが、VLMの視覚表現では1つの概念が複数の関連語や表記揺れ（bike, road, handleなど）に分散して表現される傾向があります。
+</p>
+
+<p>
+• <strong>本論文の貢献</strong><br>
+語形変化を網羅するセット（\(F_{\le j}\)）や、状態を再構成する貪欲法（\(J@k\)）によって「概念方向セット」を構築し、さらにその部分空間を書き換える反事実的介入手法（SubRep）を導入しました。これにより、単なる「内部状態の可視化（読み出し）」にとどまらず、その概念が下流のマルチホップ推論に因果的な影響を与えていることまで証明しています。
+</p>
+
+<h3>3. 学習ダイナミクスの解明とAI意識研究への橋渡し</h3>
+
+<p>
+• <strong>学習プロセスの可視化</strong><br>
+VLMの学習（アライメント訓練）において、視覚概念が読み出し可能になる（アクセシビリティの向上）段階よりも、質問に応じて必要な概念だけを取り出す「選択的アクセス」が発達する段階の方が遅いことを実験的に示しました。また、クロスモーダルなアライメントを測る新しい評価指標（J-state cosine, ReconCov）も提案しています。
+</p>
+
+<p>
+• <strong>AI意識研究との接点</strong><br>
+モデルが主観的体験（クオリア）を持つとは主張していないものの、GWTが定義する「機能的な意識的アクセス（情報の競合・選択・下流プロセスへの利用可能性）」がQwen3-VL、DeepSeek-VL2、Gemma 3といった異なるアーキテクチャのVLMに共通して創発していることを示し、将来のクロスモーダル学習の改善や機械の意識（Machine Consciousness）研究に実験的基盤を提供しています。
+</p>
+    </body>
+</html>
