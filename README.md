@@ -14,7 +14,7 @@
 ・更新日：2026/11/20　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/20　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/20　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/21　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/22　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/20　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/20　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
@@ -30,12 +30,12 @@
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない (Sharping派 vs Discovery派)</a><br>
 　　RL turns hedging into decisions, if it sees the switch<br>
 　　  (迷いを決断に変えるには、いつもの行動を変えて (成功するのを) 見る必要がある？人間っぽい･･･)<br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_weightcode.html">[WSP] WeightCode (WSPの差分プログラミング？メタプログラミング？)</a><br>
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_weightcode.html">[WSP] WeightCode (WSPの差分プログラミング？メタプログラミング？)</a><br>
 　　AIモードに何度も論文解説をお願いしていたら、解説が雑になってしまった･･･<br>
 　　他の論文は解説してくれるので、この論文に説明したくない何かがあるのか???気になる<br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_cultural_invariance_in_music_evoked_emotions.html">音楽によって引き起こされる感情の文化的不変性</a><br> 
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_world_models_favor_learned_priors.html">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a><br> 
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>    
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_cultural_invariance_in_music_evoked_emotions.html">音楽によって引き起こされる感情の文化的不変性</a><br> 
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_world_models_favor_learned_priors.html">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a><br> 
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>    
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_counterfactual_world_models.html">反事実的世界モデル (2回呼び出すだけで、見えない外乱に適応)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_optical_nn.html">Optics as Code</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_toaster.html">トースター　(高速・高精度な非線形メモリ)</a><br>
@@ -43,6 +43,7 @@
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_decomposing_sgd_dynamics.html">教師刺激によるスパイクと分散の膨張(LazyでもRichでもないない領域の挙動を解析？)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_prognosis_wo_prediction.html">予測なき予後？</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_learning_trajectories.html">学習軌跡は解読可能な痕跡を残す</a><br>
+・2026/11/17★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_pi4.html">π<sup>4</sup>sup>:4Dシーンの幾何構造と動きのための基盤モデル</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_where_the_tokens_go.html">トークンの行先</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_self_improve.html">LLM は教えられなくても自己改善できる？(知識爆発の導火線に火がついた？)</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_rag_in_a_trenchcoat.html">トレンチコートを着た (「大人のふりをした」ということらしい) RAG</a><br>
@@ -51,6 +52,7 @@
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_resolution_hypothesis.html">分解能仮説：改善案は出しているのに評価の分解能が足りていない･･･</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_worldviews_in_llm.html">安全性を確保しようと事後学習をがんばったらAIが暗い世界観を持ってしまった･･･</a><br>
+・2026/11/16★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_scale_vla.html">ScaleVLA</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_lm_can_rewrite_own_weights.html">[WSP] やっぱり出てきた　自己 WSP</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_latent_feedback.html">高品質トレーニング・データ枯渇後はどうすべきか？</a><br>
