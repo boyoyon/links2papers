@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>古典的エネルギー</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/abs/2611.17309">古典的エネルギーは、ループモデルよりも1,000倍速く推論を学習する</a></center></h1>
+
+<p>
+論文 arXiv:2611.17309（タイトル：Classical Energies Learn to Reason 1,000x Faster than Looped Models）の位置づけは、近年のAI推論研究の主流である「ループ型モデル（Looped Models）」に対し、1980年代の古典的なエネルギーベースモデル（Hopfield & Tankのエネルギー関数）の学習版を用いることで、桁違いの計算効率と学習速度を実現できることを示した研究です。また、現在の推論ベンチマークの妥当性に一石を投じる批判的な役割も担っています。
+</p>
+
+<h3>1. 研究の背景と課題</h3>
+
+<p>
+<strong>ループ型モデルの台頭と限界</strong><br>
+近年の推論（Reasoning）研究では、同じ層を繰り返し計算する「ループ型モデル」が数独（Sudoku-Extreme）や迷路（Maze-Unique）などのパズルで高い成果を上げています。しかし、これらのモデルは学習が不安定で時間がかかり、単純なパズルを解くためにも膨大なパラメータと計算量（FLOPs）を消費するという課題がありました。
+</p>
+
+<h3>2. 本論文の提案と成果（CRAM）</h3>
+
+<p>
+<strong>古典的エネルギーの現代的応用</strong><br>
+著者らは、1980年代に提案されたHopfield & Tankのエネルギー関数をデータから学習できるようにした手法 CRAM を提案しました。
+</p>
+
+<p>
+<strong>圧倒的な効率性と解釈性</strong><br>
+</p>
+
+<p>
+• <strong>学習速度</strong><br>
+　GPU 1枚で数独を42ミリ秒、迷路を132ミリ秒で学習し、ループ型モデルと比較して1,000倍以上高速に同等以上の精度（数独で99.996%、迷路で100%）を達成しました。
+</p>
+
+<p>
+• <strong>推論コスト</strong><br>
+　最高精度のループ型モデルと比較して、推論時の計算量（FLOPs）を282分の1以下に削減しています。
+</p>
+
+<p>
+• <strong>構造的メリット</strong><br>
+　エネルギー勾配降下に基づくため、問題の難易度に応じた適応的な計算、早期終了（Early Stopping）、ソルバーを介さない高速学習が可能であり、学習された重みからパズルの制約条件を直接解釈できます。
+</p>
+
+<h3>3. AI研究における2つの重要な位置づけ</h3>
+
+<p>
+本論文は単なる新手法の提案にとどまらず、以下の2点において重要な意義を持ちます。
+</p>
+
+<p>
+• <strong>エネルギーベース推論の再評価</strong><br>
+　複雑な深層ループ構造を用いなくても、古典的なエネルギー最小化の枠組みを適切に学習させることが、データからの推論学習において極めて有望なアプローチであることを示しました。
+</p>
+
+<p>
+• <strong>ベンチマーク選定への警鐘</strong><br>
+　数独や迷路のような「古典的手法で容易かつ高速に解ける問題」を、大規模なループ型推論技術のスケーラビリティや有効性を測るベンチマークとして使用することの危険性を指摘しています。
+</p>
+    </body>
+</html>
