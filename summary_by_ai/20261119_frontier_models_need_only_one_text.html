@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>最先端モデルは、人間かAI著者かを特定するためにテキスト1つあれば十分</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26216v1">最先端モデルは、人間かAI著者かを特定するためにテキスト1つあれば十分</a></center></h1>
+
+<p>
+本論文（Frontier models need only one text to unmask its human or AI author, 2026年11月）は、「最新の汎用フロンティアLLMが、Web検索や候補リストなしで単一のテキストから『AIか人間か』『どのAIか』『どの人間か』を高精度に特定できる」ことを初めて体系的に実証し、AI検出とプライバシー保護の前提を覆した研究として位置づけられます。
+</p>
+
+<p>
+これまでの常識や先行研究と比較すると、主に以下の3つの点で重要な転換点となっています。
+</p>
+
+<h3>1. AI検出におけるパラダイムシフト（専用ツールから汎用LLMへ）</h3>
+
+<p>
+• <strong>従来の常識の覆し</strong><br>
+これまで「ゼロショットのプロンプトによるAI文章判定はバイアスが強く、専用検出器に劣る」とされていましたが、2026年後半の最新モデル（Claude Fable 5.2、GPT-6.1 Sol、Gemini 4 Carbonなど）は、最先端の専用検出器（Pangram 4.1など）に匹敵・凌駕する精度とほぼゼロの誤検知率（0.01%）を達成しました。
+</p>
+
+<p>
+• <strong>「文章」と「アイデア」の分離判定</strong><br>
+表面的な文章表現（Prose）だけでなく、構成や主張などの着想（Ideas）がAI由来かどうかも高精度に判別でき、さらに判断の根拠を自然言語で説明できる点で従来ツールを上回っています。
+</p>
+
+<h3>2. AIモデルの「文体指紋」と蒸留（Distillation）の可視化</h3>
+
+<p>
+• <strong>均質化説への反証</strong><br>
+近年は「LLMの文章はどれも似通っている」という指摘がありましたが、主要3社（Anthropic・OpenAI・Google）のモデルについては、98%以上の精度で開発元を識別できる固有の文体プロファイルが存在することを示しました。
+</p>
+
+<p>
+• <strong>学習元の推定への応用</strong><br>
+新興のオープンウェイトモデル（Kimi K3やQwen3.8など）がClaudeやGPTと誤認される傾向が、公開されている「蒸留（他社モデルの出力を使った学習）」の報告と一致することを突き止め、文体分析がモデルの学習ルーツを辿る手がかりになることを示しました。
+</p>
+
+<h3>3. 匿名性・プライバシー研究への強い警鐘</h3>
+
+<p>
+• <strong>条件なしでの個人特定（Deanonymization）</strong><br>
+従来のLLMによる著者特定研究は「候補者リストの提示」や「Web検索ツール」を前提としていましたが、本研究はテキスト1つとモデルの事前学習内の記憶だけで、非公開の論文査読者（56%、Nature系では78%）やRedditの匿名ユーザー（活発な投稿者で69%）を特定できることを証明しました。
+</p>
+<p>
+• <strong>既存防御策の限界の指摘</strong><br>
+モデルが特定依頼を拒否することは稀であり、過去の投稿を削除してもモデルの重み（記憶）からは消えず、AIによる文章の言い換え（パラフレーズ）も部分的な防御にしかならないと結論づけています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+本研究は「汎用LLMの進化が、意図せずして強力な『著者特定・匿名解除ツール』を生み出してしまった」という現状を突きつけ、学術界のダブルブラインド査読（二重盲検法）のあり方や、オンライン上の匿名化技術・AIの安全設計の再考を迫る重要なマイルストーンです。
+</p>
+    </body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>AltRA=Test</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26073v1">AltRA-Test：共有アノテーターを持たないLLM審査員のための代替アノテーターテスト</a></center></h1>
+
+<p>
+この論文（AltRA-Test: An Alternative Annotator Test for LLM Judges Without Shared Annotators）の学術的・実践的な位置づけは、「LLM-as-a-Judge（LLMによる評価・アノテーション代替）の妥当性を検証する統計的フレームワークにおいて、実世界の不完全なデータ構造（疎なアノテーション環境）への適用を可能にした実用上のブレイクスルー」です。
+</p>
+
+<p>
+従来の課題と本論文の貢献を整理すると、以下の3点に集約されます。
+</p>
+
+<h3>1. 研究分野における立ち位置：LLM代替の「統計的根拠」の確立</h3>
+
+<p>
+AI開発や評価において、人間によるアノテーション（ラベル付け）をLLMで代替する動きが加速しています。しかし、正解（Ground Truth）が存在しない主観的なタスクや評価タスクでは、単なる「多数決との一致率」や「F1スコア」だけでは「本当に人間をLLMに置き換えてよいのか」の統計的な判断基準になりませんでした。
+</p>
+
+<p>
+これに対し、近年提案されたAlt-Test（Calderon et al., 2025）やSTT（He et al., 2025）が「人間とLLMの代替可能性を統計的仮説検定として定式化する」という新しい潮流を作りました。本論文は、この系譜の最新かつ最も汎用性の高い発展形に位置づけられます。
+</p>
+
+<h3>2. 既存手法との決定的な違い：「同一アノテーター制約」の撤廃</h3>
+
+<p>
+既存の統計的検定（Alt-TestやSTT）には、「評価セットの全データに対して、まったく同じ人間アノテーターのグループがラベル付けしていなければならない（密なアノテーション環境）」という厳しい前提条件がありました。
+</p>
+
+<p>
+しかし、クラウドソーシング（ワーカーが途中で離脱する）、大規模な選好データ（多数の参加者が数件ずつ評価する）、あるいはアノテーターIDが匿名化・欠損しているデータセットなど、実世界のデータの多くはこの条件を満たしません（実際、本論文で検証された20データセット中11個が既存手法を適用できない構造でした）。
+</p>
+
+<p>
+本論文が提案するAltRA-Testは、以下の工夫によってこの制約を完全に撤廃しました。
+</p>
+
+<p>
+• <strong>アイテム内リサンプリング（Bootstrap）</strong><br>
+アノテーター個人を追跡（IDに依存）するのではなく、各アイテムに付与されたラベルの集合からランダムに \(k\) 個抽出し、そのうち1つをLLMのラベルに置き換えて評価者間一致率（IAA）を比較します。
+</p>
+
+<p>
+• <strong>適応的マージン（Adaptive Margin）</strong><br>
+タスクの難易度や主観性（人間同士の不一致度）に応じて許容誤差を自動調整するため、客観的タスクから主観的タスクまで単一の基準で検定できます。
+</p>
+
+<h3>3. 実践的なインパクトと限界の明確化</h3>
+
+<p>
+• <strong>少量データでの実用性</strong><br>
+シミュレーションおよびテキスト・画像・音声・動画の20データセット（18種類のLLM）での大規模検証により、約100件のアノテーション済みアイテムがあれば実用的な精度で代替可否を判定できることを示しました。
+</p>
+
+<p>
+• <strong>安易なLLM代替への警鐘</strong><br>
+実データ実験では、LLMがテストに合格（代替が統計的に正当化）したのは全体の約半数（最適プロンプト時で47.3%）にとどまり、結果がタスク（データセット）に強く依存することを実証しました。「LLMを無条件に評価者として使うのではなく、タスクごとに事前検定すべきである」という実践的ガイドラインを提示しています。
+</p>
+
+<p>
+• <strong>少数派の視点（Perspectivism）への配慮</strong><br>
+全体の多数派の意見（共通シグナル）だけでなく、特定の属性グループの視点を維持したい場合に向けた「グループ別検定」や「同等性検定（Eq-AltRA-Test）」の変種も提案し、多様性やバイアス評価の文脈にも接続しています。
+
+</p>
+    </body>
+</html>

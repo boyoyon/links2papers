@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>経路相互作用の解明</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26101v1">完全な経路寄与を用いたネットワーク計算 における経路相互作用の解明</a></center></h1>
+
+<p>
+この論文（Revealing Pathway Interactions in Network Computations with Complete Path Contribution）は、機械的解釈可能性（Mechanistic Interpretability）の分野において、ニューロンや層単位の分析から「入力から出力に至る因果経路（パス）全体の相互作用の解明」へと視点を拡張する統一的フレームワークとして位置づけられます。
+</p>
+
+<p>
+既存の解釈手法が抱えていた限界を克服し、AIと神経科学の双方にまたがる新たな分析基盤を提供しています。
+</p>
+
+<h3>1. 既存研究のギャップと本論文の解決策</h3>
+
+<p>
+これまでの解釈手法には大きく分けて以下の課題がありました。
+</p>
+
+<p>
+• <strong>単一コンポーネント・隣接層分析の限界</strong><br>
+Integrated Gradients（入力画素）やNeuron Conductance（ニューロン）などは各要素の「正味の寄与」しか測れず、層の深さ方向にまたがる高次の相互作用を捉えきれませんでした。
+</p>
+
+<p>
+• <strong>興奮（E）と抑制（I）の相殺の不可視化</strong><br>
+あるニューロンの出力への正味の影響がゼロに近くても、実際には「強い興奮性パス」と「強い抑制性パス」が互いに打ち消し合っているケースがあります。従来のユニット単位の分析では、こうした経路間の相殺メカニズムを発見できませんでした。
+</p>
+
+<p>
+• <strong>計算量の爆発</strong><br>
+層の深さに対して指数関数的に増加する全パスを網羅的に計算することは現実的に不可能でした。
+</p>
+
+<h3>2. 本論文の3つの核心的な貢献</h3>
+
+<p>
+① <strong>階層的完全性（Hierarchical Completeness）を持つ統一理論</strong><br>
+入力から出力までの1本のパス（経路）の寄与度を定義し、それらを部分和（周辺化）することで、エッジ、ニューロン、チャネル、任意のサブネットワークの寄与度が一貫して導出されます。すべての階層において「部分の総和＝全体の出力変化（ベースラインとの差）」という完全性が保証されるため、異なる粒度間での寄与や相殺の度合いを同一の尺度で比較できます。
+</p>
+
+<p>
+② <strong>大規模ネットワークに適用可能な Top-\(k\) 探索アルゴリズム</strong><br>
+A*探索に類似した分枝限定法（Best-first branch and bound）を導入することで、指数関数的な数のパスを全探索することなく、寄与度の絶対値が大きい上位 \(k\) 個のパスを \(k\) に対して経験的に線形時間で特定可能にしました。
+</p>
+
+<p>
+③ <strong>AIモデルと生物学的モデル（網膜）双方への実証</strong><br>
+</p>
+<p style="padding-left:3em;">
+• <strong>人工ニューラルネットワーク（MLP / ViT）</strong><br>
+活性化しているのに出力に寄与していない「サイレントニューロン」の背後で、下流パスの強力な興奮と抑制が相殺している現象や、ViTのアテンションヘッド間の動的なE-I相互作用モチーフを明らかにしました。
+<br><br>
+• <strong>神経科学（マウス網膜モデル）</strong><br>
+自然動画に対する網膜神経節細胞の応答において、異なる細胞種を結ぶパス間の興奮・抑制モチーフが時間とともに動的に変化し、受容野を形成する仕組みを解明しました。
+</p>
+
+<h3>まとめ（研究史上の位置づけ）</h3>
+
+<p>
+既存の重要度帰属手法（Integrated Gradients、Neuron Conductance、CODECなど）を「パス寄与の特殊ケース（部分和）」として数学的に統合・一般化した研究です。サーキット発見（Circuit Discovery）の文脈において、「重要な部品を後から繋ぎ合わせる」従来のボトムアップ的アプローチに対し、「入力から出力までの因果経路そのものを直接かつスケーラブルに分解・定量化する」という新たなパラダイムを提示しています。
+</p>
+    </body>
+</html>
