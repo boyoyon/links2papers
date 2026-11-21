@@ -27,7 +27,7 @@
 </p>
 <p>
 ★：追加・変更項目<br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない</a><br>
+・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない (Sharping派 vs Discovery派)</a><br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_weightcode.html">[WSP] WeightCode (WSPの差分プログラミング？メタプログラミング？)</a><br>
 　　AIモードに何度も論文解説をお願いしていたら、解説が雑になってしまった･･･<br>
 　　他の論文は解説してくれるので、この論文に説明したくない何かがあるのか???気になる<br>
