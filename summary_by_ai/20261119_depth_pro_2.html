@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>Depth Pro 2</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26603v1">Depth Pro 2：鮮明で時間的に安定した単眼深度計測</a></center></h1>
+
+<a href="https://apple-aiml-research.github.io/ml-depth-pro-2/">プロジェクト</a><br>
+<a href="https://github.com/apple-aiml-research/ml-depth-pro-2">コード(github)</a><br>
+<a href="https://github.com/boyoyon/RgbDepth">ためしてみた</a>
+
+<br>
+
+<p>
+この論文（Depth Pro 2）は、単眼深度推定の分野において「境界の鮮明さ（高解像度）」と「時間的一貫性（動画での安定性）」のトレードオフを初めて同時に解消し、新たなパレートフロンティアを確立した研究という位置づけです。
+</p>
+
+<p>
+従来の研究文脈や前作（Depth Pro）からの進化を踏まえると、主に以下の4つの観点からその重要性を整理できます。
+</p>
+
+<h3>1. 従来手法の「二律背反（トレードオフ）」の解消</h3>
+
+<p>
+これまでの単眼深度推定は、アプローチによって明確な弱点がありました。
+</p>
+
+<p>
+• <strong>静止画ベース手法（Depth Pro, InfiniDepth など）</strong><br>
+ネイティブに近い高解像度で処理できるため物体の輪郭（毛並みや細い構造など）は極めて鮮明ですが、フレームごとに独立して推論するため動画にすると奥行きが激しくちらつきます。
+</p>
+
+<p>
+• <strong>動画・マルチビューベース手法（\(\pi ^{3}\), VGGT, DepthCrafter など）</strong><br>
+複数フレーム間のアテンションや動画拡散モデルを用いて時間的な安定性を確保していますが、計算コストの制約から低解像度での処理を強いられ、境界がぼやける問題がありました。
+</p>
+
+<p>
+• <strong>Depth Pro 2の突破口</strong><br>
+単一画像と動画（最大32フレーム）を区別せずネイティブ解像度のまま単一パスで共同処理するアーキテクチャを採用し、メートル法での絶対深度精度・境界の鮮明さ・時間的一貫性のすべてで既存のSOTA（最高性能）手法を上回りました。
+</p>
+
+<h3>2. 前作「Depth Pro」からのアーキテクチャの刷新</h3>
+
+<p>
+Appleの研究チームによる前作『Depth Pro (2025)』は静止画向けの高精細モデルでしたが、Depth Pro 2では動画対応と高速化に向けて設計が抜本的に見直されています。
+</p>
+
+<p>
+• <strong>タイル分割からの脱却</strong><br>
+前作では高解像度化のために画像を複数スケールのタイルに分割して処理していましたが、今作ではDINOv3をバックボーンとしたViTにより、ネイティブ解像度のまま1パスで鮮明な境界を予測します。
+</p>
+
+<p>
+• <strong>パラメータを増やさない動画拡張</strong><br>
+トランスフォーマーの後半ブロックで「フレーム内自己注意」と「フレーム間交差注意」を交互に行い、フレーム順序のエンコーディングを省くことで、事前学習済みの静止画エンコーダの重みをそのまま活かしつつ任意のフレーム数に対応しています。
+</p>
+
+<p>
+• <strong>焦点距離推定器の軽量化</strong><br>
+絶対深度の復元に必要な画角（焦点距離）推定器を23.5Mパラメータまで小型化（1080pで118fps動作）しつつ、精度も前作（\(\delta _{25}\): 71.7%）から大幅に向上（88.6%）させています。
+</p>
+
+<h3>3. 3D基盤モデル群に対する立ち位置</h3>
+
+<p>
+近年はDUSt3RやVGGT、Depth Anything 3のように、カメラ姿勢推定や3D点群再構成を統合した大規模なマルチビュー基盤モデルが主流の一つとなっています。
+</p>
+
+<p>
+• これらの手法は広範な視点からの幾何学的整合性に優れる一方、大量のビューを扱う設計上、高解像度化やリアルタイム処理が困難でした。
+</p>
+
+<p>
+• Depth Pro 2は「カメラ姿勢の同時推定」などには踏み込まず「高精細かつ時間的に安定した絶対深度マップの生成」に特化することで、計算効率とエッジの再現性において差別化を図っています。
+</p>
+
+<h3>4. 実用・リアルタイムアプリケーションへの橋渡し</h3>
+
+<p>
+24M（Depth Pro 2-S）から872M（Depth Pro 2-H⁺）までのモデルファミリーを展開し、実用面での制約も解消しています。
+</p>
+
+<p>
+• <strong>ストリーミング推論への対応</strong><br>
+過去フレームのKey/Valueをキャッシュする「バッファなしストリーミング（Unbuffered streaming）」により、最小モデルでは1080p映像を53fps（B200 GPU上）でリアルタイム処理できます。
+</p>
+
+<p>
+• <strong>下流タスクでの優位性</strong><br>
+動画の背景ボケ（Bokeh）生成や高解像度な新規視点合成（Novel-view synthesis）において、従来の深度推定器で起きていた「細い構造の欠損」や「境界のちらつき」を大幅に低減しています。
+</p>
+    </body>
+</html>
