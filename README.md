@@ -27,6 +27,7 @@
 </p>
 <p>
 ★：追加・変更項目<br>
+・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_posterior_matching_distillation.html">事後マッチング蒸留</a><br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない (Sharping派 vs Discovery派)</a><br>
 　　RL turns hedging into decisions, if it sees the switch<br>
 　　  (迷いを決断に変えるには、いつもの行動を変えて (成功するのを) 見る必要がある？人間っぽい･･･)<br>
