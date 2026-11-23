@@ -33,6 +33,8 @@
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_from_action_to_learning.html">行動から学習へ</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_learning_inside_types.html">型の内部学習</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/202061120_bioemu2.html">BioEmu2</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_mind_world_models.html">心の世界モデル</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_affine_image_propagation.html">アフィン画像伝播</a><br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_revealing_pathway_interactions.html">経路相互作用の解明</a><br>
 ・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_ct_approx_to_pc.html">予測符号化ダイナミクスに対する制御理論的近似</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_depth_pro_2.html">DepthPro 2 (Apple の単眼深度推定器)</a><br>
@@ -80,6 +82,7 @@
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_dataset_distillation.html">タスク・分類器に依存しないデータセット蒸留？</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_latching_potts_networks.html">マインドワンダリングのモデルのメカニズムを解明した？</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_benchmarks_dont_talk_back.html">反論に対する判断力を鍛える</a><br>
+・2026/11/10★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_mind_wandering.html">マインド・ワンダリング (目は文字を追っているのに内容が頭に入ってこない!!)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_contrastive_discover.html">科学的発見も仮説を一個一個切り分けて進める (障害調査と同じだ･･) </a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_torch_curves.html">TorchCurvesとは？(PyTorchの何かなんだろうけど･･･)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_evaluating_compositional_generalization.html">Transformerにおける構成的汎化の評価手法の欠陥を明らかにした(らしい･･･)</a><br>
