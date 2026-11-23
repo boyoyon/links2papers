@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>生徒が教師から学べないとき</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27125v1">生徒が教師から学べないとき： ポリシー抽出における学習ダイナミクス</a></center></h1>
+
+<p>
+この論文（When Students Fail to Learn from Teachers: Learning Dynamics of On-Policy Distillation）は、LLMの事後学習（Post-training）における「On-Policy Distillation（OPD：オンポリシー蒸留）」の学習ダイナミクスを理論的・実証的に解明し、学習の不安定性や崩壊を防ぐための原理的な解決策を提示した研究という位置づけです。
+</p>
+
+<p>
+従来のOPD研究と比べた際の本論文の立ち位置や貢献は、以下の3点に整理できます。
+</p>
+
+<h3>1. 「現象の発見・対症療法」から「メカニズムの解明」への橋渡し</h3>
+
+<p>
+• <strong>従来の課題</strong><br>
+OPDは計算効率が高く強力な手法である一方、強い教師モデルを使っても「出力の異常な長文化」「同じフレーズの繰り返し（ループ）」「急激な性能劣化」といった学習崩壊が起きることが知られていました。これまでにもForward KL（FKL）の導入やSFTの併用といった経験的な改善策は提案されていましたが、「なぜ教師のフィードバックから生徒が学習に失敗するのか」という根本原理は未解明でした。
+</p>
+
+<p>
+• <strong>本研究の貢献</strong><br>
+学習ダイナミクス（Learning Dynamics）の観点から、単一状態のソフトマックス更新からLLM全体のパラメータ共有、さらには生成軌跡の変化までを一貫して数理・実験の両面から解き明かしました。
+</p>
+
+<h3>2. OPDが失敗する3つの核心的メカニズムの特定</h3>
+
+<p>
+論文では、学習失敗のプロセスを以下の3段階で説明しています。
+</p>
+
+<p>
+<strong>① 局所的な更新の限界</strong><br>
+教師が好むトークンに対する生徒の予測確率が低すぎる場合、サンプリングベースのOPD（Reverse KL）では勾配更新による確率の変化量が極端に小さくなり、教師の意図を学習できません。
+</p>
+
+<p>
+<strong>② 位置間の勾配干渉（Cross-Position Effects）</strong><br>
+LLMは全トークン位置でパラメータを共有しているため、教師と生徒のミスマッチが大きい位置（例：終了トークン <|endoftext|> と <|im_end|> の違いなど）で生じた巨大な負のアドバンテージの勾配が、他の正常なトークン位置の更新方向まで歪めてしまいます。
+</p>
+
+<p>
+<strong>③ 見かけ上の合意（Spurious Agreement）の発生</strong><br>
+ミスマッチ状態での学習が続くと、生徒は元の出力モードを失って不自然な軌跡（ループなど）に陥ります。ひとたびループに入ると、その文脈の続きとしては教師モデル自身もループを継続しやすくなるため、結果として「教師と生徒の予測分布は高い一致度（Overlap）を示しているのに、出力は破綻している」という現象が起きます。
+</p>
+
+<h3>3. 理論に基づく実践的手法の提案と既存手法の根拠付け</h3>
+
+<p>
+• <strong>SFT初期化の理論的裏付け</strong><br>
+従来経験的に有効とされていた「OPD前のSFT（教師あり微調整）による初期化」が、なぜ効くのか（生徒の確率を教師に近づけてサンプリングされやすくし、有害な勾配干渉を減らすため）を明確に説明しました。
+</p>
+
+<p>
+• <strong>State-Dependent KL Routing（状態依存KLルーティング）の提案</strong><br>
+既存の適応的OPD（EOPDやAOPDなど）は教師のエントロピーや単一トークンのアドバンテージのみを指標にしていましたが、それだけでは分布の大きなズレを見逃すことを指摘しました。そこで、「教師のTop-p集合に対する生徒のカバー率の低さ」と「生徒が過小評価している教師の確率質量の割合」を指標とし、問題のある状態にのみピンポイントでTop-KのForward KLを適用する手法を提案しています。これにより、計算コストの増加を抑えつつ（ステップ時間+2.5〜6.8%程度）、数学推論（AIME/AMC）やコード生成（LiveCodeBench等）の精度を大きく向上させました。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+2025〜2026年頃にQwen3やDeepSeek-V4などで主流となった「オンポリシー蒸留（OPD）」のブラックボックスだった学習不安定性の正体を数学的・実験的に暴き、より安全かつ高効率に蒸留を行うための新しい設計指針（ルーティング手法）を確立した基礎兼応用研究です。
+</p>
+    </body>
+</html>

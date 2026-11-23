@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>BioEmu2</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27924v1">BioEmu2：生体分子ダイナミクスのスケーラブルなエミュレーション</a></center></h1>
+
+<p>
+この論文（BioEmu2: Scalable Emulation of Biomolecular Dynamics、Microsoft Researchなどのチームによる2026年11月公開のプレプリント）の研究分野における位置づけは、「AlphaFold 3のような全原子の静的構造予測」と「従来の分子動力学（MD）シミュレーションによる平衡サンプリング・時間発展（ダイナミクス）」を単一の生成AI基盤モデル（ファウンデーションモデル）へと統合したマイルストーン的な研究です。
+</p>
+
+<p>
+従来のモデルとの違いや、技術的な位置づけは以下の3つの観点から整理できます。
+</p>
+
+<h3>1. 従来研究からの進化（なぜ重要か）</h3>
+
+<p>
+これまでの生体分子AIは、大きく以下の2つの系統に分かれていました。
+</p>
+
+<p>
+• <strong>静的構造予測モデル（AlphaFold 3, Boltz-1/2, Protenixなど）</strong><br>
+タンパク質・核酸・リガンドなどの複合体（全原子）を精密に予測できますが、基本的には「単一の静止画（結晶構造など）」を出すことに特化しており、分子が水中でどう揺らぎ、時間とともにどう変化するか（アンサンブルやダイナミクス）の再現には限界がありました。
+</p>
+
+<p>
+• <strong>アンサンブル・ダイナミクス生成モデル（初代BioEmu, AlphaFlow, Timewarp, MDGenなど）</strong><br>
+MDシミュレーションの代わりとして構造の揺らぎや時間発展を学習しましたが、「単一タンパク質のみ」「粗視化モデル（原子レベルではない）」「汎用的な基盤モデルではない」といった制約がありました。
+</p>
+
+<p>
+BioEmu2のブレイクスルーは、これらを統合し、「タンパク質・DNA・RNA・修飾残基・リガンド・イオンを含む多成分系（全重原子レベル）」に対して、静的構造予測・平衡サンプリング・時間発展（ダイナミクス）の3つを1つのモデルで実行可能にした点にあります。
+</p>
+
+<h3>2. 3つの統合された機能（モード）</h3>
+
+<p>
+BioEmu2は条件付け（Conditioning）を切り替えることで、以下の3つの役割をこなします。
+</p>
+
+<p>
+<strong>1. 静的構造予測（Structure Prediction）</strong><br>
+X線結晶構造やクライオ電顕のような単一構造を予測します。ベンチマーク（FoldBenchやRuns N' Poses）において、既存のトップクラスのオープンウェイトモデル（Boltz-1やProtenix v2など）に匹敵する精度を達成しており、コンテキスト並列化（Context Parallelism）により5,000残基〜16,000残基クラスの巨大複合体にも対応します。
+</p>
+
+<p>
+<strong>2. 平衡サンプリング（Equilibrium Sampling）</strong><br>
+常温常圧（300K, 1atm）の水溶液中での構造分布（ボルツマン分布の近似）を直接サンプリングします。従来のMDシミュレーションと比較して桁違いに高速でありながら、自由エネルギー誤差を約1 kcal/mol以内に抑えています。
+</p>
+
+<p>
+<strong>3. 時間発展・ダイナミクス予測（Time Propagation）</strong><br>
+現在の構造 \(x_{t}\) と任意の経過時間 \(\tau \) を入力し、未来の構造 \(x_{t+\tau }\) を直接生成します（Implicit Transfer Operator: ITOの枠組み）。MDのフェムト秒刻みの計算をスキップし、ナノ秒〜マイクロ秒単位でステップを進めることで、リガンド結合に伴うドメイン開閉や、天然変性タンパク質のフォールディング＆結合過程などを追跡できます。
+</p>
+
+<h3>3. 推論時の制御性と実用面での位置づけ</h3>
+
+<p>
+• <strong>推論時ステアリングと拡張サンプリング</strong><br>
+再学習なしで、推論時にポテンシャル関数を導入することで、立体障害（クラッシュ）などの物理的破綻を防いだり、通常では出現しにくいレアな構造状態（エネルギー障壁が高い状態）を効率よくサンプリングして自由エネルギー地形を計算したりできます。
+</p>
+
+<p>
+• <strong>現状の限界と課題</strong><br>
+著者らも明記している通り、1マイクロ秒を超えるような非常に遅い現象（タンパク質全体のフォールディングや解離の正確な速度定数など）の定量的な予測はまだ実験的段階（定性的な仮説生成レベル）であり、さらなる大規模データでの学習と検証が必要とされています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+BioEmu2は、構造生物学AIのトレンドを「静止画の予測（AlphaFold世代）」から「多成分・全原子レベルでの『動き』と『状態分布』の汎用的なエミュレーション」へと押し上げる、次世代の分子基盤モデルと位置づけられます。
+</p>
+    </body>
+</html>

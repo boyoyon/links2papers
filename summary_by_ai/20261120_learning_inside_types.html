@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>型の内部学習：安全なマルチエージェント強化学習のための認識型状態</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27631v1">型の内部学習：安全なマルチエージェント強化学習のための認識型状態</a></center></h1>
+
+<p>
+この論文（Learning Inside Types: Epistemic Typestates for Safe Multi-Agent Reinforcement Learning）は、プログラミング言語理論の「型（タイプレベルの安全保証）」と「認識論理（Epistemic Logic）」を融合させ、通信なし・スケーラブル・連続空間対応の「構成的に安全なマルチエージェント強化学習（Safe MARL）」を実現した研究という位置づけです。
+</p>
+
+<p>
+既存の安全強化学習（特にマルチエージェント・シールディング）が抱えていた「チーム全体の巨大モデルが必要（スケーラビリティの欠如）」「実行時の通信や中央管理への依存」「離散空間への限定」といった課題を打破しています。
+</p>
+
+<h3>1. 研究の核心となるアプローチ（既存手法との違い）</h3>
+
+<p>
+従来のSafe MARLの主流である「シールド（Shielding）」や「制約付きMARL（Lagrangian法など）」と比較して、以下の特徴があります。
+</p>
+
+<p>
+• <strong>チーム全体ではなく「エージェント単体」での構築・検証</strong><br>
+従来のマルチエージェント・シールドは、チーム全体の結合状態空間（Joint State Space）から中央シールドを合成・分解するため、エージェント数が増えると計算量が爆発しました。本研究では、他者の内部ポリシーではなく「公開型（Public Type：行動の境界と安全要件のインターフェース）」のみを参照して、エージェントごとに独立して型を構築・検証します。
+</p>
+
+<p>
+• <strong>認識論的タイプレベル（Epistemic Typestates）の導入</strong><br>
+部分観測（POMDP）環境下において、各エージェントが自身の観測と行動履歴から「あり得る世界（信念：Belief）」を追跡し、その信念に含まれるすべての世界で安全が保証される行動のみを許可（アクションマスク）します。これにより、実行時のエージェント間通信が一切不要になります。
+</p>
+
+<p>
+• <strong>「シールド」を特殊ケースとして包含する上位概念</strong><br>
+完全観測で宣言（コミットメント）がない場合のエピステミック・タイプレベルは、従来の「最大許容シールド（Maximally Permissive Shield）」と数学的に一致することを証明しています。
+</p>
+
+<h3>2. 既存研究（先行手法）に対する明確な優位性</h3>
+
+<p>
+論文内の比較（Section 4 Positioning および Section 6 Evaluation）において、最新の先行研究に対して以下の優位性を示しています。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{比較軸} & \text{従来のマルチ} & \text{制約付きMARL} & \text{本研究} \\
+\text{} & \text{エージェント・シールド} & \text{（MAPPO-} & \text{（Epistemic } \\
+\text{} & \text{（Adalat et al. 2026 / } & \text{Lagrangian など）} & \text{Typestates）} \\
+\text{} & \text{Brorholt et al. 2025 など）} & \text{} & \text{} \\
+\hline
+
+\text{安全保証} & \text{学習・実行時ともに} & \text{期待コストの制限のみ} & \text{学習・実行時ともに} \\
+\text{の性質} & \text{安全違反ゼロ} & \text{（学習中に数千〜} & \text{安全違反ゼロ} \\
+\text{} & \text{（※ただしモデル依存）} & \text{数万回の違反が発生）} & \text{（構成的保証）} \\
+\hline
+
+\text{スケーラ} & \text{結合モデルや契約} & \text{高い} & \text{エージェント単体で} \\
+\text{ビリティ} & \text{プロファイル探索が} & \text{} & \text{構築するため10体でも} \\
+\text{} & \text{爆発し、5〜10体} & \text{} & \text{1秒未満で構築可能} \\
+\text{} & \text{で破綻} & \text{} & \text{} \\
+\hline
+
+\text{エージェント} & \text{中央集権的、または} & \text{暗黙的} & \text{現在の安全と行動境界は} \\
+\text{間の依存} & \text{一方向（非循環）の仮定} & \text{} & \text{双方向（相互）依存が可能} \\
+\text{} & \text{保証に限定} & \text{} & \text{（ステップ後の安全性のみ）} \\
+\text{} & \text{} & \text{} & \text{非循環} \\
+\hline
+
+\text{連続状態空間} & \text{有限状態空間} & \text{対応可能} & \text{ガード（Guard）構造により} \\
+\text{への対応} & \text{（離散）が前提} & \text{} & \text{無限状態（連続空間）} \\
+\text{} & \text{} & \text{} & \text{に対応} \\
+\hline
+
+\text{証明の} & \text{紙面上の証明・モデル} & \text{漸近的収束の} & \text{定理証明支援系} \\
+\text{厳密性} & \text{検査器} & \text{理論保証} & \text{（Rocq / 旧Coq）} \\
+\text{} & \text{} & \text{} & \text{で全証明とチェッカー} \\
+&&& \text{を形式検証済み}\\
+\hline
+
+\end{array}
+\]
+</p>
+
+<h3>3. 学術的・実用的な貢献（インパクト）</h3>
+
+<p>
+<strong>1. 形式手法と機械学習の高度な橋渡し</strong><br>
+ソフトウェア工学の「Typestate（状態に応じたメソッド呼び出し順序の型検査）」を強化学習の行動制限に転用し、学習アルゴリズム（IPPO, IQLなど）の種類を問わず安全性を保証できる汎用フレームワークを確立しました。
+</p>
+
+<p>
+<strong>2. 形式検証（Rocq）による極めて高い信頼性</strong><br>
+提案理論の健全性（Soundness）や完全性（Completeness）だけでなく、生成された型を検証する独立チェッカーの正当性までRocqで機械的に証明しています。
+</p>
+
+<p>
+<strong>3. 実用上のトレードオフの解消</strong><br>
+これまで「厳密な安全保証（シールド）をとると大規模化や連続空間に対応できない」「大規模・連続空間（Lagrangian法）をとると学習中に事故が起きる」というジレンマがありましたが、本手法はその両立に成功しています。
+</p>
+
+<p>
+一方で、モデルベース手法共通の限界として「環境のダイナミクスモデルや連続空間用のガードは設計者が記述する必要があること」「行動空間自体は離散（有限）に限定されていること」が今後の課題として挙げられています。
+</p>
+    </body>
+</html>
