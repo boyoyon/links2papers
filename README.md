@@ -53,6 +53,7 @@
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_resolution_hypothesis.html">分解能仮説：改善案は出しているのに評価の分解能が足りていない･･･</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_worldviews_in_llm.html">安全性を確保しようと事後学習をがんばったらAIが暗い世界観を持ってしまった･･･</a><br>
+・2026/11/16★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_stream_of_belief.html">信念の流れ (マルチエージェントを確率的埋め込みの相互作用によって集団的平衡状態へ導く？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_scale_vla.html">ScaleVLA</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_lm_can_rewrite_own_weights.html">[WSP] やっぱり出てきた　自己 WSP</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
