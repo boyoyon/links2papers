@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>信念の流れ</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.21250v1">信念の流れ：潜在的信念のダイナミクスを通じて集合知を引き出す</a></center></h1>
+
+<p>
+この論文『Stream of Belief: Eliciting Collective Intelligence through Latent Belief Dynamics』は、「LLMマルチエージェントの協調推論」と「潜在空間推論（Latent Reasoning）」を融合し、さらに社会物理学的な「信念ダイナミクス（Belief Dynamics）」の視点を導入した研究という位置づけです。
+</p>
+
+<p>
+具体的には、以下の3つの研究潮流の交差点に位置しています。
+</p>
+
+<h3>1. 従来の「言語ベース協調」からの脱却（効率化と高密度化）</h3>
+
+<p>
+これまでのマルチエージェント推論（Multi-agent Debateなど）は、エージェント同士が自然言語のテキストを生成して議論する形式が主流でしたが、生成トークン数が増え推論レイテンシが高いという課題がありました。
+</p>
+
+<p>
+本論文は、各ステップの次トークン確率分布で重み付けした埋め込みベクトル（Belief Tokens）をエージェント間で直接やり取りすることで、言語化を介さずに高次元空間で高速・低コストに思考を共有するアプローチをとっています。
+</p>
+
+<h3>2. 「潜在推論（Latent Reasoning）」のマルチエージェント化と学習不要（Training-free）な実装</h3>
+
+<p>
+単一モデルでの潜在推論（Soft Thinkingなど）や、既存の潜在マルチエージェント手法（ThoughtComm、Interlatなど）の多くは、隠れ状態をやり取りするためにプロジェクション層や受信機（Receiver）の追加学習を必要としていました。
+本手法（SoB）は、モデルの語彙埋め込みの凸結合（Convex hull）内に収まる Belief Tokens を用いることで、ベースモデルを凍結（Frozen）したまま追加学習なし（Training-free）でそのまま入力できる汎用的なフレームワークを確立しています。
+</p>
+
+<h3>3. 推論プロセスを「集団的均衡（Collective Equilibrium）への収束」として再定義</h3>
+
+<p>
+従来のテスト時スケーリング（Test-time scaling）が「計算量やステップ数をどれだけ増やすか」に焦点を当てていたのに対し、本研究は集団推論を「相互作用（Global Interaction）と自己内省（Local Refinement）を繰り返して動的平衡状態（Fixed point）へ収束させるプロセス」として定式化しました。
+</p>
+
+<p>
+• すべてのエージェントが完全一致（コンセンサス）しなくても、システム全体の状態が安定すれば早期終了（Early Stopping）して解答を導き出せるという、意見ダイナミクス（Opinion Dynamics）の知見をLLMの潜在空間に持ち込んだ点が独自性です。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+「追加学習なしの凍結LLMを用い、自然言語ではなく『確率的埋め込み（Belief Tokens）』の相互作用によって集団的平衡状態へ導くことで、テキスト議論に匹敵する高精度と大幅な高速化・省トークン化を両立したマルチエージェント推論の新パラダイム」です。
+</p>
+    </body>
+</html>
