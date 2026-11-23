@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>タイトでスケーラブルなニューラルネットワーク検証のためのアフィン画像伝播</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.26978v1">タイトでスケーラブルなニューラルネットワーク検証のためのアフィン画像伝播</a></center></h1>
+
+<p>
+この論文（Affine-Image Propagation for Tight and Scalable Neural Network Verification）は、ニューラルネットワークの形式検証（Formal Verification）分野において、「\(\ell _{2}\)ノルム摂動に対する検証のタイトさ（精度）」と「スケーラビリティ（計算効率）」を両立し、これまで検証が困難だった一般的な（Lipschitz正則化されていない）ネットワークへ適用範囲を広げたブレイクスルー研究という位置づけです。
+</p>
+
+<h3>1. 研究背景：従来手法のジレンマ</h3>
+
+<p>
+敵対的摂動に対する安全性検証には、大きく分けて2つのアプローチがあり、それぞれトレードオフを抱えていました。
+</p>
+
+<p>
+• <strong>Bound Propagation系（\(\alpha \)-CROWN, \(\beta \)-CROWNなど）</strong>
+</p>
+
+<p style="padding-left:4em;">
+• <strong>強み</strong>　GPUで並列計算でき、数百万ニューロン規模までスケールする。\(\ell _{\infty }\)摂動（ピクセル単位の微小変化）に非常に強い。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>弱み</strong>　\(\ell _{2}\)摂動（意味的・潜在空間での摂動モデルとして重要）に弱い。超球や楕円体を「座標軸に沿った箱（区間）」で囲い込むため、次元数 \(n\) に対して半径が \(\sqrt{n}\) 倍に膨張する幾何学的損失（Geometric loss）が生じる。
+</p>
+
+<p>
+• <strong>半正定値計画法（SDP）緩和系</strong>
+</p>
+
+<p style="padding-left:4em;">
+• <strong>強み</strong>　\(\ell _{2}\)ノルムが作る楕円体構造を直接扱えるため、理論的に非常にタイト（高精度）な下界を出せる。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>弱み</strong>　密な半正定値制約を解く計算コストが極めて高く、1万ニューロンを超えるネットワークには適用が困難。
+</p>
+
+<h3>2. 先行研究（SDP-CROWN）からの進化と本論文の立ち位置</h3>
+
+<p>
+前身となる SDP-CROWN（Chiu et al., 2025） は、SDP緩和をBound Propagationの枠組みに組み込むことで両者の橋渡しをしました。しかし、層を通過するたびに楕円体を「軸平行な楕円体」へ近似し直していたため、Lipschitz定数が小さく抑えられた特殊なネットワーク（Lipschitz-regularized）でしか機能しないという限界がありました。
+本論文（Affine-Image SDP-CROWN）は、その限界を突破した発展・完成形にあたります。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+
+\text{比較項目} & \text{CROWN} & \text{先行 SDP-CROWN (2025)} & \text{本論文 (Affine-Image SDP-CROWN)} \\
+\hline
+
+\text{中間層の} & \text{区間（箱）} & \text{区間 }\cap \text{ 軸平行楕円体} & \text{区間} \cap \text{ 軸平行楕円体 } \cap \text{ アフィン像} \\
+\text{領域表現} & \text{のみ} & \text{} & \text{} \\
+\hline
+
+\text{線形下界} &  \alpha\text{ で最適化} & \alpha \text{-CROWNの傾きを流用} & \text{双対変数と同時（自由）に最適化} \\
+\text{の傾き \(g\)} & \text{} & \text{} & \text{} \\
+\hline
+
+\text{SDP制約} & \text{なし（LP} & \text{スペクトルノルムによる} & \text{スケーリング対角優位性（Gershgorin）} \\
+\text{の扱い} & \text{緩和）} & \text{粗い十分条件} & \text{による代替} \\
+\hline
+
+\text{得意なネット} & \ell _{\infty} \text{ 全般} & \text{Lipschitz正則化済み} & \text{非Lipschitz正則化（通常・敵対的学習）} \\
+\text{ワーク} & \text{} & \text{モデル限定} & \text{モデルも可} \\
+\hline
+
+\end{array}
+\]
+
+</p>
+
+<h3>3. 本論文の3つの技術的貢献</h3>
+
+<p>
+<strong>① アフィン像制約による「幾何学的損失」の削減</strong><br>
+重み行列 \(W\) を掛けた後の歪んだ（回転・せん断された）楕円体を無理やり軸平行な楕円体に戻さず、前層の近似集合の「アフィン像 \(\{Wx + b\}\)」そのものを制約として保持します。
+</p>
+
+<p>
+<strong>② 傾き \(g\) の同時最適化による「関数的損失」の削減</strong><br>
+先行SDP-CROWNが \(\alpha \)-CROWN由来の傾きを固定流用していたのに対し、縮小された領域に合わせて線形下界の傾き \(g\) も同時に最適化することで、よりタイトな下界を導出します。
+</p>
+
+<p>
+<strong>③ 対角優位性によるGPU高速化とBranch-and-Bound統合</strong><br>
+アフィン像をそのままSDPで解くと計算爆発が起きるため、「スケーリングされた対角優位性（Scaled Diagonal-Dominance）」という十分条件に置き換えました。特に畳み込み層（CNN）の疎構造を活かしてGPU上で高速に計算でき、既存の \(\beta \)-CROWN のBranch-and-Bound（分枝限定法）にもそのまま組み込めます。
+</p>
+
+<h3>4. インパクト</h3>
+
+<p>
+MNISTやCIFAR-10の非Lipschitz正則化ネットワークにおいて、既存手法（\(\alpha \)/\(\beta \)-CROWN、BICCOS、先行SDP-CROWN）では検証精度が大幅に低下・破綻していた設定で、検証精度を 17%〜57.5%（Branch-and-Bound併用で27%〜63.5%） 向上させており、\(\ell _{2}\)ロバスト性検証の実用性を大きく引き上げた論文です。
+</p>
+    </body>
+</html>

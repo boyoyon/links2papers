@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>心の世界モデル</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27029v1">心の世界モデル：運動脳波表現と行動条件付き世界ダイナミクスの同時学習</a></center></h1>
+
+<p>
+この論文（Mind World Models: Joint Learning of Motor EEG Representations and Action-Conditioned World Dynamics）の位置づけは、「脳波（EEG）基盤モデル」と「世界モデル（World Models / Embodied AI）」の2つの研究領域を橋渡しし、双方のスケーラビリティの限界を同時に突破しようとした先駆的な研究です。
+</p>
+
+<p>
+具体的には、以下の3つの観点からその学術的・技術的意義が整理できます。
+</p>
+
+<h3>1. 脳波（EEG）基盤モデルにおける位置づけ：動作結果による教師なし学習</h3>
+
+<p>
+従来のEEG表現学習には大きな限界がありました。
+</p>
+
+<p>
+• <strong>従来の教師あり学習</strong><br>
+研究室でのキュー（合図）に基づくデータ収集はコストが高く、スケールしません。また、「右手・左手」といった粗いカテゴリラベルでは、動きの速度や力加減などの連続的な違いが失われます。
+</p>
+
+<p>
+• <strong>従来のEEG基盤モデル（LaBraM, CBraMod, REVEなど）</strong><br>
+脳波信号自体のマスク復元や対照学習を行いますが、「その脳波がどのような身体動作を引き起こしたか」という行動との結びつきを直接学習できませんでした。
+</p>
+
+<p>
+<strong>本作のブレークスルー</strong><br>
+日常生活の自然な脳波と一人称視点映像（EgoBrainデータセット）を用い、「現在の脳波（Mind Model）を潜在的な行動（Latent Action）とみなし、次の映像フレームを予測する（World Model）」という枠組みを導入しました。これにより、高価な動作アノテーションなしで、運動の軌跡や力加減まで反映した汎用的な運動脳波表現を獲得しています。
+</p>
+
+<h3>2. 世界モデル（World Models）における位置づけ：未来情報のリークなき行動抽出</h3>
+
+<p>
+ロボット工学やEmbodied AI向けの世界モデル構築においても、行動データの収集はボトルネックでした。
+</p>
+
+<p>
+• <strong>専用デバイス（モーションキャプチャやグリッパー）</strong><br>
+自然な動きを制限し、手以外の頭や足の動き、力加減などを捉えきれません。
+</p>
+
+<p>
+• <strong>映像のみからの疑似行動推定（Genieなど）</strong><br>
+現在と未来のフレームから行動を逆算するため、未来の視覚情報が行動表現に漏れ出す（ターゲットリーク）リスクがありました。
+</p>
+
+<p>
+<strong>本作のブレークスルー</strong><br>
+現在時点までの脳波から行動意図を抽出するため、未来の映像フレームを一切参照せずに済み、ターゲットリークを防げます。さらに、こうして事前学習した世界モデルは、後から実際の物理行動（IMUセンサー値など）を条件とした予測タスクへ高い精度で転移できることを示しました。
+</p>
+
+<h3>3. 神経科学知見のアーキテクチャへの統合（LAT）</h3>
+
+<p>
+単なるマルチモーダル学習にとどまらず、脳の生理学的特徴（運動の側性化：Lateralization）をモデル構造に組み込んだ点も特徴です。
+</p>
+
+<p>
+• 右手の運動は左半球、左手の運動は右半球に強く現れるという知見に基づき、特徴空間で「両側性（共通）成分」と「側性（左右特異的）成分」を分離する Lateralization-Aware Transformer (LAT) を提案しています。
+</p>
+
+<p>
+• 映像の左右反転と脳波の側性成分の左右入れ替えをペアで学習させることで、利き手（右利き）に偏りがちな日常データのバイアスを解消し、少ないデータでも高いデコーディング精度を実現しています。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+本論文は、「人間が日常を生きるだけで発生する『脳波と視界の変化』のペア」を教師信号にすることで、非侵襲BCI（ブレイン・コンピュータ・インターフェース）の精度向上と、ロボット制御などに向けた世界モデルのスケールアップを同時に達成する新しいパラダイムを提示した研究と位置づけられます。
+</p>
+    </body>
+</html>
