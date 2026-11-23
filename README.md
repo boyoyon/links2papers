@@ -27,6 +27,13 @@
 </p>
 <p>
 ★：追加・変更項目<br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_where_structure_enters_a_world_model.html">構造が世界モデルに導入される場所</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_when_students_fail_to_learn_from_teachers.html">生徒が教師から学べないとき</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_from_action_to_learning.html">行動から学習へ</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_learning_inside_types.html">型の内部学習</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/202061120_bioemu2.html">BioEmu2</a><br>
+・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_revealing_pathway_interactions.html">経路相互作用の解明</a><br>
+・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_ct_approx_to_pc.html">予測符号化ダイナミクスに対する制御理論的近似</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_depth_pro_2.html">DepthPro 2 (Apple の単眼深度推定器)</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_posterior_matching_distillation.html">事後マッチング蒸留 (tilt = shift とは？)</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない (Sharping派 vs Discovery派)</a><br>
