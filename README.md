@@ -27,6 +27,7 @@
 </p>
 <p>
 ★：追加・変更項目<br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_writing_weights_or_training_them.html">[WSP] 重みを書き込むか、それとも訓練するか？(WSP/LoRA比較)</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_where_structure_enters_a_world_model.html">構造が世界モデルに導入される場所</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_when_students_fail_to_learn_from_teachers.html">生徒が教師から学べないとき</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_from_action_to_learning.html">行動から学習へ</a><br>
