@@ -27,16 +27,19 @@
 </p>
 <p>
 ★：追加・変更項目<br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_writing_weights_or_training_them.html">[WSP] 重みを書き込むか、それとも訓練するか？(WSP/LoRA比較)</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_where_structure_enters_a_world_model.html">構造が世界モデルに導入される場所</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_when_students_fail_to_learn_from_teachers.html">生徒が教師から学べないとき</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_from_action_to_learning.html">行動から学習へ</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_learning_inside_types.html">型の内部学習</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/202061120_bioemu2.html">BioEmu2</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_mind_world_models.html">心の世界モデル</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_affine_image_propagation.html">アフィン画像伝播</a><br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_revealing_pathway_interactions.html">経路相互作用の解明</a><br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_ct_approx_to_pc.html">予測符号化ダイナミクスに対する制御理論的近似</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_composable_doft_prompt_distillation_of_rl_experts.html">RLエキスパートの構成可能なソフトプロンプト蒸留</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_model_carving.html">Model Carving (モデル彫刻)</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_writing_weights_or_training_them.html">[WSP] 重みを書き込むか、それとも訓練するか？(WSP/LoRA比較)</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_where_structure_enters_a_world_model.html">構造が世界モデルに導入される場所</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_when_students_fail_to_learn_from_teachers.html">生徒が教師から学べないとき</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_from_action_to_learning.html">行動から学習へ</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_learning_inside_types.html">型の内部学習</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/202061120_bioemu2.html">BioEmu2</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_mind_world_models.html">心の世界モデル</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_affine_image_propagation.html">アフィン画像伝播</a><br>
+・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_neural_geometry.html">学習信号としてのニューラルジオメトリ</a><br>
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_revealing_pathway_interactions.html">経路相互作用の解明</a><br>
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_ct_approx_to_pc.html">予測符号化ダイナミクスに対する制御理論的近似</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_depth_pro_2.html">DepthPro 2 (Apple の単眼深度推定器)</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_posterior_matching_distillation.html">事後マッチング蒸留 (tilt = shift とは？)</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_rl_can_only_reinforce.html">RLは、成功したと認識したものを強化することしかできない (Sharping派 vs Discovery派)</a><br>
@@ -63,7 +66,7 @@
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_wsp_doesnot_need_transformers.html">[WSP] WSP なら Transformer じゃなくていいんじゃね？</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_resolution_hypothesis.html">分解能仮説：改善案は出しているのに評価の分解能が足りていない･･･</a><br>
 ・2026/11/17 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261117_worldviews_in_llm.html">安全性を確保しようと事後学習をがんばったらAIが暗い世界観を持ってしまった･･･</a><br>
-・2026/11/16★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_stream_of_belief.html">信念の流れ (マルチエージェントを確率的埋め込みの相互作用によって集団的平衡状態へ導く？)</a><br>
+・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_stream_of_belief.html">信念の流れ (マルチエージェントを確率的埋め込みの相互作用によって集団的平衡状態へ導く？)</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_scale_vla.html">ScaleVLA</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_lm_can_rewrite_own_weights.html">[WSP] やっぱり出てきた　自己 WSP</a><br>
 ・2026/11/16 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261116_frontier_llms_compile_programs_into_weights.html">[WSP] 過熱の火消し？(重みの直接編集というより重みにコンパイルしている？)</a><br>
@@ -82,7 +85,7 @@
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_dataset_distillation.html">タスク・分類器に依存しないデータセット蒸留？</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_latching_potts_networks.html">マインドワンダリングのモデルのメカニズムを解明した？</a><br>
 ・2026/11/12 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261112_benchmarks_dont_talk_back.html">反論に対する判断力を鍛える</a><br>
-・2026/11/10★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_mind_wandering.html">マインド・ワンダリング (目は文字を追っているのに内容が頭に入ってこない!!)</a><br>
+・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_mind_wandering.html">マインド・ワンダリング (目は文字を追っているのに内容が頭に入ってこない!!)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_contrastive_discover.html">科学的発見も仮説を一個一個切り分けて進める (障害調査と同じだ･･) </a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_torch_curves.html">TorchCurvesとは？(PyTorchの何かなんだろうけど･･･)</a><br>
 ・2026/11/10 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261110_evaluating_compositional_generalization.html">Transformerにおける構成的汎化の評価手法の欠陥を明らかにした(らしい･･･)</a><br>
