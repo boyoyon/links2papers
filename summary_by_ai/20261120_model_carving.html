@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>モデル彫刻</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27962v1">モデル彫刻 :
+自身のトポロジーを最適化するトランスフォーマーのトレーニング</a></center></h1>
+
+<p>
+この論文『Model Carving : Training Transformers That Optimize Their Own Topology』は、モデルの「重み（パラメータ）」と「アーキテクチャ（層構造）」を単一の事前学習プロセスの中で同時に最適化する新しい学習パラダイムを提案した研究という位置づけです。
+</p>
+
+<p>
+従来のモデル開発の常識に対するアンチテーゼとして、大きく以下の3つの領域・文脈において重要な位置を占めています。
+</p>
+
+<h3>1. 「アーキテクチャ設計と学習の分離」への挑戦（NASの代替）</h3>
+
+<p>
+<strong>従来の課題</strong><br>
+通常のTransformerは「AttentionとMLPを全層で均一に繰り返す」という固定構造を学習前に決定していました。構造を探索するニューラルアーキテクチャ探索（NAS）も存在しましたが、学習とは別の最適化ループや再学習が必要で高コストでした。
+</p>
+
+<p>
+<strong>本研究の立ち位置</strong><br>
+脳のシナプス刈り込み（発達過程で不要な結合を削ぎ落とす現象）に着想を得て、学習中の損失関数に「計算コストのペナルティ（圧力）」を組み込みました,。これにより、1回の学習ランの中で不要なサブレイヤー（AttentionやMLP）を動的に削除（カービング＝彫刻）し、タスクに最適な非均一（ヘテロジニアス）なトポロジーを自律的に獲得させます。
+</p>
+
+<h3>2. 「学習後圧縮（プルーニング・蒸留）」に代わるエッジ向けモデル構築法</h3>
+
+<p>
+<strong>従来の課題</strong><br>
+スマホやエッジデバイス向けの小型モデルを作る際は、「まず巨大なモデルを学習し、その後プルーニング（枝刈り）や知識蒸留で圧縮する」のが主流でした。
+</p>
+
+<p>
+<strong>本研究の立ち位置</strong><br>
+同じ総計算量（FLOPs）で比較した場合、学習後にプルーニング（Sheared-LLaMAやMinitron等の手法）や蒸留を行うよりも、最初からModel Carvingで削り出しながら学習した方が高い精度と低い損失を達成することを示しました。また、量子化（4bit等）への耐性も高く、エッジAI開発の新たなベースラインとなる可能性を示しています。
+</p>
+
+<h3>3. 推論効率・スケーリング則のフロンティア拡張</h3>
+
+<p>
+<strong>計算資源の最適配分</strong><br>
+学習の初期段階で不要なサブレイヤーを計算グラフから物理的に削除するため、浮いた計算予算（FLOPs）を「より多くの学習トークン」に回すことができます。
+</p>
+
+<p>
+<strong>実用上のメリット</strong><br>
+最終的に出来上がるのは動的なルーティングを必要としない単一の静的なネットワークであるため、既存の推論カーネルでそのまま高速に動作します。標準的なTransformerだけでなく、重み共有を行うLooped Transformerでも高い効果を発揮し、最大1.6倍のデコード高速化とKVキャッシュの削減を実現しています,。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+「巨大な均一モデルを作ってから後で削る（または固定構造のまま学習する）」という従来のLLM開発フローに対し、「学習プロセスそのものに構造を彫刻させることで、最初から小さく・速く・賢い非均一モデルを直接生み出す」という新しい設計思想を提示した論文です。
+</p>
+    </body>
+</html>

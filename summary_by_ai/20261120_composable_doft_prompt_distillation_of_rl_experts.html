@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>RLエキスパートの構成可能なソフトプロンプト蒸留</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.27376v1">RLエキスパートの構成可能なソフトプロンプト蒸留：継続的なポストトレーニングに向けて</a></center></h1>
+
+<p>
+この論文『Composable Soft-Prompt Distillation of RL Experts: Toward Continual Post-Training』は、強化学習（RL）で獲得した専門能力の統合を「モデルの重み空間」から「入力空間（ソフトプロンプト）」へ移行させ、ベースモデルを凍結したまま継続的事後学習（Continual Post-Training）を実現する新しいパラダイムを提案した研究という位置づけです。
+</p>
+
+<p>
+既存のモデルマージや蒸留手法、LoRAなどのアダプタ手法が抱えていた「追加学習のコスト」「破滅的忘却・ドメイン間干渉」「推論時のオーバーヘッド」という課題を同時に解決しようとしています。
+</p>
+
+<h3>1. 研究背景と解決した課題</h3>
+
+<p>
+現在のLLMの事後学習では、数学・コード・エージェントなどの領域ごとにRL（強化学習）で「専門家モデル（RL Expert）」を作り、それを1つのモデルに統合するアプローチが主流です。しかし、従来手法には以下の限界がありました。
+</p>
+
+<p>
+<strong>重み空間での統合（Task Arithmetic / TIES / MOPDなど）の課題</strong>
+</p>
+
+<p style="padding-left:3em;">
+• 新しい専門家を追加するたびにモデル全体の再統合・再蒸留が必要になる。
+</p>
+
+<p style="padding-left:3em;">
+• ベースモデルの重みを上書きするため、対象ドメイン外の汎用性能（Out-of-Domain）が低下しやすい。
+</p>
+
+<p style="padding-left:3em;">
+• アダプタ・ルーティング（Multi-LoRA / MoEルーティングなど）の課題
+</p>
+
+<p style="padding-left:3em;">
+• 専門家が増えるたびにルーターの再学習やマージ係数の再調整が必要になる。
+</p>
+
+<p style="padding-left:3em;">
+• Multi-LoRAの動的適用は、推論時の全レイヤー・全生成ステップで追加計算が発生しスループットが落ちる。
+</p>
+
+<h3>2. 本論文の提案（CSPD）の核となるアイデア</h3>
+
+<p>
+本論文が提案する CSPD（Composable Soft-Prompt Distillation） は、専門家の能力を重みではなく「入力プロンプトの埋め込みベクトル（ソフトプロンプト）」として切り出します。
+</p>
+
+<p>
+<strong>独立した蒸留とプラグイン化</strong><br>
+RL前のベースモデルは完全に凍結したまま、各RL専門家の出力から独立して256トークン分のソフトプロンプトを蒸留します。
+</p>
+
+<p>
+<strong>結合学習なしの合成（Concatenation）</strong><br>
+学習時にランダムな前置コンテキストを混ぜる（Prefix-robust training）ことで、推論時に複数のソフトプロンプトをただ連結するだけで能力を合成できます。
+</p>
+
+<p>
+容易な追加・削除：新しい専門家の追加は「新しいソフトプロンプトを1つ学習して連結するだけ」、削除は「プロンプトを外すだけ」で完了します。
+</p>
+
+<h3>3. 技術的・実用的なインパクト（なぜ重要か）</h3>
+
+<p>
+\[
+\begin{array}{|l|l|l|}
+\hline
+
+\text{比較の観点} & \text{従来手法（MOPD / 重み} & \text{本論文（CSPD）の到達点} \\
+\text{} & \text{マージ / Multi-LoRA）} & \text{} \\
+\hline
+
+
+\text{ドメイン} & \text{複数教師からのオンポリ} & \text{結合学習なしでMOPDに匹敵（平均 67.83）、} \\
+\text{内性能} & \text{シー蒸留（MOPD）が} & \text{単体でも23設定中22設定で教師の90%以上} \\
+\text{} & \text{最高水準（平均 67.79）} & \text{の性能改善を回収} \\
+\hline
+
+\text{ドメイン} & \text{重み上書きにより一部} & \text{ベース重みが不変のため汎用性能を最も高く} \\
+\text{外汎用性} & \text{ベンチマークで劣化} & \text{（6種平均 56.6）} \\
+\text{} & \text{維持（6種平均 53.5〜54.1）} & \text{} \\
+\hline
+
+\text{推論・サー} & \text{32並列でリクエストごと} & \text{Prefill時のKVキャッシュ追加のみで済むため、} \\
+\text{ビング効率} & \text{に異なるLoRAを使うと} & \text{ベースモデル比1.5%以内の速度低下に抑え、} \\
+\text{} & \text{スループットが大幅低下} & \text{Rank-4 LoRAの 2.40倍 のスループットを達成} \\
+\hline
+
+\text{メカニズム} & \text{―} & \text{ソフトプロンプトは「単語の意味」ではなく、} \\
+\text{の解明} & \text{} & \text{「中間結果を検証する（But, Check, ? } \\
+\text{} & \text{} & \text{を増やす）」といった推論の振る舞い} \\
+&& \text{（Reasoning behavior）を学習しており、}\\
+&& \text{自然言語の指示文では代替できないことを実証}\\
+\hline
+
+\end{array}
+\]
+
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+この論文は、「巨大な基盤モデルを何度もファインチューニング・マージし直す」時代から、「凍結された基盤モデルに対し、軽量な入力モジュール（ソフトプロンプト）をライブラリのようにつけ外しして進化させる（継続的事後学習）」方向へ舵を切るマイルストーン的な研究と言えます。
+</p>
+    </body>
+</html>
