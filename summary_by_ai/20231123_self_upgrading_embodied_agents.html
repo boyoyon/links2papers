@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>自己アップグレード型具現化エージェント</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.31117v1">自己アップグレード型具現化エージェント</a></center></h1>
+
+<p>
+この論文（Self-Upgrading Embodied Agents）は、「再学習（勾配計算）や推論時の追加コストを一切伴わず、実環境で行動するエージェントが自らの重み（パラメータ）を自律的かつ安全に書き換えて継続的に成長する」新しいパラダイムを初めて実証した研究という位置づけです。
+</p>
+
+<p>
+従来のエージェント改善手法が抱えていた「学習と推論の分離」や「推論コストの増大」を乗り越え、ロボットやAIエージェントの生涯学習（Lifelong Continual Learning）と再帰的自己改善（Recursive Self-Improvement）を実用的な形で結びつけています。
+</p>
+
+<h3>1. 既存研究との比較における位置づけ</h3>
+
+<p>
+これまでのエージェント強化手法と比較すると、本研究の独自性が明確になります。
+
+\[
+\begin{array}{|l|l|l|l|l|l|}
+\hline
+\text{アプローチ} & \text{代表例} & \text{重みの変更} & \text{勾配学習・} & \text{推論時の} & \text{編集の主体} \\
+\text{} & \text{} & \text{} & \text{報酬モデル} & \text{追加コスト} & \text{} \\
+\hline
+
+\text{強化学習・} & \text{RAGEN, ArCHer, } & \text{あり} & \text{必要} & \text{なし} & \text{外部} \\
+\text{継続学習} & \text{従来のロボット継続学習} & \text{} & \text{} & \text{} & \text{オプティマイザ} \\
+\hline
+
+\text{推論時スケー} & \text{ReAct, Reflexion, } & \text{なし} & \text{不要} & \text{毎ステップ} & \text{外部足場} \\
+\text{リング・記憶} & \text{Voyager, LATS} & \text{} & \text{} & \text{発生} & \text{（Scaffold）} \\
+\hline
+
+\text{人間による} & \text{ROME, ThinkEdit,} & \text{あり} & \text{不要} & \text{なし} & \text{人間の研究者} \\
+\text{重み編集} & \text{Steer2Edit} & \text{} & \text{} & \text{} & \text{} \\
+\hline
+
+\text{別モデルによる} & \text{従来のWeight-Space } & \text{あり} & \text{不要} & \text{なし} & \text{より巨大な} \\
+\text{重み編集} & \text{Programming} & \text{} & \text{} & \text{} & \text{商用LLM} \\
+\hline
+
+\text{自己書き換え} & \text{Fan et al. (2026) } & \text{あり} & \text{不要} & \text{なし} & \text{モデル自身} \\
+\text{（推論特化）} & \text{※単発の数学推論} & \text{} & \text{} & \text{} & \text{} \\
+\hline
+
+\text{Self-Upgrading} & \text{27B身体性} & \text{あり} & \text{不要} & \text{なし} & \text{エージェント} \\
+\text{（本研究）} & \text{エージェント} & \text{} & \text{} & \text{（むしろ削減）} & \text{自身} \\
+\text{} & \text{（ALFWorld）} & \text{} & \text{} & \text{} & \text{} \\
+\hline
+
+\end{array}
+\]
+
+</p>
+
+<p>
+<strong>「推論時工夫」からの脱却</strong><br>
+プロンプトエンジニアリングや反省（Reflection）・探索（Search）は毎ステップの計算コストやコンテキスト長を圧迫しますが、重み自体を書き換えるため、一度アップグレードすれば以降の全ステップで追加コストなし（むしろトークン消費減）で恩恵を受けられます。
+</p>
+
+<p>
+<strong>「単発の推論」から「長期行動するエージェント」への拡張</strong><br>
+同じ著者らによる先行研究（数学問題を解くLLMの自己書き換え）をさらに進め、何十ステップも環境と相互作用し、1つのミスが後続ステップに連鎖する身体性エージェント（Embodied Agent）の領域で成功させた点が大きな前進です。
+</p>
+
+<h3>2. 本研究の3つの核となる貢献</h3>
+
+<p>
+<strong>「昼は働き、夜は自己診断して重みを直す」自律ループの確立</strong>
+</p>
+
+<p style="padding-left:4em;">
+• <strong>昼（稼働）</strong>　通常の推論（フォワードパス）のみでタスクを実行します。
+</p>
+
+<p style="padding-left:4em;">
+• <strong>夜（自己改善）</strong>　自身の失敗ログをコードで分析し、「思考が長すぎてトークン上限（512）に達し、行動が出力できない」という悪癖を特定します。さらに自身の隠れ層（Hidden States）からその原因となる方向ベクトルを抽出し、特定の1テンソル（第16層のAttention出力射影）のみにランク1更新を適用します。
+</p>
+
+<p>
+<strong>「崩壊（Collapse）なき自己改善」を担保する厳格な自己検証</strong>
+</p>
+
+<p style="padding-left:4em;">
+• 自己改変で最も危険な「性能劣化（モデル崩壊）」を防ぐため、エージェント自身を試験官としています。
+</p>
+
+<p style="padding-left:4em;">
+• 同一シードでのペア比較テスト（ノイズ判定基準：2標準誤差超）に加え、夜の間は一切触れられない「予約済み練習タスク（256問）」での最終確認（Confirmation）をパスした場合のみ変更を採用し、それ以外は即座に破棄（Withdraw）して元の重みを維持します。
+</p>
+
+<p>
+<strong>自己アップグレード能力の「スケーリング則」の発見</strong>
+</p>
+
+<p style="padding-left:4em;">
+• 同ファミリーの4サイズ（2B / 4B / 9B / 27B）で同じプロトコルを検証した結果、2Bはタスク遂行力不足、4Bは改善策を見つけられず撤退、9Bはテストを怠って無謀な編集を行い失敗しました。
+</p>
+
+<p style="padding-left:4em;">
+• 統計的検証を伴う自律的な重み改善を完遂できたのは27Bモデルのみであり、この能力が一定以上のモデル規模で創発することを示しました。
+</p>
+
+<h3>3. 今後のAI・ロボティクスへのインパクト</h3>
+
+<p>
+<strong>学習と推論の境界の消失</strong><br>
+ロボットを現場から引き揚げて再学習させるのではなく、稼働の合間（夜間など）に自身の推論ハードウェアだけで経験を糧にアップデートし続ける未来像を示しています。
+</p>
+
+<p>
+<strong>解釈可能性と安全性</strong><br>
+ネットワーク全体をブラックボックス的に微調整する強化学習とは異なり、「どの層のどのテンソルをどう変えたか」が数行のコードとして明示的に残るため、人間による監査やロールバックが容易です。
+</p>
+    </body>
+</html>

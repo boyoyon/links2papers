@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>すべてのVCクラスにおけるほぼ二次的なサンプル圧縮</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.25011v1">すべてのVCクラスにおけるほぼ二次的なサンプル圧縮</a></center></h1>
+
+<p>
+この論文（『Near-Quadratic Sample Compression for All VC Classes』）は、計算論的学習理論において約40年間未解決だった重要問題「サンプル圧縮予想の弱形式（多項式サイズでの圧縮可能性）」を初めて肯定的に解決した、極めて画期的な理論研究です。
+</p>
+
+<p>
+学術的な位置づけを3つのポイントで整理します。
+</p>
+
+<h3>1. 約40年来の未解決問題に対するブレイクスルー</h3>
+
+<p>
+<strong>背景（サンプル圧縮予想）</strong><br>
+1986年にLittlestoneとWarmuthが導入し、1995年にFloydとWarmuthが定式化した「VC次元 \(d\) の任意の概念クラスは、サイズ \(O(d)\) でサンプル圧縮できるか？」という予想は、学習理論の中心的な未解決問題でした。
+</p>
+
+<p>
+<strong>従来の限界</strong><br>
+2016年にMoranとYehudayoffが「サンプル数に依存せず \(d\) のみに依存する圧縮サイズ」を初めて示しましたが、そのサイズは指数関数的（\(2^{O(d)}\)）であり、汎化性能の観点からは大きなギャップがありました。
+</p>
+
+<p>
+<strong>本論文の貢献</strong><br>
+指数関数から準2次（\(O(d^2 \log^2 d)\)）へと劇的な改善を達成し、「少なくとも \(d\) の多項式サイズで圧縮できるか？」という弱い予想を完全に証明しました。
+</p>
+
+<h3>2. 技術的・理論的な新規性</h3>
+
+<p>
+従来のアプローチ（双対VC次元への依存）では指数的な爆発が避けられませんでしたが、本論文では以下の異分野の手法を巧みに組み合わせることでその壁を突破しています。
+</p>
+
+<p>
+<strong>ゲーム理論（Maximal Lotteries）とLP双対性</strong><br>
+概念の順序付けにおける「最大宝くじ（Maximal Lotteries）」という社会的選択理論の枠組みと線形計画法の双対性を組み合わせ、データ空間を効率的に分割する指標を導出しています。
+</p>
+
+<p>
+<strong>ラベルなしデータによる空間分割</strong><br>
+圧縮に必要なサンプルの大部分（\(O(d^2 \log^2 d)\) 個）を「ラベルなしデータ」として扱い、ラベル付きデータはわずか \(O(d \log d)\) 個（重み付け多数決の更新用）に抑えています。
+</p>
+
+<p>
+<strong>多クラス分類などへの波及</strong><br>
+この結果は、グラフ次元や擬似次元が有限である多クラス分類や実数値学習などの圧縮サイズの上界も、従来の指数オーダーから準2次オーダーへと自動的に改善します。
+</p>
+
+<h3>3. AIによる自律的証明の金字塔としての側面</h3>
+
+<p>
+論文の「AI Disclosure（AI開示）」セクションに記載されている通り、この証明はGoogleのマルチエージェントシステム（Cogentic / Gemini 4 Carbon）が人間からのヒントなしで自律的に発見したものです。
+</p>
+
+<p>
+• AIが最初に \(O(d^{16})\) の多項式上界を発見し、その後自ら改良を重ねて \(O(d^6) \to O(d^3) \to O(d^2 \log^2 d)\) まで到達し、人間の研究者（Shay MoranやManfred Warmuthら同分野の第一人者）がそれを検証・整理して論文としてまとめました。
+</p>
+
+<p>
+• 理論計算機科学の難問をAIが自律的に解いた事例としても、極めて象徴的な位置づけにあります。
+</p>
+
+<h3>今後の展望</h3>
+<p>
+本論文は「多項式サイズ（準2次）」を解決しましたが、元の予想である線形サイズ \(O(d)\) の証明はまだ残されています。本論文のオーバーヘッドの主因である「ラベルなしデータの数」をさらに削減できるかが次の焦点となります。
+</p>
+    </body>
+</html>

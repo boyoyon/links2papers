@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ビデオを重みとして扱う</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.28221v1">ビデオを重みとして扱う：ビデオを一度コンパイルしてパラメトリックメモリとトークンメモリに格納する</a></center></h1>
+
+<p>
+本論文『Video-as-Weights (VaW)』は、「トークン圧縮」と「ハイパーネットワークによる重み生成」という2つの既存アプローチを融合し、大規模VLMの動画を理解する力を小規模VLMへ「コンパイル（事前変換）」して移し替える新しいパラダイムを確立した研究として位置づけられます。
+</p>
+
+<h3>1. 既存研究の課題と本論文の立ち位置</h3>
+
+<p>
+従来の長尺動画理解における効率化手法は大きく2つの系統に分かれていましたが、それぞれに限界がありました。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{アプローチ} & \text{代表的手法} & \text{既存の限界} & \text{VaW（本研究）の解決策} \\
+\hline
+
+\text{トークン圧縮系} & \text{KiToke, UniComp, } & \text{・質問を見ずに圧縮} & \text{トークンだけでなくモデル} \\
+\text{(Token } & \text{Tempo など} & \text{すると細部が欠落する} & \text{の重み（LoRA）自体を動画} \\
+\text{Compression)} & \text{} & \text{・小規模モデルの固定} & \text{に合わせて動的生成し、} \\
+\text{} & \text{} & \text{された重みで処理する} & \text{推論の振る舞いごと最適化} \\
+\text{} & \text{} & \text{ため、大規模モデルと} & \text{} \\
+\text{} & \text{} & \text{の性能差が埋まらない} & \text{} \\
+\hline
+
+\text{重み生成系} & \text{Doc-to-LoRA, } & \text{・重みだけでは細かな} & \text{LoRA重み＋少数のPrefix} \\
+\text{(Hypernetworks)} & \text{Frames2LoRA, } & \text{視覚情報（文字や物体）} & \text{トークンの併用と、全層参照} \\
+\text{} & \text{Program-as-Weights} & \text{を保持しきれない} & \text{デコーダにより異種モデル} \\
+\text{} & \text{} & \text{・層同士が1対1対応の} & \text{間の転移を実現} \\
+\text{} & \text{} & \text{ため、異なるサイズの} & \text{} \\
+\text{} & \text{} & \text{モデル間で知識を移せ} & \text{} \\
+\text{} & \text{} & \text{ない} & \text{} \\
+\hline
+
+\end{array}
+\]
+</p>
+
+<h3>2. 技術的・学術的な3つのブレイクスルー</h3>
+
+<p>
+<strong>① 「パラメトリック記憶」と「トークン記憶」のハイブリッド化</strong><br>
+動画を1回読み込むだけで、大局的な文脈や注意の向け方を担うLoRA重み（パラメトリック記憶）と、OCRや細部の物体認識を担う64個のPrefixトークン（トークン記憶）を同時に生成します。両者を組み合わせることで、単一チャネルの手法を大きく上回る精度を達成しています。
+</p>
+
+<p>
+<strong>② All-Layer Decodingによる「Strong-to-Weak」知識転移</strong>Mbr>
+生成される各層のLoRAが、コンパイラ側（VLM）のすべての層の隠れ状態をクロスアテンションで参照できる設計（All-layer decoding）を採用しました。これにより、層の深さが異なる9Bモデル（コンパイラ）が動画を解釈し、0.8Bモデル（インタプリタ）用の重みとトークンを書き出すという強力な知識転移が可能になりました。
+</p>
+
+<p>
+<strong>③ 動画長に依存しない固定メモリと高い実用性</strong><br>
+最大8,192トークンに及ぶ動画を、動画の長さに依存しない固定20.6 MB（KVキャッシュの約5.5分の1）の状態に圧縮します。質問を一切見ずに事前コンパイルできるため、同じ動画に対して何度も質問を繰り返すマルチターン対話において、推論コストを劇的に下げつつ、0.8Bモデルがフルコンテキストで動画を読む場合以上の精度（+4.3ポイント）を発揮します。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+本研究は、動画を「推論時に毎回読み込むデータ（コンテキスト）」ではなく、「事前に軽量モデル用の専用プログラム（重み＋極小トークン）へコンパイルしておく対象」へと再定義した点に最大の意義があります。エッジデバイスや低リソース環境での長尺動画QAの実用化に向けた重要なステップとなる研究です。
+</p>
+    </body>
+</html>

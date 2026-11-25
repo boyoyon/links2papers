@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>オートポイエーシス科学</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2609.16245v1">オートポイエーシス科学</a></center></h1>
+
+<p>
+本論文「Metacognitive Steering: Learning the Structure of Scientific Judgment（メタ認知ステアリング：科学的判断の構造の学習）」は、AIによる科学的発見（AI for Science）とLLMの活性化ステアリング（Activation Steering / 表現工学）を橋渡しし、自律型研究エージェントに「科学者特有の思考の切り替え（メタ認知的判断）」を実装した実践的・技術的ブレイクスルーと位置づけられます。
+</p>
+
+<p>
+従来のAI研究における3つの主要な課題に対する新しいアプローチを提示しています。
+</p>
+
+<h3>1. 研究背景と解決しようとした課題（パラダイムの転換）</h3>
+
+<p>
+<strong>「成果物」ではなく「思考プロセス」の学習</strong><br>
+従来のLLMは完成された論文（成功した結論）や、数学・プログラミングのような「検証が容易な報酬（RL）」で学習されてきました。しかし、実際の科学研究では「不確実な状況下で、いつ仮説を広げ（探索）、いつ検証に集中し（収束）、いつ前提を疑って方針転換するか（批判的再評価）」というプロセスレベルの判断が不可欠です。
+</p>
+
+<p>
+<strong>科学者の「捨てられた思考」のデータ化</strong><br>
+研究者がAIと協働する過程で「どの仮説を棄却し、どこに疑問を持ったか」という対話履歴（対照介入データ）を収集し、これを教師信号として活用しています。
+</p>
+
+<h3>2. 技術的・学術的な位置づけ（活性化ステアリングの拡張）</h3>
+
+<p>
+<strong>フロンティアモデル（1兆パラメータ級）への適用</strong><br>
+従来の表現工学（Representation Engineering）や動的ステアリング研究の多くは7B〜70B規模のモデルに留まっていましたが、本研究は1兆パラメータのMoEモデル（Kimi 2.6）の内部に認知姿勢を制御する低次元の「制御面（中間層：36, 38, 42, 48層）」が存在することを突き止めました。
+</p>
+
+<p>
+<strong>推論時の動的な閉ループ制御</strong><br>
+モデルの重みを変更（ファインチューニング）することなく、推論時にモデル自身の内部状態（探索・収束・批判の3モード）を読み取り、状況に応じて適切な思考ベクトルを動的に注入する制御器（Metacognitive Steering）を構築した点に新規性があります。
+</p>
+
+<h3>3. 実用面でのインパクト（ベンチマークから実世界での実証へ）</h3>
+
+<p>
+単なる机上のベンチマークテストにとどまらず、この手法を組み込んだ自律型研究システム「Columbus-1」を構築し、難易度の高い実世界の2領域で成果を挙げた点が特筆されます。
+</p>
+
+<p>
+<strong>サイバーセキュリティ</strong><br>
+LinuxのBluetoothスタック（BlueZ）から、ゼロクリックでリモートコード実行が可能な未知の脆弱性を含む8件の攻撃可能な脆弱性を自律的に発見（第三者機関が再現確認済み）。
+</p>
+
+<p>
+<strong>航空宇宙工学</strong><br>
+推力調整が不可能な固体ロケットモーターのみを使用して垂直着陸する全長10フィートのロケットについて、段階的着火という独自アプローチを自律的に導き出し、設計・シミュレーションから実際の製造指示（人間作業員へのディレクション）までを主導。
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+AIを「指示された作業をこなすツール」や「既知の知識を検索するアシスタント」から、「不確実な状況下で自ら仮説を棄却・修正しながら長期的な研究プロジェクトを主導する自律的リーダー」へと引き上げるためのアーキテクチャと実証を示した論文と言えます。
+</p>
+    </body>
+</html>

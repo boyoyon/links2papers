@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>言語モデルハーネスは構成的汎化器になり得る</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.28298v1">言語モデルハーネスは構成的汎化器になり得る</a></center></h1>
+
+<p>
+本論文（MIT CSAILのAlex L. Zhangらによる『Language model harnesses can be Compositional Generalizers』）は、「LLMエージェントの汎化性能を、モデル単体のスケールや長大な強化学習ではなく、外部のニューロシンボリックな『ハーネス（実行基盤）』の構造と局所的な学習によって引き出す」という新しい設計・学習パラダイムを確立した研究として位置づけられます。
+</p>
+
+<p>
+従来のエージェント研究やモデル学習との比較から、本研究の具体的な位置づけは以下の4点に整理できます。
+</p>
+
+<h3>1. 「プロンプト蓄積型」から「コンテキスト外部化・再帰型」への転換</h3>
+
+<p>
+<strong>従来手法（ReActなど）の限界</strong><br>
+過去の行動履歴をすべてプロンプトに追記していく「Trajectory-as-a-prompt」型のハーネスでは、タスクが長くなるほど入力が長大化・複雑化し、Transformerが未知の文脈分布（OOD）への汎化を強いられて性能が劣化する（Context rot）課題がありました。
+</p>
+
+<p>
+<strong>本研究のアプローチ</strong><br>
+データをPython REPL環境へ外部化（Context offloading）し、コード実行とサブエージェント呼び出しを組み合わせる Recursive Language Model (RLM) などのハーネスを用いることで、複雑な未知のタスクを分解し、個々のLLM呼び出しが常に「慣れ親しんだ分布内（Locally In-Distribution: LID）」の小さな入力だけを見る状態を作り出せることを示しました。
+</p>
+
+<h3>2. 「構成的汎化（Compositional Generalization）」のテキストレベルでの実現</h3>
+
+<p>
+<strong>従来の構成的汎化研究との違い</strong><br>
+これまで構成的汎化（既知の要素を組み合わせて未知の課題を解く能力）は、主にニューラルネットワーク内部の回路や表現学習の観点から研究されてきました。
+</p>
+
+<p>
+<strong>ハーネスによる解決</strong><br>
+本研究は、モデル内部の構造ではなくテキストおよびプログラムレベルの問題分解によって構成的汎化が達成できることを実証しました。これにより、短いタスクのみで強化学習（RL）したモデルが 2〜64倍の長さのタスクへ汎化（Length Generalization） し、さらに異なるドメイン間でも問題解決の構造が共通していれば戦略が転移（Strategy Generalization） することを明らかにしています。
+</p>
+
+<h3>3. 長大タスクの学習コストを下げる「代理ハーネス学習（Surrogate Harness Training）」の提案</h3>
+
+<p>
+<strong>実務・学習上の課題</strong><br>
+現実の複雑な長大タスクに対してエンドツーエンドで強化学習を行うことは、ロールアウトの実行時間や計算コストが極めて高く、学習データも不足しがちです。
+</p>
+
+<p>
+<strong>効率的な学習レシピ</strong><br>
+ハーネスがタスクを分解できる性質を利用し、「親モデル（Root LM）の分解戦略」だけを、安価な合成環境（サブ呼び出しを擬似的なオラクル回答に置き換えた環境を含む）でピンポイントに学習させる手法を提案しました。実際にこの手法で学習した RLM-27B は、8つの難関長文脈ベンチマークにおいてベースモデル（Qwen3.8-27B）の平均スコアを大幅に向上させつつ、推論時のトークン消費量を約半分、ターン数を約3分の1に削減しています。
+</p>
+
+<h3>4. 先行研究・周辺技術との関係</h3>
+
+<p>
+<strong>RLMおよびCodeActの発展形</strong><br>
+著者らが先行して提案した「RLM（Recursive Language Models）」や「Mismanaged Geniuses Hypothesis（モデルは能力を持っているがハーネスによる管理が不適切であるという仮説）」の理論的・実証的な裏付けを与える論文です。
+</p>
+
+<p>
+<strong>コーディングエージェントへの示唆</strong><br>
+Claude CodeやCodex、Piといった現代のツール実行型エージェントにおいて、「単にツールを与えるだけでなく、サブエージェントへの委譲とコンテキスト分離を前提としたハーネス設計と事後学習を行うべきである」という指針を示しています。
+</p>
+    </body>
+</html>
