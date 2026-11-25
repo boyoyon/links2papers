@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>TowerBridge</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.31233v1">TowerBridge：重み空間プログラミングによる デュアルエンコーダーモダリティギャップの解消</a></center></h1>
+
+<p>
+この論文（TowerBridge）は、「CLIPなどのマルチモーダル（画像・テキスト）モデルの検索精度を、学習（勾配計算）や推論時の追加コストなしで向上させる軽量なモデル編集手法」であり、同時に「LLMエージェントによる重み空間プログラミング（Weight-Space Programming）の知見を、エージェント不要の汎用的な数式レシピへ昇華させた研究」という位置づけです。
+</p>
+
+<p>
+具体的には、以下の3つの観点からその立ち位置を整理できます。
+</p>
+
+<h3>1. 解決しようとしている課題：モダリティギャップとハブネス問題</h3>
+
+<p>
+<strong>背景</strong><br>
+CLIPのようなデュアルエンコーダ（画像とテキストを別々の塔で処理するモデル）では、画像とテキストの埋め込みベクトルが空間内の異なる領域に分離する「モダリティギャップ」が存在し、特定の画像（ハブ）ばかりが誤って検索される「ハブネス問題」やハードネガティブ（紛らわしい不正解）による検索失敗が起きていました。
+</p>
+
+<p>
+<strong>本研究の発見</strong><br>
+従来は「モダリティギャップを完全に除去・縮小すること」が解決策と考えられがちでしたが、本論文は「ギャップやハードネガティブを好む方向を完全に除去すると検索精度が悪化し、10%程度の『マイルドな減衰（縮小）』を行うことでギャップの大きさを保ったまま検索精度が劇的に改善する」ことを示しました。
+</p>
+
+<h3>2. 既存の精度改善手法との違い（技術的ポジション）</h3>
+
+<p>
+既存の検索精度改善アプローチと比較すると、「事前学習済みモデルの重みを直接書き換える（しかも数秒・閉形式で終わる）」という独自のポジションをとっています。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+
+\text{アプローチ} & \text{代表例} & \text{特徴・課題} & \text{TowerBridgeの立ち位置} \\
+\hline
+
+\text{事後的な} & \text{Centering, } & \text{ペアのラベルを使わず平均} & \text{正解ペアとハードネガティブの差分} \\
+\text{ギャップ除去} & \text{All-but-the-top, } & \text{や主成分を除去するため、} & \text{統計量 \(\mathbf{D}\) を用い、悪影響のある方向} \\
+\text{・中心化} & \text{I0T} & \text{有用な意味情報まで失われ} & \text{だけをマイルドに縮小する。} \\
+\text{} & \text{} & \text{CLIPの検索精度が下がる。} & \text{} \\
+\hline
+
+\text{勾配ベースの} & \text{LoRA, 全層} & \text{高い精度が出るが、逆伝播} & \text{勾配計算・ハイパーパラメータ探索} \\
+\text{ファイン} & \text{ファイン} & \text{（勾配計算）やハイパー} & \text{が一切不要。25,000ペアのデータ} \\
+\text{チューニング} & \text{チューニング} & \text{パラメータ調整のコストが} & \text{から数秒〜数十秒の行列演算} \\
+\text{} & \text{} & \text{高い。} & \text{（閉形式）で重みを更新できる。} \\
+\hline
+
+\text{推論時の} & \text{CSLS, } & \text{推論時に参照用データバンク} & \text{出力射影行列（Projection）に直接} \\
+\text{リランキング} & \text{QB-Norm, } & \text{（クエリ群）を保持・計算} & \text{折りたたむため、モデル構造も推論} \\
+\text{} & \text{NNN} & \text{する必要があり、推論} & \text{コストも一切変わらない（リランキン} \\
+\text{} & \text{} & \text{コストが増える。} & \text{グとの併用も可能）。} \\
+\hline
+
+\end{array}
+\]
+</p>
+
+<h3>3. 新興分野「Weight-Space Programming」における方法論的意義</h3>
+
+<p>
+<strong>LLMエージェントを「発見装置」として活用</strong><br>
+2026年に提唱された「Weight-Space Programming（LLMエージェントがニューラルネットワークの重みを直接読み書きしてプログラムで編集する手法）」の枠組みを採用しています。
+</p>
+
+<p>
+<strong>汎用レシピへの蒸留</strong><br>
+エージェント（Astra）に自由にモデルを探索させたところ、13モデル中12モデルで「出力射影層の特定方向を弱める」という共通の編集パターンに行き着きました。従来のエージェント研究ではモデルごとに数時間の探索が必要でしたが、本研究は「エージェントが発見した法則を数理的に一般化・定式化（TowerBridge化）することで、エージェントなしでも未知のモデルや他ファミリー（SigLIP, CoCa等）に数秒で適用できる」ことを実証した点に大きな新規性があります。
+</p>
+    </body>
+</html>
