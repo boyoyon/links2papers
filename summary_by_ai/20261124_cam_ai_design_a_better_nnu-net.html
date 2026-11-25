@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>AIはより優れたnnU-Netを設計できるか？</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.32384v1">AIはより優れたnnU-Netを設計できるか？ 失敗から設計ルールへと至る仮説主導型アーキテクチャ発見ループ</a></center></h1>
+
+<p>
+この論文（arXiv:2611.32384v1）は、「LLMによるブラックボックスなスコア最適化（NAS）」から「失敗を起点とした反証可能な科学的探究（設計ルールの発見）」へと自動設計のパラダイムを転換し、長年の標準モデルであったnnU-Netを軽量化しつつ全15ベンチマークで上回った研究として位置づけられます。
+</p>
+
+<p>
+本研究の意義は、大きく「AIによる自動設計（AutoML/LLMエージェント）」と「3D医用画像セグメンテーション」の2つの文脈から整理できます。
+</p>
+
+<h3>1. AIによる自動設計（NAS・AI Scientist）における位置づけ</h3>
+
+<p>
+従来のニューラルアーキテクチャ探索（NAS）や、近年のLLMを用いた進化計算アプローチ（AgentNASやAlphaEvolveなど）には「評価指標（Validation Diceなど）のスコアだけで勝者を選び、失敗作を単なるコストとして捨てる」という限界がありました。本研究は以下の点で一線を画しています。
+</p>
+
+<p>
+<strong>「ポイントモデル探索」から「設計ルールの蒸留」への転換</strong><br>
+データセットごとに特化した1つのモデルを探すのではなく、未知のデータセットにもゼロショットで適用できる実行可能なルールブック（トリガー → アクション）を構築しています。
+</p>
+
+<p>
+<strong>失敗を「診断シグナル」として活用</strong><br>
+モデルの精度低下やエラーの偏り（薄い臓器の境界崩れなど）を分析し、事前予測と反証条件を明記した「仮説カード」を作成してからGPU実験を行う科学的ループを確立しました。
+</p>
+
+<p>
+<strong>選択バイアス（Winner's Curse）の排除</strong><br>
+単一シードでの偶然のスコア上振れを防ぐため、複数シードでの再現性確認や、入力を定数に置き換える反事実的コントロール実験（対照実験）を義務付けています。
+</p>
+
+<h3>2. 3D医用画像セグメンテーション（nnU-Net以降）における位置づけ</h3>
+
+<p>
+医用画像分野では、自己構成型パイプラインを持つ「plain nnU-Net」が、TransformerやMambaなどの最新アーキテクチャを同等計算量で退け続けてきました。本研究は、nnU-Netの強固な牙城を初めて正面から突破した事例と言えます。
+</p>
+
+<p>
+<strong>学習レシピ完全固定下での純粋な構造勝利</strong><br>
+前処理、パッチサイズ、最適化手法（1000エポック）などをnnU-Netと完全に同一条件で固定し、純粋なネットワーク構造（トポロジー）の改善のみで優位性を証明しました。
+</p>
+
+<p>
+<strong>スケールアップに頼らない性能向上</strong><br>
+パラメータ数や計算量を増やして精度を稼ぐ従来手法（ResEnc-MやMedNeXt-Mなど）とは対照的に、nnU-Netより少ない計算量（0.78倍のMACs）かつ高速なステップ時間（0.92倍）で、CT・MRIの全15評価プロトコルすべてにおいてnnU-Netを上回りました。
+</p>
+
+<p>
+<strong>3D立体構造に特化した2つの普遍的原理の発見</strong><br>
+探索の結果、以下の2つの物理的・幾何学的原則を導出し、軽量モデル「LeanNeXt」と高精度モデル「LeanNeXt+」を生み出しました。
+</p>
+
+<p style="padding-left:3em;">
+<strong>① 3D表面積対体積の計算配分原理</strong><br>
+高解像度デコーダをスリム化して浮いた計算資源を中間エンコーダの深さと粗い \(7^{3}\) カーネルに再投資する。
+</p>
+
+<p style="padding-left:3em;">
+<strong>② 領域限定コントラスト原理</strong><br>
+局所的な \(3^{3}\) カーネルでは区別できない入れ子状の病変（嚢胞と腫瘍など）に対し、予測マスク内の物理的強度統計量（CTのHU値など）をデコーダに注入する。
+</p>
+
+<h3>従来パラダイムとの違い</h3>
+
+<p>
+\[
+\begin{array}{|l|l|l|}
+\hline
+
+\text{比較軸} & \text{従来のNAS / LLM進化探索} & \text{本研究のアプローチ} \\
+\text{} & \text{(Auto-nnU-Net, AgentNAS等)} & \text{(Hypothesis-Driven Discovery Loop)} \\
+\hline
+
+\text{主な目的} & \text{データセットごとの最適モデル探索} & \text{領域横断で転移可能な「設計ルール」の発見} \\
+\hline
+
+\text{フィードバック信号} & \text{検証スコア（スカラー値）のランキング} & \text{計算プロファイルとエラーの層別診断} \\
+\hline
+
+\text{失敗試行の扱い} & \text{破棄（サンクコスト化）} & \text{次の仮説を生み出すための原因特定材料} \\
+\hline
+
+\text{検証プロセス} & \text{代理スコアや単発評価による選抜} & \text{反事実的コントロール実験と複数シード検証} \\
+\hline
+
+\text{最終成果物} & \text{タスク固有のモデル重み・設定} & \text{ゼロショット適用可能なルールブック} \\
+&& \text{（LeanNeXt / LeanNeXt+）}\\
+\hline
+
+\end{array}
+\]
+
+</p>
+    </body>
+</html>
