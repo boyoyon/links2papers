@@ -28,7 +28,7 @@
 <p>
 ★：追加・変更項目<br>
 ・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？</a><br>
-・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント</a><br>
+・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント (WSPのような巨大商用LLM不要、勾配学習不要で重みを自己修正)LLM不要</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_language_model_harnesses_can_be_compositional_generalizer.html">言語モデルハーネスは構成的汎化器になり得る</a><br>
 ・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_video_as_weights.html">Video-as-Weights (VaW)</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_composable_doft_prompt_distillation_of_rl_experts.html">RLエキスパートの構成可能なソフトプロンプト蒸留</a><br>
