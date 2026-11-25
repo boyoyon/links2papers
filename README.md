@@ -27,6 +27,7 @@
 </p>
 <p>
 ★：追加・変更項目<br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_cam_ai_design_a_better_nnu-net.html">AIはより優れたnnU-Netを設計できるか？(できた)</a><br>
 ・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_tower_bridge.html">[WSP] TowerBridge (WSPから汎用レシピへ？)</a><br>
 ・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？ (AIの内心がますます理解不能になるような？)</a><br>
 ・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント (WSPのような巨大商用LLM不要、勾配学習不要で重みを自己修正)</a><br>
