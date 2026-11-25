@@ -27,8 +27,12 @@
 </p>
 <p>
 ★：追加・変更項目<br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_composable_doft_prompt_distillation_of_rl_experts.html">RLエキスパートの構成可能なソフトプロンプト蒸留</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_model_carving.html">Model Carving (モデル彫刻：枝刈り、蒸留に変わる軽量化？)</a><br>
+・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？</a><br>
+・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_language_model_harnesses_can_be_compositional_generalizer.html">言語モデルハーネスは構成的汎化器になり得る</a><br>
+・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_video_as_weights.html">Video-as-Weights (VaW)</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_composable_doft_prompt_distillation_of_rl_experts.html">RLエキスパートの構成可能なソフトプロンプト蒸留</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_model_carving.html">Model Carving (モデル彫刻：枝刈り、蒸留に変わる軽量化？)</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_writing_weights_or_training_them.html">[WSP] 重みを書き込むか、それとも訓練するか？(WSP/LoRA比較)</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_where_structure_enters_a_world_model.html">構造が世界モデルに導入される場所</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_when_students_fail_to_learn_from_teachers.html">生徒が教師から学べないとき</a><br>
@@ -37,7 +41,7 @@
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/202061120_bioemu2.html">BioEmu2</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_mind_world_models.html">心の世界モデル</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_affine_image_propagation.html">アフィン画像伝播</a><br>
-・2026/11/19★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_neural_geometry.html">学習信号としてのニューラルジオメトリ</a><br>
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_neural_geometry.html">学習信号としてのニューラルジオメトリ</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_revealing_pathway_interactions.html">経路相互作用の解明</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_ct_approx_to_pc.html">予測符号化ダイナミクスに対する制御理論的近似</a><br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_depth_pro_2.html">DepthPro 2 (Apple の単眼深度推定器)</a><br>
@@ -49,7 +53,8 @@
 　　この論文だけ解説が雑なのは、この論文に説明したくない何かがあるのか???気になる<br>
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_cultural_invariance_in_music_evoked_emotions.html">音楽によって引き起こされる感情の文化的不変性</a><br> 
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_world_models_favor_learned_priors.html">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a><br> 
-・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>    
+・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>
+・2026/11/18★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_near_quadratic_sample_compression.html">すべてのVCクラスにおけるほぼ二次的なサンプル圧縮</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_counterfactual_world_models.html">反事実的世界モデル (2回呼び出すだけで、見えない外乱に適応)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_optical_nn.html">Optics as Code</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_toaster.html">トースター　(高速・高精度な非線形メモリ)</a><br>
@@ -115,6 +120,7 @@
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
+・2026/09/14★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260914_autopoiesis_sciences.html">オートポイエーシス科学</a><br>
 ・2026/09/07　<a href="https://web.mit.edu/phillipi/www/writing/robot-use-agents.html">[RUA源流] 「Robot-Use Agents」というパラダイムそのものを名付け、定義した</a><br>
 ・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
 ・2026/05/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260520_world_particle.html">汎用物理シミュレータ？</a><br>
