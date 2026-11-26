@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>ヤコビ空間におけるプラトン的表現仮説</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.33304v1">ヤコビ空間におけるプラトン的表現仮説： 言語モデルと視覚モデルは回転を除いてほぼ一致する</a></center></h1>
+
+<p>
+この論文（arXiv:2611.33304v1）の主な位置づけは、「プラトン的表現仮説（Platonic Representation Hypothesis: PRH）」を、単なる「内部表現（アクティベーション）の類似」から「出力への因果的な働きかけ（ヤコビアン空間：J-space）の一致」へと拡張した研究である点にあります。
+</p>
+
+<p>
+具体的には、以下の3つの軸で重要な意義を持っています。
+</p>
+
+<h3>1. 「何を表現しているか」から「どう出力を動かすか」への拡張</h3>
+
+<p>
+<ul><li>
+<strong>従来のPRH研究</strong><br>
+大規模モデルがモダリティ（言語・画像など）を超えて、入力に対する「静的な内部表現（アクティベーション）」の幾何構造を共有していることを示してきました。
+
+</li><br><li>
+
+<strong>本研究の新規性</strong><br>
+モデルの入力側ではなく出力側への感度（ヤコビアンレンズ：J-lens）に着目しました。「どの方向へ隠れ状態を動かせば、特定の単語やクラスの出力確率が最も上がるか」という出力操作空間（J-space）においても、異なるアーキテクチャやモダリティのモデル同士が収束することを実証しています。
+</li></ul>
+</p>
+
+<h3>2. 「回転（直交変換）」だけで異種モデル・異種モダリティ間を因果的に制御できることの実証</h3>
+
+<p>
+<ul><li>
+異なるモデルのJ-space同士は、引き伸ばしやせん断（歪み）を伴う複雑な変換ではなく、単一の「回転（直交プロクルステス変換）」だけでほぼ一致する（制約のない最適線形写像の81〜92%の制御性能を再現する）ことを明らかにしました。
+</li><br><li>
+
+これにより、単語のサブセットで学習した1つの回転行列を使うだけで、未知の概念のステアリング（誘導）ベクトルを別のモデルへ直接移植できます。
+<br><br>
+<ul><li>
+<strong>言語 → 画像認識（Qwen3-VL）</strong><br>
+テキストのみで学習したLLMのベクトルを回転させてVLMの画像パッチに加えると、その領域の認識結果だけを別の物体に書き換えられます。
+
+</li><br><li>
+
+<strong>言語 → 画像生成（SDXL）</strong><br>
+LLMのベクトルを回転させて画像生成モデルのテキスト条件付けに加えると、元のプロンプトを上書きして別の物体を生成させます。
+
+</li><br><li>
+
+<strong>テキストなし画像モデル（ViT・動画モデル） ↔ 言語モデル</strong><br>
+テキストを一切学習していない純粋な画像分類器（ImageNet ViT）や3D ConvNet動画モデルとLLMの間でも、双方向に予測をステアリングできます。
+</li></ul>
+</li></ul>
+</p>
+
+<h3>3. 表現の幾何構造が固定される理論的根拠と境界条件の提示</h3>
+
+<p>
+<ul><li>
+<strong>なぜ回転だけで済むのか</strong><br>
+RMSNormやLayerNorm、ReLUといった正規化・活性化関数が各モデルの残差ストリームの角度（等長性）を機能的に固定するため、異なるモデル間の差異が「回転」に集約されるという幾何学的な説明を与えています。
+
+</li><br><li>
+
+<strong>成立する境界条件</strong><br>
+J-spaceの一致は、DINOv2/v3のような自己教師ありエンコーダに線形プローブを後付けしただけのモデルでは成立せず、「意味的な出力（離散語彙やクラス分類）までエンドツーエンド（または多層分類器経由）で学習されていること」が必要条件であるという境界線も明確に示しています。
+</li></ul>
+</p>
+    </body>
+</html>
