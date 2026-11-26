@@ -14,7 +14,7 @@
 ・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/25　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
@@ -27,13 +27,17 @@
 </p>
 <p>
 ★：追加・変更項目<br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_cam_ai_design_a_better_nnu-net.html">AIはより優れたnnU-Netを設計できるか？(できた)</a><br>
-・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_tower_bridge.html">[WSP] TowerBridge (WSPから汎用レシピへ？)</a><br>
-・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？ (AIの内心がますます理解不能になるような？)</a><br>
-・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント (WSPのような巨大商用LLM不要、勾配学習不要で重みを自己修正)</a><br>
-・2026/11/23★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_cyborg_fly.html">サイボーグのハエ</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_language_model_harnesses_can_be_compositional_generalizer.html">言語モデルハーネスは構成的汎化器になり得る</a><br>
-・2026/11/20★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_video_as_weights.html">Video-as-Weights (VaW)</a><br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_sample_efficient_in_context_adaptation_via_sleep.html">睡眠を介したサンプル効率の良い文脈内適応</a><br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_steerable_by_design.html">設計による操縦性</a><br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_to_clitic_or_not_to_critic.html">Critic（PPO) or Not Critic (GRPO)</a><br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_rl_can_be_recovered_from_its_rollouts.html">強化学習は、自身の Rollout から回復できる</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_cam_ai_design_a_better_nnu-net.html">AIはより優れたnnU-Netを設計できるか？(できた)</a><br>
+・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_tower_bridge.html">[WSP] TowerBridge (WSPから汎用レシピへ？)</a><br>
+・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？ (AIの内心がますます理解不能になるような？)</a><br>
+・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20231123_self_upgrading_embodied_agents.html">自己アップグレード型具現化エージェント (WSPのような巨大商用LLM不要、勾配学習不要で重みを自己修正)</a><br>
+・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_cyborg_fly.html">サイボーグのハエ</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_language_model_harnesses_can_be_compositional_generalizer.html">言語モデルハーネスは構成的汎化器になり得る</a><br>
+・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_video_as_weights.html">Video-as-Weights (VaW)</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_composable_doft_prompt_distillation_of_rl_experts.html">RLエキスパートの構成可能なソフトプロンプト蒸留</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_model_carving.html">Model Carving (モデル彫刻：枝刈り、蒸留に変わる軽量化？)</a><br>
 ・2026/11/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261120_writing_weights_or_training_them.html">[WSP] 重みを書き込むか、それとも訓練するか？(WSP/LoRA比較)</a><br>
@@ -57,7 +61,7 @@
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_cultural_invariance_in_music_evoked_emotions.html">音楽によって引き起こされる感情の文化的不変性</a><br> 
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_world_models_favor_learned_priors.html">世界観モデルは視覚的証拠よりも学習済みの事前知識を重視する</a><br> 
 ・2026/11/19 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261119_probing_the_conscious_mind.html">「意識」の探究 (レンズ・シリーズ：マルチモーダル・コンセプト・レンズ)</a><br>
-・2026/11/18★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_near_quadratic_sample_compression.html">すべてのVCクラスにおけるほぼ二次的なサンプル圧縮</a><br>
+・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_near_quadratic_sample_compression.html">すべてのVCクラスにおけるほぼ二次的なサンプル圧縮</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_counterfactual_world_models.html">反事実的世界モデル (2回呼び出すだけで、見えない外乱に適応)</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_optical_nn.html">Optics as Code</a><br>
 ・2026/11/18 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261118_toaster.html">トースター　(高速・高精度な非線形メモリ)</a><br>
@@ -123,7 +127,7 @@
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
-・2026/09/14★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260914_autopoiesis_sciences.html">オートポイエーシス科学</a><br>
+・2026/09/14 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260914_autopoiesis_sciences.html">オートポイエーシス科学</a><br>
 ・2026/09/07　<a href="https://web.mit.edu/phillipi/www/writing/robot-use-agents.html">[RUA源流] 「Robot-Use Agents」というパラダイムそのものを名付け、定義した</a><br>
 ・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
 ・2026/05/20 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260520_world_particle.html">汎用物理シミュレータ？</a><br>
