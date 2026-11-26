@@ -27,6 +27,7 @@
 </p>
 <p>
 ★：追加・変更項目<br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_prh_in_jacobian_space_.html">ヤコビ空間におけるプラトン的表現仮説 (内部表現の類似 → ヤコビアン空間の一致？)</a><br>
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_sample_efficient_in_context_adaptation_via_sleep.html">睡眠を介したサンプル効率の良い文脈内適応</a><br>
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_steerable_by_design.html">設計による操縦性</a><br>
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_to_clitic_or_not_to_critic.html">Critic（PPO) or Not Critic (GRPO)</a><br>
