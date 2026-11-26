@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>睡眠を介したサンプル効率の良い文脈内適応</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.32802v1">睡眠を介したサンプル効率の良い文脈内適応</a></center></h1>
+
+<p>
+この論文（arXiv:2611.32802v1「Sample-Efficient In-Context Adaptation via Sleep」）の位置づけは、「モデルのパラメータサイズを増やさず、通常のトークン生成速度（覚醒時のレイテンシ）も維持したまま、言語モデルの『文脈内適応（In-Context Adaptation）のサンプル効率』を大幅に向上させる新しいTransformerアーキテクチャおよび学習・推論手法の提案」です。
+</p>
+
+<p>
+従来の研究や関連技術との比較から、この論文の具体的な位置づけは以下の4点に整理できます。
+</p>
+
+<h3>1. 先行研究「Sleep」の汎用化とTransformerへの適用</h3>
+
+<p>
+<ul><li>
+<strong>先行研究（Lee et al., 2026）の課題</strong><br>
+一定チャンクの文脈を処理した後に「睡眠（Sleep）」フェーズに入り、再帰的な順伝播（depth-recurrent passes）を行って表現を洗練させる手法自体は先行研究で提案されていました。しかし、そこでは「SSM（状態空間モデル）とAttentionのハイブリッドモデル」が対象であり、評価も「破棄（evict）された文脈に関する合成データセットでの推論」に限られていました。
+
+</li><br><li>
+
+<strong>本研究の貢献</strong><br>
+この「Sleep」の仕組みを標準的なTransformerモデルに適用し、文脈を破棄せずにKVキャッシュそのものを反復的に洗練（Gated cache refinement）させる手法へと発展させました。これにより、合成データだけでなく、未知のソースコードや科学論文、Few-shot学習といった一般的な実世界タスクの文脈内適応に有効であることを初めて実証しました。
+
+</li></ul>
+</p>
+
+<h3>2. モデルスケーリング（巨大化）に対する代替アプローチ</h3>
+
+<p>
+<ul><li>
+
+<strong>従来の課題</strong><br>
+少ない文脈から素早く学習する「サンプル効率」を高めるには、モデルサイズを大きくする（パラメータ数や層を増やす）のが定石でした。しかし、モデルの巨大化は推論時のメモリ消費量（KVキャッシュなど）と1トークンあたりの生成遅延（レイテンシ）を直接増大させます。
+
+</li><br><li>
+
+<strong>本研究の位置づけ</strong><br>
+学習時の計算量（FLOPs）を約 \(N\) 倍かける代わりに、推論時の計算負荷を定期的な「睡眠フェーズ（オフライン処理）」に集中させます。結果として、パラメータ増加は2%未満、KVキャッシュサイズの増加はゼロ、覚醒時（通常生成時）のレイテンシ増加もゼロという極めて高い推論効率を保ちながら、より少ない文脈量（例：未知コードで最大2.39倍少ないトークン数）で同等の予測精度に達する「性能と効率のパレートフロンティア」を達成しています。
+
+</li></ul>
+</p>
+
+<h3>3. 既存のループ型Transformer（Depth-Recurrent Models）との差別化</h3>
+
+<p>
+<ul><li>
+
+<strong>従来手法との違い</strong><br>
+層をループさせて計算深度を稼ぐ「Looped Transformers」や「Block-recurrent loops（Vendrell et al., 2026など）」は、毎トークンの生成時に \(N\) 回のループを回すため、生成レイテンシやKVキャッシュのメモリが \(N\) 倍に膨れ上がります。
+
+</li><br><li>
+
+<strong>本研究の優位性</strong><br>
+Sleepはチャンク境界でまとめて並列にKVキャッシュを更新するため、長文脈での累積デコード遅延をわずかな増加（128kプレフィックス・\(N=4\) で約7.6%増）に抑えつつ、文脈が長くなるほど既存のループ型モデルを上回る適応性能を示しました。
+
+</li></ul>
+</p>
+
+<h3>4. テスト時学習（TTT: Test-Time Training）との違い</h3>
+
+<p>
+<ul><li>
+
+推論時に勾配降下法でモデルの一部（Fast weights）を更新する「TTT-E2E（Tandon et al., 2025）」などの手法と異なり、Sleepは追加の推論状態（Fast weights）を持たず既存のKVキャッシュを直接更新するため、バッチ処理時のメモリ効率に優れています。また、特定の内部損失関数（次トークン予測誤差など）を規定せず、モデル自身が学習した更新ルール（ブラックボックスなメタ学習的アプローチ）でKVキャッシュを洗練できる点に特徴があります。
+
+</li></ul>
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+「学習時の計算コストを推論時のデコード効率で償却（Amortize）する」という近年のトレンドの中で、「デコード（生成）重視のワークロードにおいて、小型モデルの文脈適応力を極限まで引き出すための実用的なアーキテクチャ」という位置づけになります（一方で、プリフィル時間（TTFT）が約 \(N\) 倍になるトレードオフがあるため、長いプロンプトを一度処理して大量のトークンを生成する用途に特に適しています）。
+</p>
+    </body>
+</html>

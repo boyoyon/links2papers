@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>設計による操縦性</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.32199v1">設計による操縦性：言語モデルの堅牢な制御のための条件付き事前学習</a></center></h1>
+
+<p>
+この論文（Steerable by Design: Conditional Pretraining for Robust Control of Language Models）は、言語モデル（LLM）の制御性と安全性を事前学習（Pretraining）の段階からアーキテクチャレベルで組み込むための新しい手法とモデル（Mancelle-3B / 400M）を提案した研究です。
+</p>
+
+<p>
+従来のLLMアライメントやステアリング研究における課題と照らし合わせると、本研究の位置づけは以下の3点に集約されます。
+</p>
+
+<h3>1. 「事後調整（Post-hoc）」から「事前学習（Pretraining）での設計」への転換</h3>
+
+<p>
+<ul><li>
+従来の課題: 現在のLLMは次トークン予測のみで事前学習され、安全対策や振る舞いの制御（RLHF、プロンプトエンジニアリング、LoRA、ステアリングベクトルなど）は学習の最終段階（全トークンの約1%）や推論時に後付けで行われます。また、「指示（Instruction）」と「データ（Data）」が同じ入力チャネル（テキスト列）を共有しているため、ジェイルブレイクや文脈によるアライメントの崩壊（Alignment drift）が起きやすい構造でした。
+
+</li><br><li>
+
+本研究のアプローチ: 事前学習の最初から「テキストのトークンストリーム」と「意味的な制御チャネル（Control channel）」を物理的・構造的に分離します。デコーダは制御チャネルから一方向のクロスアテンションで情報を読み取れますが、テキスト側から制御チャネルへ逆流して書き込むことはできない設計になっています。
+
+</li></ul>
+</p>
+
+<h3>2. 「限定的な制御コード」から「SAE特徴量による汎用的な意味制御」への拡張</h3>
+
+<p>
+<ul><li>
+先行研究との違い: 事前学習時にメタデータや選好ラベル（<good> / <bad> など）を条件付ける手法（CTRLやKorbak et al.の研究など）は以前から存在しましたが、あらかじめ決めた少数のラベルに縛られ、制御できる軸が限定的でした。
+
+</li><br><li>
+
+本研究のアプローチ: 既存モデル（Gemma-3-4B）のスパースオートエンコーダ（SAE）から抽出した6.5万個の特徴量をフィルタリング・クラスタリングし、844個の汎用的な意味ユニットとして制御語彙を構築しました。これにより、特定の価値観やタスクに事前コミットすることなく、後から自然言語の指示文などを通じて幅広い概念・スタイルへ柔軟に誘導（ステアリング）できます。
+
+</li></ul>
+</p>
+
+<h3>3. 「ステアリング強度・流暢さ・敵対的攻撃への耐性」の両立</h3>
+
+<p>
+<ul><li>
+実験的意義: 従来の推論時ステアリング（Activation additionなど）は「強く誘導しようとすると文章の流暢さ（Fluency）が崩壊する」というトレードオフがあり、プロンプトによる誘導は「敵対的なサフィックス（攻撃プロンプト）で簡単に上書きされる」という脆さがありました。
+
+</li><br><li>
+
+本研究の成果: 提案モデルの Mancelle-3B は、同規模のオープンモデル（Qwen2.5-3BやSmolLM3-3Bなど、学習トークン数が20倍以上多いモデル）と比較して、流暢さを保ったまま同等以上の強いステアリングを実現し、さらにブラックボックス攻撃（GEPA、RLレッドチーミング）やホワイトボックス攻撃（Soft-prompt攻撃）を受けても制御が崩れにくい（高い堅牢性を持つ）ことを実証しました。
+
+</li></ul>
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+「LLMの制御や安全性は、完成したモデルに後から『トッピング（後付け調整）』するのではなく、事前学習の段階から『生地に混ぜ込んで焼く（アーキテクチャと事前学習での条件付け）』ことで、はるかに堅牢で壊れにくいものにできる」ことを体系的なレシピと理論、実証実験で示した研究です。
+</p>
+    </body>
+</html>

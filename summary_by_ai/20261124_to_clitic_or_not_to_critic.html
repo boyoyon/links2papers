@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>批評するべきか、しないべきか</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.32013v1">批評するべきか、しないべきか</a></center></h1>
+
+<p>
+この論文「To Critic Or Not To Critic」（Scale AI Research、2026年11月公開）は、大規模言語モデル（LLM）などの強化学習（RL）における「PPO（Criticあり）とGRPO（Criticなし）のどちらを使うべきか」という議論に対し、単一の優劣ではなく「バッチサイズ・Criticへの依存度・タスクの複雑さ」の3要素による使い分けの指針を提示した研究として位置づけられます。
+<ul><li>
+
+これまでの変遷: 初期のRLHFではCriticを用いるPPOが主流でしたが、DeepSeek-R1の成功以降、メモリ効率や実装の単純さからCriticを省くGRPOがオープンソース界隈で主流となりました。一方で近年、VAPOやSAOなどCriticを再評価してGRPOを上回る成果を報告する研究も現れていました。
+
+</li><br><li>
+既存研究の限界: 従来の比較は「特定の単一バッチサイズ」や「限られたドメイン（数学やコーディングなど）」のみで行われており、条件が変わった場合にもその優位性が成り立つのかが不明確でした。
+</li></ul>
+</p>
+
+<h3>1. 「勾配の方向（バイアス・バリアンスのトレードオフ）」による理論的説明</h3>
+
+<p>
+<ul><li>
+
+従来のMSE（平均二乗誤差）ではなく、AdamWなどの最適化手法に合わせて「勾配の向き（真のポリシー勾配とのコサイン類似度）」に着目しました。
+
+</li><br><li>
+
+PPOはCriticによる分散削減（ノイズスケールの低減）で小バッチ時に有利ですが、Criticの近似誤差によるバイアス（アライメントの上限）がボトルネックになります。
+
+</li><br><li>
+
+GRPOは分散が大きいもののバイアスがないため、バッチサイズを大きくするとノイズが消え、PPOを追い抜く（クロスオーバーする）現象を数理モデルで説明しました。
+</li></ul>
+</p>
+
+<h3>2. 1,200回以上の大規模実験による実証</h3>
+
+<p>
+<ul><li>
+制御タスク（Pendulum, HalfCheetah）、短ホライゾンの数学タスク、長ホライゾンのマルチターン・ターミナルエージェント（最大64ターン・65kコンテキスト）の3領域で同一条件の比較を行いました。
+
+</li><br><li>
+
+小バッチではPPOが優位であり、大バッチになるとGRPOが追いつく・追い越すことを実証しました。
+
+</li><br><li>
+
+タスクのホライゾン（ステップ数）が長く複雑になるほど、GRPOがPPOに追いつくために必要なバッチサイズは大きくなります。
+
+</li></ul>
+</p>
+
+<h3>3. 計算コスト（H100 GPU時間）を含めた実務的な指針の提示</h3>
+
+<p>
+<ul><li>
+
+Criticの学習コストやロールアウト生成コストを含めた比較により、「計算予算（バッチサイズ）が小さい場合はCriticが割に合うが、大きな計算予算を使える場合はCriticなしのGRPOの方が低コストで同等以上の性能に達する」という実用的な結論を導きました。
+</li></ul>
+
+</p>
+    </body>
+</html>
