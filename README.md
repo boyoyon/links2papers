@@ -31,6 +31,7 @@
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_steerable_by_design.html">設計による操縦性</a><br>
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_to_clitic_or_not_to_critic.html">Critic（PPO) or Not Critic (GRPO)</a><br>
 ・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_rl_can_be_recovered_from_its_rollouts.html">強化学習は、自身の Rollout から回復できる</a><br>
+・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_network_topology_imposes_spectral_constraints.html">ネットワークトポロジーは、集団的な非平衡応答にスペクトル制約を課す</a><br>
 ・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_cam_ai_design_a_better_nnu-net.html">AIはより優れたnnU-Netを設計できるか？(できた)</a><br>
 ・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_tower_bridge.html">[WSP] TowerBridge (WSPから汎用レシピへ？)</a><br>
 ・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？ (AIの内心がますます理解不能になるような？)</a><br>
