@@ -14,7 +14,7 @@
 ・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/AI.html">arxiv AI</a> 2MBに切り詰めた<br>
 ・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/neurons_cognition.html">arxiv Neurons and Cognition</a><br>
 ・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/history.html">arxiv History Physics,Math</a><br>
-・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
+・更新日：2026/11/27　<a href="https://boyoyon.github.io/links2papers/data/fly51fly.html">fly51fly</a><br>
 ・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/ML.html">arxiv ML</a>　2MBに切り詰めた<br>
 ・更新日：2026/11/26　<a href="https://boyoyon.github.io/links2papers/data/CVPR.html">arxiv CVPR</a><br>
 </p>
@@ -27,12 +27,18 @@
 </p>
 <p>
 ★：追加・変更項目<br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_prh_in_jacobian_space_.html">ヤコビ空間におけるプラトン的表現仮説 (内部表現の類似 → ヤコビアン空間の一致？)</a><br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_sample_efficient_in_context_adaptation_via_sleep.html">睡眠を介したサンプル効率の良い文脈内適応</a><br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_steerable_by_design.html">設計による操縦性</a><br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_to_clitic_or_not_to_critic.html">Critic（PPO) or Not Critic (GRPO)</a><br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_rl_can_be_recovered_from_its_rollouts.html">強化学習は、自身の Rollout から回復できる</a><br>
-・2026/11/24★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_network_topology_imposes_spectral_constraints.html">ネットワークトポロジーは、集団的な非平衡応答にスペクトル制約を課す</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_mesh_for_every_moment.html">あらゆる瞬間にぴったりのメッシュ</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_what_is_a_theory_worth.html">LLM の学習者にとって理論の価値とは何か？ 文脈における理論の測定、誘導、および統合</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_transferring_architecture.html">アーキテクチャを最適化の前提条件として転送する</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_solve_vision_with_code.html">コードで視覚問題を解決する：コーディングエージェントはビデオモデルよりも優れた視覚推論能力を持つ</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_guidance_as_variance_matching.html">差異マッチングとしてのガイダンス</a><br>
+・2026/11/25★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261125_missing_root.html">失われた根： 大規模言語モデルにおけるイメージなき幾何学的想像力</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_prh_in_jacobian_space_.html">ヤコビ空間におけるプラトン的表現仮説 (内部表現の類似 → ヤコビアン空間の一致？)</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_sample_efficient_in_context_adaptation_via_sleep.html">睡眠を介したサンプル効率の良い文脈内適応</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_steerable_by_design.html">設計による操縦性</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_to_clitic_or_not_to_critic.html">Critic（PPO) or Not Critic (GRPO)</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_rl_can_be_recovered_from_its_rollouts.html">強化学習は、自身の Rollout から回復できる</a><br>
+・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_network_topology_imposes_spectral_constraints.html">ネットワークトポロジーは、集団的な非平衡応答にスペクトル制約を課す</a><br>
 ・2026/11/24 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261124_cam_ai_design_a_better_nnu-net.html">AIはより優れたnnU-Netを設計できるか？(できた)</a><br>
 ・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_tower_bridge.html">[WSP] TowerBridge (WSPから汎用レシピへ？)</a><br>
 ・2026/11/23 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261123_can_latent_reasoning_drive_llm_outputs_wo_a_trace.html">潜在推論は痕跡を残さずにLLMの出力を駆動できるか？ (AIの内心がますます理解不能になるような？)</a><br>
@@ -129,6 +135,7 @@
 ・2026/10/22 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261022_math_theory_of_j-lens.html">ヤコビアンレンズの数学理論</a><br>
 ・2026/10/01　<a href="https://arxiv.org/html/2610.02459v1">[RUA] Claude Code＋ROS2でRUAを実現</a><br>
 ・2026/09/29 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260929_hnc.html">ヘッセ行列零空間連続法を用いたニューラルネットワークの解空間の探索</a><br>
+・2026/09/29★ <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20261029_low_rank_sapce.html">低ランク空間は、自然な言語聴取中のLLMと人間の神経活動との間の線形アライメントを捉える</a><br>
 ・2026/09/14 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260914_autopoiesis_sciences.html">オートポイエーシス科学</a><br>
 ・2026/09/07　<a href="https://web.mit.edu/phillipi/www/writing/robot-use-agents.html">[RUA源流] 「Robot-Use Agents」というパラダイムそのものを名付け、定義した</a><br>
 ・2026/07/31 <a href="https://boyoyon.github.io/links2papers/summary_by_ai/20260731_contravariance_theory.html">収斂進化の数学的証明？</a><br>
