@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>コードで視覚問題を解決する</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.34813v1">コードで視覚問題を解決する：コーディングエージェントはビデオモデルよりも優れた視覚推論能力を持つ</a></center></h1>
+
+<p>
+この論文「Solve Vision with Code: Coding Agents Are Stronger Visual Reasoners Than Video Models」の学術的・技術的な位置づけは、「動画生成モデルによるネイティブな視覚推論」に対して、「コーディングエージェントによるプログラム合成（記号的アプローチ）」の優位性を初めて同一条件下で実証した研究にあります。
+</p>
+
+<p>
+具体的には、以下の3つの観点からその位置づけを整理できます。
+</p>
+
+<h3>1. 視覚推論におけるパラダイム比較の確立</h3>
+
+<p>
+<ul><li>
+<strong>従来の潮流（動画生成モデル）</strong><br>
+近年、動画生成モデルに初期フレームと指示を与え、解答となる動画を直接生成（ピクセルのノイズ除去）させることで「視覚推論（Visual Reasoning）」を行わせる研究（Chain-of-Framesなど）が盛んでした。
+
+</li><br><li>
+
+<strong>本研究のアプローチ</strong><br>
+「初期フレームとプロンプトから決定論的に答えが導けるタスクであれば、動画を直接生成するよりも、解答動画を描画するプログラムをエージェントに書かせる方がはるかに確実ではないか」という仮説を立てました。
+
+</li><br><li>
+
+<strong>意義</strong><br>
+動画モデル向けに作られたベンチマーク（VBVR-Pro-Bench）を用い、入力・出力形式・評価器を完全に固定した「公平な土俵」で両者を直接比較した初の研究です。
+
+</li></ul>
+</p>
+
+<h3>2. プログラム合成の圧倒的な性能実証</h3>
+
+<p>
+<ul><li>
+実験の結果、クローズドなフロンティアモデルを用いたコーディングエージェント（Codex、Claude Code、Gemini CLI）は、0.893〜0.923という極めて高いスコアを記録しました。
+
+</li.<br><li>
+
+これは、同ベンチマークで強化学習（RL）による特化訓練を受けた最強の動画生成モデル（0.670）を0.22ポイント以上引き離す結果です。また、オープンウェイトモデル（GLM-5など）でもRL特化型以外のすべての動画モデルを上回りました。
+
+</li><br><li>
+
+これにより、現状の視覚推論タスクにおいては、ピクセル空間での暗黙的な推論よりも、コードを介した明示的な推論・描画の方が信頼性が高いことが示されました。
+
+</li></ul>
+</p>
+
+<h3>3. エージェントの推論戦略と認知科学への示唆</h3>
+
+<p>
+本研究は単なるベンチマーク比較にとどまらず、エージェントが生成したプログラムの振る舞いを分析し、認知科学の「心的イメージ論争（Mental Imagery Debate）」の概念を援用して2つの推論モードに分類しました。
+
+\[
+\begin{array}{|l|l|l|l|}
+\hline
+\text{推論モード} & \text{特徴} & \text{汎化性} & \text{多く見られるタスク} \\
+\hline
+
+\text{Depictive} & \text{実行時に画像のピクセル配列を} & \text{高い（同種の別問} & \text{知覚（Perception）、} \\
+\text{（描写型）} & \text{走査・計測し、ルールに基づい} & \text{題にもそのまま適} & \text{変換（Transformation）} \\
+\text{} & \text{て答えを導出する。} & \text{用可能）} & \text{} \\
+\hline
+
+\text{Propositional} & \text{エージェントがセッション中に} & \text{低い（その問題イ} & \text{抽象化（Abstraction）、} \\
+\text{（命題型）} & \text{答えを特定し、コード内には固} & \text{ンスタンス専用で} & \text{} \\
+\text{} & \text{定値（座標や色など）をハード} & \text{他には転用不可）} & \text{知識（Knowledge）} \\
+\text{} & \text{コーディングして描画のみ行} & \text{} & \text{} \\
+\text{} & \text{う。} & \text{} & \text{} \\
+\hline
+
+\end{array}
+\]
+
+</p>		
+			
+<p>
+この分析により、「コードによる視覚推論」であっても、タスクの性質に応じて画像空間を直接探索するアプローチと記号的・言語的に推論を完結させるアプローチを使い分けていることが明らかになり、今後のマルチモーダルAIや世界モデル（World Models）の設計に重要な指針を与えています。
+</p>
+
+<h3>限界と今後の展望としての位置づけ</h3>
+
+<p>
+評価対象であるVBVR-Pro-Benchは幾何学図形や単色塗りつぶしを中心とした合成タスクであるため、プログラムによる解析が極めて有利に働いた側面があります。そのため著者らは、複雑なテクスチャや照明変化を含む実世界の映像に対してこの優位性が保たれるか、また「コーディングエージェントによる制御」と「生成モデルによる描画」を組み合わせたハイブリッドシステムへの発展を今後の課題として位置づけています。
+</p>
+    </body>
+</html>
