@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        <meta charset="utf-8" />
+        <title>再帰的集合知能</title>
+        <style type="text/css">
+            p
+            {
+                padding-left: 2em;
+            }
+           .margin-abstract {
+               margin-left: 60px; /* 左マージンを広くする */
+               margin-right: 60px; /* 右マージンを広くする */
+           }
+        </style>
+    <style>
+        .styleRef { 
+            text-indent: -40px; /* 最初の行の字下げを逆方向に */
+            margin-left: 10px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+    <style>
+        .styleBullet { 
+            text-indent: -20px; /* 最初の行の字下げを逆方向に */
+            margin-left: 30px; /* 2行目以降の字下げを調整 */
+            ul {
+                  list-style-type: none; /* 箇条書き記号を非表示 */
+                  padding-left: 40px; /* 全体の左余白 */
+            }
+            li {
+            }
+        }
+    </style>
+<style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 0.50%; /* 幅を50%に設定して2列に */
+  box-sizing: border-box;
+  padding: 10px;
+}
+</style>
+
+    </head>
+    <body>
+        <h1><center><a href="https://arxiv.org/html/2611.32606v1">再帰的集合知能：マルチエージェントLLMシステムにおける均等予算梯子上での創発</a></center></h1>
+
+<p>
+論文『Recursive Collective Intelligence: Emergence on an Equal-Budget Ladder in Multi-Agent LLM Systems』（arXiv:2611.32606v1）は、マルチエージェントLLMシステム（MAS）の評価と自己改善における従来の限界を克服し、集団的知性と再帰的自己改善の成立条件を定義・実証した研究として位置づけられます。
+</p>
+
+<p>
+具体的には以下の3点において重要な貢献を果たしています：
+</p>
+
+<h2>1. 評価基準の刷新：「同一計算予算（Equal-Budget）」での比較</h2>
+
+<p>
+<ul><li>
+複数エージェントの処理によるトークン消費量の増加を考慮せず、単体エージェントとの比較のみで有効性を主張していた従来研究の課題を指摘。
+
+</li><br><li>
+
+トークン消費量を揃えた独立エージェント群を基準とする3段階の指標「Equal-Budget Ladder」を導入し、単体超え（Level 1）、同一予算の多数決超え（Level 2）、さらに同一予算の\(\text{pass}@n\)超え（Level 3）を定義しました。
+
+</li><br><li>
+
+\(\text{pass}@n\)を超えるLevel 3を、単なる回答選択を超えたエージェント間相互作用による真の創発の証明として位置づけています。
+
+</li></ul>
+</p>
+
+<h2>2. 相互作用が機能する条件の特定と組織の創発</h2>
+
+<p>
+<ul><li>
+エージェント間の議論で生じる「隠れたプロフィール問題（誤りへの同調や未共有情報の見落とし）」を分析し、相互作用が\(\text{pass}@n\)を超えるのは情報が各エージェントに分散して効率的に統合される場合に限られることを示しました。
+
+</li><br><li>
+
+同一モデルに局所的ルールを与えるだけで自発的なハブやリレー構造（組織）が創発し、コストを抑えながらLevel 3に到達できることを実証しています。
+
+</li></ul>
+</p>
+
+<h3>3. ラベルなし「再帰的集団知性（RCI）」の実証</h3>
+
+<p>
+<ul><li>
+外部ラベルや検証器に依存してきた従来の自己改善手法の課題に対し、集団自身の検証結果やシャープレイ値（Shapley credit）による貢献度配分を用いて重みを学習させる手法を提案。
+
+</li><br><li>
+
+教師モデルや外部ラベルを一切使わず、世代を重ねることで未知のタスクにおける性能向上が持続する「再帰的集団知性（RCI）」を実証しました。
+
+</li></ul>
+</p>
+
+<h3>まとめ</h3>
+
+<p>
+計算コストを統制した厳格な基準（\(\text{pass}@n\)や情報の分散、適切な信用割当など）を示すことで、マルチエージェント研究を単なるアンサンブルの拡張から科学的アプローチへと引き上げるマイルストーンとしての位置づけを持ちます。
+</p>
+    </body>
+</html>
